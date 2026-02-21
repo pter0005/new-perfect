@@ -157,21 +157,13 @@ export default function MethodSection() {
       {/* Ambient glow */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
-          position: "absolute",
-          top: "5%",
-          left: "55%",
-          transform: "translateX(-20%)",
-          width: "700px",
-          height: "700px",
+          position: "absolute", top: "5%", left: "55%", transform: "translateX(-20%)",
+          width: "700px", height: "700px",
           background: "radial-gradient(ellipse, hsl(var(--primary)/0.07) 0%, transparent 65%)",
           filter: "blur(90px)",
         }} />
         <div style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: "1px",
+          position: "absolute", top: 0, left: 0, right: 0, height: "1px",
           background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.06) 70%, transparent)",
         }} />
       </div>
@@ -311,10 +303,7 @@ export default function MethodSection() {
               style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.13) 0%, transparent 70%)", filter: "blur(24px)" }} />
             {/* Fundo laranja degrade */}
             <div aria-hidden style={{
-              position: "absolute",
-              inset: 0,
-              zIndex: 0,
-              pointerEvents: "none",
+              position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
               background: "radial-gradient(ellipse at 90% 0%, hsl(var(--primary)/0.16) 0%, hsl(var(--primary)/0.04) 45%, transparent 70%)",
             }} />
 
@@ -355,5 +344,4 @@ export default function MethodSection() {
     </section>
   );
 }
-
     
