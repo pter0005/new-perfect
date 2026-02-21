@@ -71,7 +71,7 @@ function EmberCoreText({ className }: { className?: string }) {
         }
       `}</style>
       <span className={cn("ember-text", className)}>
-        TUDO É POSSIVEL.
+        TUDO É POSSIVEL
       </span>
     </span>
   );
