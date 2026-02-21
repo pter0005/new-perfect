@@ -18,44 +18,6 @@ import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 import CookieBanner from "@/components/cookie-banner";
 
-function FadeCurtain() {
-  return (
-    <div
-      aria-hidden="true"
-      style={{
-        position: "sticky",
-        top: 0,
-        height: 0,
-        overflow: "visible",
-        zIndex: 20,
-        pointerEvents: "none",
-      }}
-    >
-      <div style={{
-        position: "absolute",
-        top: 0, left: 0, right: 0,
-        height: "22vh",
-        background:
-          "linear-gradient(to bottom," +
-          "#000000 0%," +
-          "rgba(0,0,0,0.85) 15%," +
-          "rgba(0,0,0,0.5) 40%," +
-          "rgba(0,0,0,0.15) 65%," +
-          "transparent 100%)",
-      }} />
-      <div style={{
-        position: "absolute",
-        top: 0, left: 0, right: 0,
-        height: "8vh",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
-        maskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-        WebkitMaskImage: "linear-gradient(to bottom, black 0%, transparent 100%)",
-      }} />
-    </div>
-  );
-}
-
 function GridContinuation() {
   return (
     <div
@@ -123,8 +85,7 @@ export default function Home() {
 
         <div className="relative z-10 bg-background">
           <GridContinuation />
-          <FadeCurtain />
-
+          
           <div className="relative z-[1]">
             <TechLogos />
             <DockNav />

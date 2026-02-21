@@ -151,9 +151,9 @@ export default function AboutSection() {
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         {isClient && (
           <AnimatedGridPattern
-            numSquares={isMobile ? 20 : 50}
-            maxOpacity={isMobile ? 0.07 : 0.1}
-            duration={isMobile ? 5 : 3}
+            numSquares={50}
+            maxOpacity={0.1}
+            duration={3}
             repeatDelay={1}
             className={cn(
               "fill-foreground/10 stroke-foreground/10",
@@ -161,6 +161,10 @@ export default function AboutSection() {
             )}
           />
         )}
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]" style={{
+            background: "radial-gradient(circle, hsl(var(--primary)/0.1) 0%, transparent 60%)",
+            filter: "blur(100px)",
+        }}/>
       </div>
 
       <div ref={headingRef} className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12">
@@ -203,7 +207,7 @@ export default function AboutSection() {
               style={{ fontSize: "clamp(2.8rem, 7vw, 5.2rem)", color: "rgba(255,255,255,0.97)" }}
             >
               NASCEMOS PARA<br />
-              <span className="subtle-gradient-text" style={{ textShadow: "0 0 28px hsl(var(--primary)/0.38)" }}>
+              <span className="subtle-gradient-text" style={{ textShadow: "0 0 40px hsl(var(--primary)/0.6), 0 0 80px hsl(var(--primary)/0.3)" }}>
                 TRANSFORMAR.
               </span>
             </motion.h2>
