@@ -217,16 +217,19 @@ function BatonScroll({ className, width, height, rotate, rowSetIndex,
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Inicializa síncrono do window.innerWidth — evita o flash undefined→true
-  // que faz os bastões mobile montarem tarde e perderem a animação
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.innerWidth < 768;
-  });
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    const update = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIsMobile);
+    };
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -338,3 +341,5 @@ export default function HeroSection() {
     </section>
   );
 }
+
+    
