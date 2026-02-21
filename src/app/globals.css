@@ -1,0 +1,260 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 21 95% 51%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 183 96% 48%;
+    --accent-foreground: 224 71.4% 4.1%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 21 95% 51%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 21 95% 51%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 183 96% 48%;
+    --accent-foreground: 224 71.4% 4.1%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 21 95% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading tracking-wider;
+  }
+}
+
+@layer utilities {
+  .glassmorphism {
+    @apply bg-background/60 backdrop-blur-lg border border-border/50;
+  }
+
+  .galaxy-background {
+    background-color: #000;
+    background-image:
+      radial-gradient(circle at 10% 30%, white 0.5px, transparent 1.5px),
+      radial-gradient(circle at 90% 20%, white 0.5px, transparent 1.5px),
+      radial-gradient(circle at 40% 80%, white 0.5px, transparent 1.5px),
+      radial-gradient(circle at 70% 60%, white 0.5px, transparent 1.5px);
+    background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px;
+    animation: galaxy-stars 60s linear infinite;
+  }
+
+  @keyframes galaxy-stars {
+    from {
+      background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+    }
+    to {
+      background-position: -200px 50px, -300px 150px, -150px -150px, -250px -50px;
+    }
+  }
+
+
+  .interactive-glow {
+    background-image: radial-gradient(
+      circle at var(--mouse-x) var(--mouse-y),
+      hsla(var(--primary), 0.15) 0%,
+      transparent 20%
+    );
+  }
+
+  /* ═══════════════════════════════════════════════
+   HERO — LARANJA + PRETO cinematográfico
+   ═══════════════════════════════════════════════ */
+
+  .hero-gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-b from-primary/85 to-primary/60;
+    text-shadow:
+      0 0 15px hsl(var(--primary) / 0.4),
+      0 0 40px hsl(var(--primary) / 0.2),
+      0 0 70px hsl(var(--primary) / 0.1);
+  }
+
+  /* Feixe de luz vindo de baixo — efeito cinema */
+  .hero-beam {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 340px;
+    height: 70vh;
+    background: conic-gradient(
+      from 270deg at 50% 100%,
+      transparent 0deg,
+      #f9731608 30deg,
+      #f9731618 45deg,
+      #f9731608 60deg,
+      transparent 90deg
+    );
+    filter: blur(8px);
+    z-index: 1;
+    animation: beamPulse 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes beamPulse {
+    0%, 100% { opacity: 0.5; width: 300px; }
+    50%       { opacity: 1;   width: 400px; }
+  }
+
+  /* Anel externo ao redor do logo */
+  .hero-ring-glow {
+    border: 1.5px solid rgba(249, 115, 22, 0.25);
+    box-shadow:
+      0 0 50px  rgba(249, 115, 22, 0.18),
+      0 0 110px rgba(249, 115, 22, 0.09),
+      inset 0 0 35px rgba(249, 115, 22, 0.05);
+    animation: ringPulse 4s ease-in-out infinite;
+  }
+  @keyframes ringPulse {
+    0%, 100% {
+      box-shadow: 0 0 50px rgba(249,115,22,.18), 0 0 110px rgba(249,115,22,.09);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 80px rgba(249,115,22,.35), 0 0 160px rgba(249,115,22,.16);
+      transform: scale(1.04);
+    }
+  }
+
+  /* Anel interno menor */
+  .hero-ring-inner {
+    border: 1px solid rgba(251, 146, 60, 0.15);
+    box-shadow: 0 0 30px rgba(251, 146, 60, 0.12);
+    animation: ringPulse 4s ease-in-out infinite 1.5s;
+  }
+
+  /* Glow pulsante no logo N═W */
+  .hero-logo-pulse {
+    animation: logoPulse 3.5s ease-in-out infinite;
+  }
+  @keyframes logoPulse {
+    0%, 100% {
+      filter: drop-shadow(0 0 18px rgba(249,115,22,.7))
+              drop-shadow(0 0 40px rgba(249,115,22,.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 35px rgba(249,115,22,1))
+              drop-shadow(0 0 80px rgba(251,146,60,.5))
+              drop-shadow(0 0 120px rgba(251,191,36,.2));
+    }
+  }
+
+  /* Botão CTA com glow laranja no hover */
+  .hero-btn-glow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 130%, rgba(249,115,22,.6), transparent 65%);
+    opacity: 0;
+    transition: opacity .3s;
+    border-radius: inherit;
+  }
+  .hero-btn-glow:hover::after { opacity: 1; }
+
+  /* Orbs laranjas flutuantes */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+  }
+  .orb-1 {
+    width: 520px; height: 520px;
+    top: -160px; right: -120px;
+    background: radial-gradient(circle, rgba(249,115,22,.20) 0%, transparent 70%);
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+  .orb-2 {
+    width: 380px; height: 380px;
+    bottom: -100px; left: -100px;
+    background: radial-gradient(circle, rgba(234,88,12,.18) 0%, transparent 70%);
+    animation: orbFloat 11s ease-in-out infinite reverse;
+  }
+  .orb-3 {
+    width: 220px; height: 220px;
+    top: 35%; left: 42%;
+    background: radial-gradient(circle, rgba(251,191,36,.12) 0%, transparent 70%);
+    animation: orbFloat 6s ease-in-out infinite 2s;
+  }
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%       { transform: translate(22px, -28px) scale(1.06); }
+    66%       { transform: translate(-16px, 18px) scale(.94); }
+  }
+
+  /* Vinheta nas bordas */
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 100% 100% at 50% 50%,
+      transparent 55%,
+      rgba(0, 0, 0, 0.55) 85%,
+      rgba(0, 0, 0, 0.85) 100%
+    );
+  }
+
+  /* Grade sutil laranja */
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(249,115,22,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(249,115,22,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    z-index: 1;
+  }
+
+  /* Badge pulsante lento */
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .55; }
+  }
+  .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+}
