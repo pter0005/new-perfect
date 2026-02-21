@@ -170,7 +170,7 @@ export default function AboutSection() {
             initial={{ opacity: 0, x: -20 }}
             animate={logoInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="order-2 lg:order-1 relative flex items-center justify-center"
+            className="order-2 lg:order-1 relative flex flex-col items-center justify-center"
             style={{ isolation: "isolate" }}
           >
             {/* Glow laranja atrás do logo — z-0 dentro do isolate */}
@@ -183,6 +183,16 @@ export default function AboutSection() {
             <div className="relative w-full" style={{ zIndex: 1, height: "clamp(310px, 49vw, 520px)" }}>
               <NewLogo3D />
             </div>
+            {/* Texto "ARRASTE PARA GIRAR" */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={logoInView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="mt-4 text-center font-heading tracking-[0.2em] uppercase text-[15px]"
+              style={{ color: "rgba(255,255,255,0.25)" }}
+            >
+              ↔ ARRASTE PARA GIRAR
+            </motion.div>
           </motion.div>
 
           {/* Copy */}
