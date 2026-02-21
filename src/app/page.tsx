@@ -16,6 +16,7 @@ import TechLogos from "@/components/tech-logos";
 import LoadingScreen from "@/components/loading-screen";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
+import CookieBanner from "@/components/cookie-banner";
 
 function FadeCurtain() {
   return (
@@ -101,6 +102,9 @@ export default function Home() {
     <>
       {/* Loading screen — some automaticamente após carregar */}
       <LoadingScreen onDone={() => setReady(true)} />
+
+      {/* Cookie banner — liquid glass, bottom-left */}
+      <CookieBanner />
 
       {/*
         Conteúdo fica invisível (opacity 0, pointer-events none) até o loading terminar.
