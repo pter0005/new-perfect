@@ -43,7 +43,7 @@ export default function ServicesSection() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">Nossos Serviços</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-base md:text-lg text-foreground/80">
+          <p className="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-foreground/80">
             Soluções completas para transformar suas ideias em realidade digital.
           </p>
         </div>
@@ -58,8 +58,8 @@ export default function ServicesSection() {
                     {service.icon}
                     <h3 className="text-lg sm:text-xl font-bold text-foreground">{service.title}</h3>
                   </div>
-                  <p className="text-sm text-foreground/70 min-h-[40px] flex-grow">{service.description}</p>
-                  <div className="flex items-center text-sm font-semibold text-primary/80 group-hover:text-primary transition-colors mt-auto">
+                  <p className="text-base text-foreground/70 min-h-[40px] flex-grow">{service.description}</p>
+                  <div className="flex items-center text-base font-semibold text-primary/80 group-hover:text-primary transition-colors mt-auto">
                     Ver Portfólio
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </div>

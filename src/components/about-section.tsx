@@ -83,7 +83,7 @@ function Card({ card, index }: { card: typeof CARDS[0]; index: number }) {
             style={{ color: card.accent ? "hsl(var(--primary)/0.5)" : "rgba(255,255,255,0.09)" }}>
             {card.number}
           </span>
-          <span className="text-[9px] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full font-heading"
+          <span className="text-[10px] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full font-heading"
             style={{
               color: card.accent ? "hsl(var(--primary)/0.9)" : "rgba(255,255,255,0.45)",
               background: card.accent ? "hsl(var(--primary)/0.1)" : "rgba(255,255,255,0.05)",
@@ -92,11 +92,11 @@ function Card({ card, index }: { card: typeof CARDS[0]; index: number }) {
             {card.tag}
           </span>
         </div>
-        <h3 className="font-heading font-bold text-xl sm:text-2xl leading-tight"
+        <h3 className="font-heading font-bold text-2xl sm:text-3xl leading-tight"
           style={{ color: card.accent ? "hsl(var(--primary))" : "rgba(255,255,255,0.92)" }}>
           {card.title}
         </h3>
-        <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.55)" }}>
+        <p className="text-base leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.55)" }}>
           {card.body}
         </p>
       </div>
@@ -123,11 +123,11 @@ function Stat({ stat, index }: { stat: typeof STATS[0]; index: number }) {
       className="flex flex-col items-center text-center gap-1.5 py-5 px-3 rounded-xl"
       style={{ border: "1px solid rgba(255,255,255,0.07)", background: "rgba(255,255,255,0.025)" }}
     >
-      <span className="font-heading font-bold text-3xl sm:text-4xl leading-none"
+      <span className="font-heading font-bold text-4xl sm:text-5xl leading-none"
         style={{ color: "hsl(var(--primary))", textShadow: "0 0 18px hsl(var(--primary)/0.4)" }}>
         {stat.v}
       </span>
-      <span className="text-[9px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.4)" }}>
+      <span className="text-[10px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.4)" }}>
         {stat.l}
       </span>
     </motion.div>
@@ -216,8 +216,8 @@ export default function AboutSection() {
               initial={{ opacity: 0, x: 18 }}
               animate={headingInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.72, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              style={{ color: "rgba(255,255,255,0.65)", maxWidth: "460px", lineHeight: 1.7 }}
-              className="text-[15px] sm:text-base"
+              style={{ color: "rgba(255,255,255,0.65)", maxWidth: "460px", lineHeight: 1.75 }}
+              className="text-base sm:text-lg"
             >
               Agência digital que une inovação, performance e design para criar o ativo digital perfeito para o seu negócio.
             </motion.p>
@@ -228,7 +228,7 @@ export default function AboutSection() {
               transition={{ duration: 0.72, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
               style={{ borderLeft: "2px solid hsl(var(--primary)/0.55)", paddingLeft: "1rem" }}
             >
-              <p className="font-heading font-bold italic text-base sm:text-lg"
+              <p className="font-heading font-bold italic text-lg sm:text-xl"
                 style={{ color: "hsl(var(--primary)/0.85)", textShadow: "0 0 16px hsl(var(--primary)/0.2)" }}>
                 "Você não aluga uma ideia. Você é dono do seu futuro digital."
               </p>
@@ -242,11 +242,11 @@ export default function AboutSection() {
             >
               {[["100%", "no prazo"], ["0", "mensalidades"], ["1:1", "suporte"]].map(([v, l]) => (
                 <div key={v} className="flex flex-col gap-0.5">
-                  <span className="font-heading font-bold text-2xl sm:text-3xl leading-none"
+                  <span className="font-heading font-bold text-3xl sm:text-4xl leading-none"
                     style={{ color: "hsl(var(--primary))" }}>
                     {v}
                   </span>
-                  <span className="text-[9px] tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.35)" }}>
+                  <span className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.35)" }}>
                     {l}
                   </span>
                 </div>

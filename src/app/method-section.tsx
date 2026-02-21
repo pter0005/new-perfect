@@ -47,11 +47,11 @@ function SaasRow({ item, index }: { item: typeof SAAS_ITEMS[0]; index: number })
         <XIcon />
       </div>
       <div>
-        <p className="font-heading font-bold text-base sm:text-lg leading-tight"
+        <p className="font-heading font-bold text-lg sm:text-xl leading-tight"
           style={{ color: "rgba(255,255,255,0.32)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)" }}>
           {item.label}
         </p>
-        <p className="text-sm mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.2)" }}>
+        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.2)" }}>
           {item.desc}
         </p>
       </div>
@@ -76,11 +76,11 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
         <CheckIcon />
       </div>
       <div>
-        <p className="font-heading font-bold text-base sm:text-lg leading-tight"
+        <p className="font-heading font-bold text-lg sm:text-xl leading-tight"
           style={{ color: "rgba(255,255,255,0.92)" }}>
           {item.label}
         </p>
-        <p className="text-sm mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
           {item.desc}
         </p>
       </div>
@@ -220,7 +220,7 @@ export default function MethodSection() {
             initial={{ opacity: 0, y: 12 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 text-base sm:text-lg max-w-lg"
+            className="mt-6 text-lg sm:text-xl max-w-lg"
             style={{ color: "rgba(255,255,255,0.42)", lineHeight: 1.75 }}
           >
             Cansado de pagar por ferramentas que nunca são suas? O modelo SWAS entrega código próprio — um ativo digital que cresce com o seu negócio.
@@ -249,7 +249,7 @@ export default function MethodSection() {
                 }}>
                 SAAS
               </h3>
-              <p className="text-xs mt-1 font-heading tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.14)" }}>
+              <p className="text-sm mt-1 font-heading tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.14)" }}>
                 Plataforma Compartilhada · Assinatura
               </p>
             </div>
@@ -258,8 +258,8 @@ export default function MethodSection() {
               style={{ background: "rgba(255,50,50,0.05)", border: "1px solid rgba(255,50,50,0.12)" }}>
               <div>
                 <p className="text-[10px] font-heading tracking-wider uppercase" style={{ color: "rgba(255,80,80,0.45)" }}>Custo real</p>
-                <p className="font-heading font-bold text-2xl" style={{ color: "rgba(255,70,70,0.38)" }}>
-                  ∞ <span className="text-sm font-normal">/mês para sempre</span>
+                <p className="font-heading font-bold text-3xl" style={{ color: "rgba(255,70,70,0.38)" }}>
+                  ∞ <span className="text-base font-normal">/mês para sempre</span>
                 </p>
               </div>
             </div>
@@ -312,7 +312,7 @@ export default function MethodSection() {
                 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", color: "hsl(var(--primary))", textShadow: "0 0 28px hsl(var(--primary)/0.45)" }}>
                 SWAS
               </h3>
-              <p className="text-xs mt-1 font-heading tracking-widest uppercase" style={{ color: "hsl(var(--primary)/0.5)" }}>
+              <p className="text-sm mt-1 font-heading tracking-widest uppercase" style={{ color: "hsl(var(--primary)/0.5)" }}>
                 Sistema Proprietário · Sob Medida
               </p>
             </div>
@@ -321,8 +321,8 @@ export default function MethodSection() {
               style={{ background: "hsl(var(--primary)/0.08)", border: "1px solid hsl(var(--primary)/0.22)" }}>
               <div>
                 <p className="text-[10px] font-heading tracking-wider uppercase" style={{ color: "hsl(var(--primary)/0.65)" }}>Modelo</p>
-                <p className="font-heading font-bold text-2xl" style={{ color: "hsl(var(--primary))" }}>
-                  1× <span className="text-sm font-normal" style={{ color: "hsl(var(--primary)/0.65)" }}>investimento único</span>
+                <p className="font-heading font-bold text-3xl" style={{ color: "hsl(var(--primary))" }}>
+                  1× <span className="text-base font-normal" style={{ color: "hsl(var(--primary)/0.65)" }}>investimento único</span>
                 </p>
               </div>
             </div>
