@@ -96,33 +96,25 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
   );
 }
 
-// PATRIMÔNIO — preenchido laranja da esquerda pra direita
+// PATRIMÔNIO — fade limpo: aparece do branco apagado pro laranja
 function PatrimonioAnimated({ inView }: { inView: boolean }) {
   return (
-    <span style={{ position: "relative", display: "inline-block", lineHeight: "inherit" }}>
-      <span aria-hidden style={{
-        color: "rgba(255,255,255,0.15)",
+    <motion.span
+      initial={{ opacity: 0, color: "rgba(255,255,255,0.0)" }}
+      animate={inView
+        ? { opacity: 1, color: "hsl(var(--primary))" }
+        : { opacity: 0, color: "rgba(255,255,255,0.0)" }
+      }
+      transition={{ duration: 2.0, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        display: "inline",
         fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit",
-        letterSpacing: "inherit", lineHeight: "inherit", display: "block", userSelect: "none",
-      }}>
-        patrimônio.
-      </span>
-      <motion.span
-        initial={{ clipPath: "inset(0 100% 0 0)" }}
-        animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
-        transition={{ duration: 1.4, delay: 0.52, ease: [0.22, 1, 0.36, 1] }}
-        style={{
-          position: "absolute", inset: 0, display: "block", whiteSpace: "nowrap",
-          color: "hsl(var(--primary))",
-          textShadow: "0 0 40px hsl(var(--primary)/0.5), 0 0 80px hsl(var(--primary)/0.2)",
-          fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit",
-          letterSpacing: "inherit", lineHeight: "inherit",
-          willChange: "clip-path",
-        }}
-      >
-        patrimônio.
-      </motion.span>
-    </span>
+        letterSpacing: "inherit", lineHeight: "inherit",
+        willChange: "opacity, color",
+      }}
+    >
+      patrimônio.
+    </motion.span>
   );
 }
 
@@ -145,7 +137,7 @@ function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode
 export default function MethodSection() {
   const isMobile = useIsMobile();
   const titleRef = useRef(null);
-  const titleInView = useInView(titleRef, { once: true, margin: "-60px" });
+  const titleInView = useInView(titleRef, { once: true, margin: isMobile ? "0px" : "-60px" });
   const cardsRef = useRef(null);
   const cardsInView = useInView(cardsRef, { once: true, margin: isMobile ? "-20px" : "-80px" });
 
@@ -204,9 +196,9 @@ export default function MethodSection() {
             <LineReveal inView={titleInView} delay={0.18}>
               <span style={{ display: "block" }}>
                 <motion.span
-                  initial={{ opacity: 0.15 }}
+                  initial={{ opacity: 0 }}
                   animate={titleInView ? { opacity: 1 } : {}}
-                  transition={{ duration: 0.8, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   style={{ color: "rgba(255,255,255,0.97)", willChange: "opacity" }}
                 >
                   SWAS É{" "}
