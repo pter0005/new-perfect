@@ -3,6 +3,8 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import dynamic from "next/dynamic";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
 
 const NewLogo3D = dynamic(() => import("@/components/new-logo-3d"), {
   ssr: false,
@@ -143,6 +145,16 @@ export default function AboutSection() {
 
       {/* Apenas glows leves em z-0 — nada que escureça ou texturize */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+        <AnimatedGridPattern
+          numSquares={50}
+          maxOpacity={0.07}
+          duration={3}
+          repeatDelay={1}
+          className={cn(
+            "fill-foreground/5 stroke-foreground/5",
+            "[mask-image:radial-gradient(ellipse_at_center,white_40%,transparent_100%)]"
+          )}
+        />
         {/* Glow laranja difuso no topo */}
         <div style={{
           position: "absolute",
