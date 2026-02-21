@@ -1,23 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-
-// ── Detecta mobile uma vez, sem re-render ───────────────────
-function useIsMobile() {
-  const [mobile, setMobile] = useState(false);
-  useEffect(() => {
-    // This check is to prevent errors during server-side rendering
-    if (typeof window !== "undefined") {
-      setMobile(window.innerWidth < 768);
-    }
-  }, []);
-  return mobile;
-}
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const C: Record<string, string> = {
   kw: "hsl(var(--primary))", id: "rgba(255,255,255,0.75)",
@@ -254,6 +243,10 @@ export default function HeroSection() {
   const isMobile = useIsMobile();
   const prefersReduced = useReducedMotion();
 
+  if (isMobile === undefined) {
+    return <section id="home" className="relative w-full h-screen bg-black" />;
+  }
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -374,3 +367,5 @@ export default function HeroSection() {
     </section>
   );
 }
+
+    
