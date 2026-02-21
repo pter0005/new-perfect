@@ -10,7 +10,8 @@ export default function PortfolioSection() {
       id: project.slug,
       title: project.name,
       description: project.type,
-      imageSrc: project.image,
+      src: project.image,
+      alt: project.name,
       href: `/portfolio/${project.slug}`,
     }));
   }, []);
