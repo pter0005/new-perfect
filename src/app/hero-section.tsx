@@ -57,32 +57,22 @@ function EmberCoreText({ className }: { className?: string }) {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          filter:
-            drop-shadow(0 0 5px rgba(255,200,0,0.45))
-            drop-shadow(0 0 16px rgba(255,80,0,0.35))
-            drop-shadow(0 0 36px rgba(200,0,0,0.18));
+          filter: drop-shadow(0 0 5px rgba(255,200,0,0.45)) drop-shadow(0 0 16px rgba(255,80,0,0.35)) drop-shadow(0 0 36px rgba(200,0,0,0.18));
         }
         @media (max-width: 767px) {
           .ember-text {
-            filter:
-              drop-shadow(0 0 3px rgba(255,200,0,0.28))
-              drop-shadow(0 0 9px rgba(255,80,0,0.20))
-              drop-shadow(0 0 20px rgba(200,0,0,0.10));
+            filter: drop-shadow(0 0 3px rgba(255,200,0,0.28)) drop-shadow(0 0 9px rgba(255,80,0,0.20)) drop-shadow(0 0 20px rgba(200,0,0,0.10));
           }
         }
       `}</style>
-      <span className={cn("ember-text", className)}>
-        TUDO É POSSIVEL
-      </span>
+      <span className={cn("ember-text", className)}>TUDO É POSSIVEL</span>
     </span>
   );
 }
 
-// ── ScrollRow: no mobile renderiza estático pra não gastar GPU ──
 function ScrollRow({ tokens, fontSize, duration, direction = 1, isMobile }: {
   tokens: Token[]; fontSize: number; duration: number; direction?: 1 | -1; isMobile: boolean;
 }) {
-  // Mobile: sem animação — apenas exibe os tokens estáticos
   if (isMobile) {
     return (
       <div style={{ overflow: "hidden", width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
@@ -99,17 +89,13 @@ function ScrollRow({ tokens, fontSize, duration, direction = 1, isMobile }: {
       </div>
     );
   }
-
   const tripled = [...tokens, ...tokens, ...tokens];
   return (
     <div style={{ overflow: "hidden", width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
       <motion.div
         animate={{ x: direction === 1 ? ["0%", "-33.333%"] : ["-33.333%", "0%"] }}
         transition={{ duration, repeat: Infinity, ease: "linear" }}
-        style={{
-          display: "flex", alignItems: "center", fontSize, lineHeight: 1, flexShrink: 0,
-          willChange: "transform", // GPU hint
-        }}
+        style={{ display: "flex", alignItems: "center", fontSize, lineHeight: 1, flexShrink: 0, willChange: "transform" }}
       >
         {tripled.map((tk, i) => (
           <span key={i} style={{
@@ -143,97 +129,93 @@ function BatonCode({ width, height, rowSet, isMobile }: {
     }}>
       {rowSet.map((tokens, i) => (
         <div key={i} style={{ height: rowH, flexShrink: 0, overflow: "hidden" }}>
-          <ScrollRow
-            tokens={tokens}
-            fontSize={fontSize}
-            duration={speeds[i % speeds.length]}
-            direction={dirs[i % dirs.length]}
-            isMobile={isMobile}
-          />
+          <ScrollRow tokens={tokens} fontSize={fontSize} duration={speeds[i % speeds.length]} direction={dirs[i % dirs.length]} isMobile={isMobile} />
         </div>
       ))}
     </div>
   );
 }
 
-function ElegantShape({
-  className, width = 400, height = 100, rotate = 0, rowSetIndex = 0,
-  enterFromX = 0, enterFromY = 0, scrollProgress,
-  scrollStart = 0.02, scrollEnd = 0.22, isMobile,
-}: {
-  className?: string; width?: number; height?: number; rotate?: number; rowSetIndex?: number;
-  enterFromX?: number; enterFromY?: number; scrollProgress: any;
-  scrollStart?: number; scrollEnd?: number; isMobile: boolean;
+// ── Visual do bastão (shell + código + overlays) ──
+function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
+  width: number; height: number; rowSetIndex: number; isMobile: boolean; floatDuration: number;
+}) {
+  return (
+    <motion.div
+      animate={{ y: [0, isMobile ? 8 : 15, 0] }}
+      transition={{ duration: floatDuration, repeat: Infinity, ease: "easeInOut" }}
+      style={{ width, height, willChange: "transform", contain: "layout style" }}
+      className="relative"
+    >
+      <style>{`
+        .baton-shell {
+          position: absolute; inset: 0; border-radius: 9999px;
+          background: linear-gradient(to right, hsl(var(--primary)/0.2), hsl(var(--primary)/0.1));
+          backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+          border: 2px solid hsl(var(--primary)/0.4);
+          box-shadow: 0 0 300px hsl(var(--primary)/0.40), 0 0 420px hsl(var(--primary)/0.20), 0 0 540px hsl(var(--primary)/0.10);
+          will-change: transform; transform: translateZ(0);
+        }
+        .baton-shell::after {
+          content: ''; position: absolute; inset: 0; border-radius: 9999px;
+          background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.6), transparent 50%);
+        }
+        @media (max-width: 767px) {
+          .baton-shell {
+            box-shadow: 0 0 80px hsl(var(--primary)/0.18), 0 0 140px hsl(var(--primary)/0.09), 0 0 200px hsl(var(--primary)/0.05);
+          }
+          .baton-shell::after { background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.25), transparent 50%); }
+        }
+      `}</style>
+      <div className="baton-shell" />
+      <BatonCode width={width} height={height} rowSet={ROWS[rowSetIndex % ROWS.length]} isMobile={isMobile} />
+      <div style={{
+        position: "absolute", inset: 0, borderRadius: "9999px",
+        background: "linear-gradient(to right, hsl(var(--background)) 0%, rgba(0,0,0,0) 16%, rgba(0,0,0,0) 84%, hsl(var(--background)) 100%)",
+        pointerEvents: "none", zIndex: 4,
+      }} />
+      <div style={{
+        position: "absolute", inset: 0, borderRadius: "9999px",
+        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px)",
+        pointerEvents: "none", zIndex: 5,
+      }} />
+    </motion.div>
+  );
+}
+
+// ── MOBILE: aparece no mount, sem esperar scroll ──
+function BatonMobile({ className, width, height, rotate, rowSetIndex, delay }: {
+  className?: string; width: number; height: number; rotate: number; rowSetIndex: number; delay: number;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.88, y: 16 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{ rotate, position: "absolute", willChange: "transform, opacity" }}
+      className={className}
+    >
+      <BatonVisual width={width} height={height} rowSetIndex={rowSetIndex} isMobile={true} floatDuration={18} />
+    </motion.div>
+  );
+}
+
+// ── DESKTOP: entrada guiada pelo scroll (comportamento original) ──
+function BatonDesktop({ className, width, height, rotate, rowSetIndex, enterFromX, enterFromY, scrollProgress, scrollStart, scrollEnd }: {
+  className?: string; width: number; height: number; rotate: number; rowSetIndex: number;
+  enterFromX: number; enterFromY: number; scrollProgress: any; scrollStart: number; scrollEnd: number;
 }) {
   const x = useTransform(scrollProgress, [scrollStart, scrollEnd], [enterFromX, 0]);
   const y = useTransform(scrollProgress, [scrollStart, scrollEnd], [enterFromY, 0]);
   const opacity = useTransform(scrollProgress, [scrollStart, scrollEnd], [0, 1]);
-
-  // Mobile: spring mais rígido = menos cálculo por frame
-  const springCfg = isMobile
-    ? { stiffness: 120, damping: 28 }
-    : { stiffness: 70, damping: 18 };
-  const sx = useSpring(x, springCfg);
-  const sy = useSpring(y, springCfg);
-
+  const sx = useSpring(x, { stiffness: 70, damping: 18 });
+  const sy = useSpring(y, { stiffness: 70, damping: 18 });
   return (
     <motion.div
       style={{ x: sx, y: sy, opacity, rotate, position: "absolute", willChange: "transform, opacity" }}
       className={className}
     >
-      {/* Float: mobile mais lento pra poupar CPU mas design intacto */}
-      <motion.div
-        animate={{ y: [0, isMobile ? 8 : 15, 0] }}
-        transition={{ duration: isMobile ? 18 : 12, repeat: Infinity, ease: "easeInOut" }}
-        style={{ width, height, willChange: "transform", contain: "layout style" }}
-        className="relative"
-      >
-        <style>{`
-          .baton-shell {
-            position: absolute; inset: 0; border-radius: 9999px;
-            background: linear-gradient(to right, hsl(var(--primary)/0.2), hsl(var(--primary)/0.1));
-            backdrop-filter: blur(2px);
-            -webkit-backdrop-filter: blur(2px);
-            border: 2px solid hsl(var(--primary)/0.4);
-            box-shadow:
-              0 0 300px hsl(var(--primary)/0.40),
-              0 0 420px hsl(var(--primary)/0.20),
-              0 0 540px hsl(var(--primary)/0.10);
-            /* Força compositing layer própria — evita repaint no scroll */
-            will-change: transform;
-            transform: translateZ(0);
-          }
-          .baton-shell::after {
-            content: '';
-            position: absolute; inset: 0; border-radius: 9999px;
-            background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.6), transparent 50%);
-          }
-          @media (max-width: 767px) {
-            .baton-shell {
-              /* Design intacto: blur mantido, glow reduzido pra não sobrecarregar */
-              box-shadow:
-                0 0 80px hsl(var(--primary)/0.18),
-                0 0 140px hsl(var(--primary)/0.09),
-                0 0 200px hsl(var(--primary)/0.05);
-            }
-            .baton-shell::after {
-              background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.25), transparent 50%);
-            }
-          }
-        `}</style>
-        <div className="baton-shell" />
-        <BatonCode width={width} height={height} rowSet={ROWS[rowSetIndex % ROWS.length]} isMobile={isMobile} />
-        <div style={{
-          position: "absolute", inset: 0, borderRadius: "9999px",
-          background: "linear-gradient(to right, hsl(var(--background)) 0%, rgba(0,0,0,0) 16%, rgba(0,0,0,0) 84%, hsl(var(--background)) 100%)",
-          pointerEvents: "none", zIndex: 4,
-        }} />
-        <div style={{
-          position: "absolute", inset: 0, borderRadius: "9999px",
-          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.1) 3px, rgba(0,0,0,0.1) 4px)",
-          pointerEvents: "none", zIndex: 5,
-        }} />
-      </motion.div>
+      <BatonVisual width={width} height={height} rowSetIndex={rowSetIndex} isMobile={false} floatDuration={12} />
     </motion.div>
   );
 }
@@ -241,18 +223,13 @@ function ElegantShape({
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const isMobile = useIsMobile();
-  const prefersReduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  // Mobile: spring mais leve = scroll mais suave
-  const springCfg = isMobile
-    ? { stiffness: 80, damping: 28 }
-    : { stiffness: 55, damping: 22 };
-  const p = useSpring(scrollYProgress, springCfg);
+  const p = useSpring(scrollYProgress, { stiffness: 55, damping: 22 });
 
   const bgOpacity       = useTransform(p, [0, 0.15],   [0, 1]);
   const gridOpacity     = useTransform(p, [0.06, 0.25], [0, 1]);
@@ -265,34 +242,36 @@ export default function HeroSection() {
   const heroOpacity     = useTransform(p, [0.83, 0.97], [1, 0]);
   const hintOpacity     = useTransform(p, [0, 0.05],   [1, 0]);
 
+  // Mobile: mount-based, stagger suave
+  const mobileBatons = [
+    { w: 340, h: 85,  rot: 12,  cls: "left-[-8%] top-[18%]",    ri: 0, delay: 0.10 },
+    { w: 280, h: 70,  rot: -15, cls: "right-[-6%] top-[68%]",   ri: 1, delay: 0.22 },
+    { w: 180, h: 52,  rot: -8,  cls: "left-[5%] bottom-[8%]",   ri: 2, delay: 0.32 },
+    { w: 140, h: 44,  rot: 20,  cls: "right-[12%] top-[12%]",   ri: 3, delay: 0.18 },
+  ];
+
+  // Desktop: scroll-based (original)
+  const desktopBatons = [
+    { w: 720, h: 168, rot: 12,  cls: "left-[-5%] top-[20%]",    ri: 0, ex: -700, ey: -80,  ss: 0.02, se: 0.20 },
+    { w: 600, h: 144, rot: -15, cls: "right-[0%] top-[75%]",    ri: 1, ex: 600,  ey: 80,   ss: 0.04, se: 0.22 },
+    { w: 360, h: 96,  rot: -8,  cls: "left-[10%] bottom-[10%]", ri: 2, ex: -200, ey: 300,  ss: 0.06, se: 0.26 },
+    { w: 240, h: 72,  rot: 20,  cls: "right-[20%] top-[15%]",   ri: 3, ex: 150,  ey: -300, ss: 0.03, se: 0.21 },
+  ];
+
   if (isMobile === undefined) {
     return <section id="home" className="relative w-full h-screen bg-black" />;
   }
 
-  // ── Bastões: PC +20% | Mobile 4 bastões menores com design intacto ──
-  const shapes = isMobile ? [
-    { w: 340, h: 85,  rot: 12,  cls: "left-[-8%] top-[18%]",          ri: 0, ex: -400, ey: -60,  ss: 0.02, se: 0.2  },
-    { w: 280, h: 70,  rot: -15, cls: "right-[-6%] top-[68%]",          ri: 1, ex: 350,  ey: 70,   ss: 0.04, se: 0.22 },
-    { w: 180, h: 52,  rot: -8,  cls: "left-[5%] bottom-[8%]",          ri: 2, ex: -160, ey: 200,  ss: 0.06, se: 0.26 },
-    { w: 140, h: 44,  rot: 20,  cls: "right-[12%] top-[12%]",          ri: 3, ex: 120,  ey: -200, ss: 0.03, se: 0.21 },
-  ] : [
-    { w: 720, h: 168, rot: 12,  cls: "left-[-5%] top-[20%]",          ri: 0, ex: -700, ey: -80,  ss: 0.02, se: 0.2  },
-    { w: 600, h: 144, rot: -15, cls: "right-[0%] top-[75%]",           ri: 1, ex: 600,  ey: 80,   ss: 0.04, se: 0.22 },
-    { w: 360, h: 96,  rot: -8,  cls: "left-[10%] bottom-[10%]",        ri: 2, ex: -200, ey: 300,  ss: 0.06, se: 0.26 },
-    { w: 240, h: 72,  rot: 20,  cls: "right-[20%] top-[15%]",          ri: 3, ex: 150,  ey: -300, ss: 0.03, se: 0.21 },
-  ];
-
   return (
-    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: "320vh" }}>
+    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: isMobile ? "100vh" : "320vh" }}>
       <motion.div
-        style={{ opacity: heroOpacity, willChange: "opacity" }}
+        style={{ opacity: isMobile ? 1 : heroOpacity, willChange: "opacity" }}
         className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
       >
         <div className="absolute inset-0 bg-black" style={{ zIndex: 0 }} />
-        <motion.div className="absolute inset-0 bg-background" style={{ opacity: bgOpacity, zIndex: 1, willChange: "opacity" }} />
+        <motion.div className="absolute inset-0 bg-background" style={{ opacity: isMobile ? 1 : bgOpacity, willChange: "opacity" }} />
 
-        {/* Grid: mobile usa menos quadrados */}
-        <motion.div style={{ opacity: gridOpacity, willChange: "opacity" }} className="absolute inset-0 z-[2]">
+        <motion.div style={{ opacity: isMobile ? 1 : gridOpacity, willChange: "opacity" }} className="absolute inset-0 z-[2]">
           <AnimatedGridPattern
             numSquares={isMobile ? 20 : 50}
             maxOpacity={isMobile ? 0.07 : 0.1}
@@ -302,24 +281,20 @@ export default function HeroSection() {
           />
         </motion.div>
 
-        {/* Bastões */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 3 }}>
-          {shapes.map((s, i) => (
-            <ElegantShape
-              key={i}
-              width={s.w} height={s.h} rotate={s.rot}
-              className={s.cls}
-              rowSetIndex={s.ri}
-              scrollProgress={p}
-              enterFromX={s.ex} enterFromY={s.ey}
-              scrollStart={s.ss} scrollEnd={s.se}
-              isMobile={isMobile}
-            />
-          ))}
+          {isMobile
+            ? mobileBatons.map((s, i) => (
+                <BatonMobile key={i} className={s.cls} width={s.w} height={s.h} rotate={s.rot} rowSetIndex={s.ri} delay={s.delay} />
+              ))
+            : desktopBatons.map((s, i) => (
+                <BatonDesktop key={i} className={s.cls} width={s.w} height={s.h} rotate={s.rot} rowSetIndex={s.ri}
+                  enterFromX={s.ex} enterFromY={s.ey} scrollProgress={p} scrollStart={s.ss} scrollEnd={s.se} />
+              ))
+          }
         </div>
 
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
-          <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
+          <motion.div style={{ scale: isMobile ? 1 : titleScale, y: isMobile ? 0 : titleY, willChange: "transform" }}>
             <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
               <span className="block text-white/90">com a NEW</span>
               <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
@@ -327,43 +302,47 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.p
-            style={{ y: subtitleY, opacity: subtitleOpacity, willChange: "transform, opacity" }}
+            style={{ y: isMobile ? 0 : subtitleY, opacity: isMobile ? 1 : subtitleOpacity, willChange: "transform, opacity" }}
             className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-white/45 max-w-xs sm:max-w-sm md:max-w-xl leading-relaxed"
           >
             Criamos o ativo digital perfeito para o seu negócio. Conheça nosso modelo SWAS.
           </motion.p>
 
           <motion.div
-            style={{ y: ctaY, opacity: ctaOpacity, willChange: "transform, opacity" }}
+            style={{ y: isMobile ? 0 : ctaY, opacity: isMobile ? 1 : ctaOpacity, willChange: "transform, opacity" }}
             className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none sm:w-auto items-center"
           >
             <HoverBorderGradient
               as={Link} href="#contact" containerClassName="rounded-md w-full sm:w-auto"
-              className="bg-primary text-primary-foreground font-bold px-8 py-3 w-full sm:w-auto text-center"
+              className="bg-primary text-primary-foreground font-bold px-10 py-4 w-full sm:w-auto text-center text-base sm:text-lg tracking-wide"
+              style={{ boxShadow: "0 0 28px hsl(var(--primary)/0.55), 0 0 60px hsl(var(--primary)/0.25)" }}
             >
               <span>Fale com a NEW</span>
             </HoverBorderGradient>
             <HoverBorderGradient
               as={Link} href="#portfolio" containerClassName="rounded-md w-full sm:w-auto"
-              className="bg-transparent text-primary font-bold px-8 py-3 w-full sm:w-auto text-center"
+              className="bg-white/[0.06] text-white font-bold px-10 py-4 w-full sm:w-auto text-center text-base sm:text-lg tracking-wide border border-white/20"
             >
-              <span>Ver projetos →</span>
+              <span style={{ color: "rgba(255,255,255,0.9)" }}>Ver projetos →</span>
             </HoverBorderGradient>
           </motion.div>
         </div>
 
-        <motion.div
-          style={{ opacity: hintOpacity }}
-          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-        >
-          <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em] font-heading">SCROLL</span>
+        {!isMobile && (
           <motion.div
-            animate={isMobile ? {} : { y: [0, 8, 0] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-            style={{ width: "1px", height: "24px", background: "linear-gradient(to bottom, hsl(var(--primary)/0.5), transparent)" }}
-          />
-        </motion.div>
+            style={{ opacity: hintOpacity }}
+            className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+          >
+            <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em] font-heading">SCROLL</span>
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+              style={{ width: "1px", height: "24px", background: "linear-gradient(to bottom, hsl(var(--primary)/0.5), transparent)" }}
+            />
+          </motion.div>
+        )}
       </motion.div>
     </section>
   );
 }
+
