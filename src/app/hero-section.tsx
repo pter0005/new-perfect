@@ -1,12 +1,11 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const C: Record<string, string> = {
   kw: "hsl(var(--primary))", id: "rgba(255,255,255,0.75)",
@@ -183,46 +182,52 @@ function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
   );
 }
 
-// ── MOBILE: aparece no mount, sem esperar scroll ──
-function BatonMobile({ className, width, height, rotate, rowSetIndex, delay }: {
-  className?: string; width: number; height: number; rotate: number; rowSetIndex: number; delay: number;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.88, y: 16 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.75, delay, ease: [0.22, 1, 0.36, 1] }}
-      style={{ rotate, position: "absolute", willChange: "transform, opacity" }}
-      className={className}
-    >
-      <BatonVisual width={width} height={height} rowSetIndex={rowSetIndex} isMobile={true} floatDuration={18} />
-    </motion.div>
-  );
-}
-
-// ── DESKTOP: entrada guiada pelo scroll (comportamento original) ──
-function BatonDesktop({ className, width, height, rotate, rowSetIndex, enterFromX, enterFromY, scrollProgress, scrollStart, scrollEnd }: {
+// ── Bastão scroll-driven unificado ──
+// Desktop: spring physics + distâncias grandes
+// Mobile: transform direto (sem spring = sem custo de física), distâncias menores + range mais curto
+function BatonScroll({ className, width, height, rotate, rowSetIndex,
+  enterFromX, enterFromY, scrollProgress, scrollStart, scrollEnd, isMobile }: {
   className?: string; width: number; height: number; rotate: number; rowSetIndex: number;
-  enterFromX: number; enterFromY: number; scrollProgress: any; scrollStart: number; scrollEnd: number;
+  enterFromX: number; enterFromY: number; scrollProgress: any;
+  scrollStart: number; scrollEnd: number; isMobile: boolean;
 }) {
   const x = useTransform(scrollProgress, [scrollStart, scrollEnd], [enterFromX, 0]);
   const y = useTransform(scrollProgress, [scrollStart, scrollEnd], [enterFromY, 0]);
   const opacity = useTransform(scrollProgress, [scrollStart, scrollEnd], [0, 1]);
-  const sx = useSpring(x, { stiffness: 70, damping: 18 });
-  const sy = useSpring(y, { stiffness: 70, damping: 18 });
+
+  // Sempre chama os hooks — nunca condicional (regra do React)
+  // Mobile: spring config rígido = comporta como transform direto (zero bounce)
+  // Desktop: spring suave com física
+  const springCfg = isMobile
+    ? { stiffness: 300, damping: 40, mass: 0.4 }  // rígido = quase raw
+    : { stiffness: 70,  damping: 18, mass: 1 };
+  const sx = useSpring(x, springCfg);
+  const sy = useSpring(y, springCfg);
+
   return (
     <motion.div
       style={{ x: sx, y: sy, opacity, rotate, position: "absolute", willChange: "transform, opacity" }}
       className={className}
     >
-      <BatonVisual width={width} height={height} rowSetIndex={rowSetIndex} isMobile={false} floatDuration={12} />
+      <BatonVisual width={width} height={height} rowSetIndex={rowSetIndex} isMobile={isMobile} floatDuration={isMobile ? 20 : 12} />
     </motion.div>
   );
 }
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const isMobile = useIsMobile();
+
+  // Inicializa síncrono do window.innerWidth — evita o flash undefined→true
+  // que faz os bastões mobile montarem tarde e perderem a animação
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768;
+  });
+  useEffect(() => {
+    const update = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -242,36 +247,30 @@ export default function HeroSection() {
   const heroOpacity     = useTransform(p, [0.83, 0.97], [1, 0]);
   const hintOpacity     = useTransform(p, [0, 0.05],   [1, 0]);
 
-  // Mobile: mount-based, stagger suave
-  const mobileBatons = [
-    { w: 340, h: 85,  rot: 12,  cls: "left-[-8%] top-[18%]",    ri: 0, delay: 0.10 },
-    { w: 280, h: 70,  rot: -15, cls: "right-[-6%] top-[68%]",   ri: 1, delay: 0.22 },
-    { w: 180, h: 52,  rot: -8,  cls: "left-[5%] bottom-[8%]",   ri: 2, delay: 0.32 },
-    { w: 140, h: 44,  rot: 20,  cls: "right-[12%] top-[12%]",   ri: 3, delay: 0.18 },
-  ];
-
-  // Desktop: scroll-based (original)
-  const desktopBatons = [
+  // Bastões unificados — mobile: distâncias e ranges menores, sem spring
+  // Desktop: distâncias maiores, spring com física
+  const batons = isMobile ? [
+    { w: 340, h: 85,  rot: 12,  cls: "left-[-8%] top-[18%]",   ri: 0, ex: -220, ey: -40, ss: 0.01, se: 0.10 },
+    { w: 280, h: 70,  rot: -15, cls: "right-[-6%] top-[68%]",  ri: 1, ex: 200,  ey: 40,  ss: 0.02, se: 0.11 },
+    { w: 180, h: 52,  rot: -8,  cls: "left-[5%] bottom-[8%]",  ri: 2, ex: -140, ey: 80,  ss: 0.03, se: 0.13 },
+    { w: 140, h: 44,  rot: 20,  cls: "right-[12%] top-[12%]",  ri: 3, ex: 130,  ey: -80, ss: 0.01, se: 0.10 },
+  ] : [
     { w: 720, h: 168, rot: 12,  cls: "left-[-5%] top-[20%]",    ri: 0, ex: -700, ey: -80,  ss: 0.02, se: 0.20 },
     { w: 600, h: 144, rot: -15, cls: "right-[0%] top-[75%]",    ri: 1, ex: 600,  ey: 80,   ss: 0.04, se: 0.22 },
     { w: 360, h: 96,  rot: -8,  cls: "left-[10%] bottom-[10%]", ri: 2, ex: -200, ey: 300,  ss: 0.06, se: 0.26 },
     { w: 240, h: 72,  rot: 20,  cls: "right-[20%] top-[15%]",   ri: 3, ex: 150,  ey: -300, ss: 0.03, se: 0.21 },
   ];
 
-  if (isMobile === undefined) {
-    return <section id="home" className="relative w-full h-screen bg-black" />;
-  }
-
   return (
-    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: isMobile ? "100vh" : "320vh" }}>
+    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: "320vh" }}>
       <motion.div
-        style={{ opacity: isMobile ? 1 : heroOpacity, willChange: "opacity" }}
+        style={{ opacity: heroOpacity, willChange: "opacity" }}
         className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
       >
         <div className="absolute inset-0 bg-black" style={{ zIndex: 0 }} />
-        <motion.div className="absolute inset-0 bg-background" style={{ opacity: isMobile ? 1 : bgOpacity, willChange: "opacity" }} />
+        <motion.div className="absolute inset-0 bg-background" style={{ opacity: bgOpacity, zIndex: 1, willChange: "opacity" }} />
 
-        <motion.div style={{ opacity: isMobile ? 1 : gridOpacity, willChange: "opacity" }} className="absolute inset-0 z-[2]">
+        <motion.div style={{ opacity: gridOpacity, willChange: "opacity" }} className="absolute inset-0 z-[2]">
           <AnimatedGridPattern
             numSquares={isMobile ? 20 : 50}
             maxOpacity={isMobile ? 0.07 : 0.1}
@@ -281,20 +280,16 @@ export default function HeroSection() {
           />
         </motion.div>
 
+        {/* Bastões: scroll-driven em todos os dispositivos — mobile sem spring, desktop com spring */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 3 }}>
-          {isMobile
-            ? mobileBatons.map((s, i) => (
-                <BatonMobile key={i} className={s.cls} width={s.w} height={s.h} rotate={s.rot} rowSetIndex={s.ri} delay={s.delay} />
-              ))
-            : desktopBatons.map((s, i) => (
-                <BatonDesktop key={i} className={s.cls} width={s.w} height={s.h} rotate={s.rot} rowSetIndex={s.ri}
-                  enterFromX={s.ex} enterFromY={s.ey} scrollProgress={p} scrollStart={s.ss} scrollEnd={s.se} />
-              ))
-          }
+          {batons.map((s, i) => (
+            <BatonScroll key={i} className={s.cls} width={s.w} height={s.h} rotate={s.rot} rowSetIndex={s.ri}
+              enterFromX={s.ex} enterFromY={s.ey} scrollProgress={p} scrollStart={s.ss} scrollEnd={s.se} isMobile={isMobile} />
+          ))}
         </div>
 
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
-          <motion.div style={{ scale: isMobile ? 1 : titleScale, y: isMobile ? 0 : titleY, willChange: "transform" }}>
+          <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
             <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
               <span className="block text-white/90">com a NEW</span>
               <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
@@ -302,14 +297,14 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.p
-            style={{ y: isMobile ? 0 : subtitleY, opacity: isMobile ? 1 : subtitleOpacity, willChange: "transform, opacity" }}
+            style={{ y: subtitleY, opacity: subtitleOpacity, willChange: "transform, opacity" }}
             className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-white/45 max-w-xs sm:max-w-sm md:max-w-xl leading-relaxed"
           >
             Criamos o ativo digital perfeito para o seu negócio. Conheça nosso modelo SWAS.
           </motion.p>
 
           <motion.div
-            style={{ y: isMobile ? 0 : ctaY, opacity: isMobile ? 1 : ctaOpacity, willChange: "transform, opacity" }}
+            style={{ y: ctaY, opacity: ctaOpacity, willChange: "transform, opacity" }}
             className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none sm:w-auto items-center"
           >
             <HoverBorderGradient
@@ -328,21 +323,18 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {!isMobile && (
+        <motion.div
+          style={{ opacity: hintOpacity }}
+          className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+        >
+          <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em] font-heading">SCROLL</span>
           <motion.div
-            style={{ opacity: hintOpacity }}
-            className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-          >
-            <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em] font-heading">SCROLL</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-              style={{ width: "1px", height: "24px", background: "linear-gradient(to bottom, hsl(var(--primary)/0.5), transparent)" }}
-            />
-          </motion.div>
-        )}
+            animate={isMobile ? {} : { y: [0, 8, 0] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ width: "1px", height: "24px", background: "linear-gradient(to bottom, hsl(var(--primary)/0.5), transparent)" }}
+          />
+        </motion.div>
       </motion.div>
     </section>
   );
 }
-
