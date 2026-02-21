@@ -159,21 +159,7 @@ export default function AboutSection() {
       </div>
 
       {/* z-10 — conteúdo sempre acima dos glows */}
-      <div className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12">
-
-        {/* Eyebrow */}
-        <motion.div
-          ref={headingRef}
-          initial={{ opacity: 0, y: 10 }}
-          animate={headingInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="flex items-center gap-3 mb-6"
-        >
-          <div className="h-px w-8" style={{ background: "hsl(var(--primary)/0.7)" }} />
-          <span className="text-[9px] tracking-[0.45em] uppercase font-heading" style={{ color: "hsl(var(--primary)/0.65)" }}>
-            Sobre a Agência
-          </span>
-        </motion.div>
+      <div ref={headingRef} className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12">
 
         {/* Logo + Copy */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-16 sm:mb-20">
@@ -196,10 +182,6 @@ export default function AboutSection() {
             {/* Canvas do logo — sem border, sem background, sem overflow-hidden */}
             <div className="relative w-full" style={{ zIndex: 1, height: "clamp(310px, 49vw, 520px)" }}>
               <NewLogo3D />
-              <p className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none"
-                style={{ fontSize: "8px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.18)", fontFamily: "monospace", whiteSpace: "nowrap" }}>
-                ↔ ARRASTE PARA GIRAR
-              </p>
             </div>
           </motion.div>
 
