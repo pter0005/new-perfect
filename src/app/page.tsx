@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import HeroSection from "@/app/hero-section";
 import AboutSection from "@/components/about-section";
 import MethodSection from "@/components/method-section";
@@ -12,14 +13,10 @@ import Footer from "@/components/footer";
 import DockNav from "@/components/dock-nav";
 import ScrollAnimator from "@/components/scroll-animator";
 import TechLogos from "@/components/tech-logos";
+import LoadingScreen from "@/components/loading-screen";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 
-// ─────────────────────────────────────────────────────────────
-// FADE CURTAIN
-// Cobre APENAS os primeiros ~20vh — só esconde o corte do hero.
-// Não deve chegar na About section de forma alguma.
-// ─────────────────────────────────────────────────────────────
 function FadeCurtain() {
   return (
     <div
@@ -33,7 +30,6 @@ function FadeCurtain() {
         pointerEvents: "none",
       }}
     >
-      {/* Gradiente curto: preto → transparente em apenas 22vh */}
       <div style={{
         position: "absolute",
         top: 0, left: 0, right: 0,
@@ -46,8 +42,6 @@ function FadeCurtain() {
           "rgba(0,0,0,0.15) 65%," +
           "transparent 100%)",
       }} />
-
-      {/* Backdrop blur mínimo — só 8vh */}
       <div style={{
         position: "absolute",
         top: 0, left: 0, right: 0,
@@ -61,9 +55,6 @@ function FadeCurtain() {
   );
 }
 
-// ─────────────────────────────────────────────────────────────
-// GRID CONTINUATION — eco do grid do hero, some em 30vh
-// ─────────────────────────────────────────────────────────────
 function GridContinuation() {
   return (
     <div
@@ -104,41 +95,60 @@ function GridContinuation() {
 }
 
 export default function Home() {
+  const [ready, setReady] = useState(false);
+
   return (
-    <main className="flex flex-col">
-      <HeroSection />
+    <>
+      {/* Loading screen — some automaticamente após carregar */}
+      <LoadingScreen onDone={() => setReady(true)} />
 
-      <div className="relative z-10 bg-background">
-        <GridContinuation />
-        <FadeCurtain />
+      {/*
+        Conteúdo fica invisível (opacity 0, pointer-events none) até o loading terminar.
+        Isso garante que tudo já está montado no DOM quando a animação sai,
+        evitando o "tranco" de renderizar tudo de uma vez.
+      */}
+      <main
+        className="flex flex-col"
+        style={{
+          opacity: ready ? 1 : 0,
+          transition: "opacity 0.5s ease",
+          pointerEvents: ready ? "auto" : "none",
+        }}
+      >
+        <HeroSection />
 
-        <div className="relative z-[1]">
-          <TechLogos />
-          <DockNav />
-          <ScrollAnimator>
-            <AboutSection />
-          </ScrollAnimator>
-          <ScrollAnimator>
-            <MethodSection />
-          </ScrollAnimator>
-          <ScrollAnimator>
-            <ServicesSection />
-          </ScrollAnimator>
-          <ScrollAnimator>
-            <WorkProcessSection />
-          </ScrollAnimator>
-          <ScrollAnimator>
-            <PortfolioSection />
-          </ScrollAnimator>
-          <ScrollAnimator>
-            <FaqSection />
-          </ScrollAnimator>
-          <ScrollAnimator>
-            <ContactSection />
-          </ScrollAnimator>
-          <Footer />
+        <div className="relative z-10 bg-background">
+          <GridContinuation />
+          <FadeCurtain />
+
+          <div className="relative z-[1]">
+            <TechLogos />
+            <DockNav />
+            <ScrollAnimator>
+              <AboutSection />
+            </ScrollAnimator>
+            <ScrollAnimator>
+              <MethodSection />
+            </ScrollAnimator>
+            <ScrollAnimator>
+              <ServicesSection />
+            </ScrollAnimator>
+            <ScrollAnimator>
+              <WorkProcessSection />
+            </ScrollAnimator>
+            <ScrollAnimator>
+              <PortfolioSection />
+            </ScrollAnimator>
+            <ScrollAnimator>
+              <FaqSection />
+            </ScrollAnimator>
+            <ScrollAnimator>
+              <ContactSection />
+            </ScrollAnimator>
+            <Footer />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
