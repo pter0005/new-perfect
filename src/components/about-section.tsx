@@ -93,13 +93,15 @@ function Card({ card, index }: { card: typeof CARDS[0]; index: number }) {
           style={{ color: card.accent ? "hsl(var(--primary))" : "rgba(255,255,255,0.92)" }}>
           {card.title}
         </h3>
-        <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.52)" }}>
+        <p className="text-sm leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.55)" }}>
           {card.body}
         </p>
       </div>
       <div className="absolute -bottom-3 -right-3 w-24 h-24 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
         style={{
-          background: card.accent ? "radial-gradient(circle, hsl(var(--primary)/0.18) 0%, transparent 70%)" : "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)",
+          background: card.accent
+            ? "radial-gradient(circle, hsl(var(--primary)/0.18) 0%, transparent 70%)"
+            : "radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)",
           filter: "blur(10px)",
         }} />
     </motion.div>
@@ -122,7 +124,7 @@ function Stat({ stat, index }: { stat: typeof STATS[0]; index: number }) {
         style={{ color: "hsl(var(--primary))", textShadow: "0 0 18px hsl(var(--primary)/0.4)" }}>
         {stat.v}
       </span>
-      <span className="text-[9px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.38)" }}>
+      <span className="text-[9px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.4)" }}>
         {stat.l}
       </span>
     </motion.div>
@@ -136,59 +138,30 @@ export default function AboutSection() {
   const logoInView = useInView(logoRef, { once: true, margin: "-40px" });
 
   return (
-    <section id="about" className="relative py-20 sm:py-28 overflow-hidden"
-      style={{
-        background: "#0d0d0d",
-      }}
-    >
+    // bg-background puro — sem grain, sem overlay, sem custom bg
+    <section id="about" className="relative py-20 sm:py-28 overflow-hidden bg-background">
+
+      {/* Apenas glows leves em z-0 — nada que escureça ou texturize */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        <svg width="0" height="0" style={{ position: "absolute" }}>
-          <defs>
-            <filter id="about-grain">
-              <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" seed="3" stitchTiles="stitch" result="noise" />
-              <feColorMatrix type="saturate" values="0" in="noise" result="gray" />
-              <feBlend in="SourceGraphic" in2="gray" mode="overlay" />
-              <feComposite in2="SourceGraphic" operator="in" />
-            </filter>
-          </defs>
-        </svg>
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "#0d0d0d",
-          filter: "url(#about-grain)",
-          opacity: 0.5,
-        }} />
+        {/* Glow laranja difuso no topo */}
         <div style={{
           position: "absolute",
-          top: "-80px", left: "50%", transform: "translateX(-50%)",
-          width: "1000px", height: "600px",
-          background: "radial-gradient(ellipse at 50% 15%, hsl(var(--primary)/0.09) 0%, hsl(var(--primary)/0.04) 35%, transparent 65%)",
-          filter: "blur(70px)",
-        }} />
-        <div style={{
-          position: "absolute",
-          top: "5%", left: "-5%",
-          width: "500px", height: "400px",
-          background: "radial-gradient(ellipse at 30% 40%, hsl(var(--primary)/0.07) 0%, transparent 60%)",
+          top: "-40px", left: "50%", transform: "translateX(-50%)",
+          width: "900px", height: "400px",
+          background: "radial-gradient(ellipse at 50% 0%, hsl(var(--primary)/0.07) 0%, transparent 60%)",
           filter: "blur(80px)",
         }} />
+        {/* Linha laranja topo */}
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",
-          background: "linear-gradient(90deg, transparent 0%, hsl(var(--primary)/0.3) 30%, hsl(var(--primary)/0.3) 70%, transparent 100%)",
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage:
-            "linear-gradient(rgba(255,106,0,0.025) 1px, transparent 1px)," +
-            "linear-gradient(90deg, rgba(255,106,0,0.025) 1px, transparent 1px)",
-          backgroundSize: "40px 40px",
-          transform: "skewY(-2deg)",
-          maskImage: "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 50%)",
-          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 50%)",
+          background: "linear-gradient(90deg, transparent, hsl(var(--primary)/0.25) 30%, hsl(var(--primary)/0.25) 70%, transparent)",
         }} />
       </div>
 
+      {/* z-10 — conteúdo sempre acima dos glows */}
       <div className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12">
+
+        {/* Eyebrow */}
         <motion.div
           ref={headingRef}
           initial={{ opacity: 0, y: 10 }}
@@ -202,37 +175,35 @@ export default function AboutSection() {
           </span>
         </motion.div>
 
+        {/* Logo + Copy */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-16 sm:mb-20">
+
+          {/* Logo 3D — sem borda, sem container quadrado */}
           <motion.div
             ref={logoRef}
             initial={{ opacity: 0, x: -20 }}
             animate={logoInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="order-2 lg:order-1"
+            className="order-2 lg:order-1 relative flex items-center justify-center"
             style={{ isolation: "isolate" }}
           >
+            {/* Glow laranja atrás do logo — z-0 dentro do isolate */}
             <div aria-hidden style={{
-              position: "absolute", inset: "-10%", zIndex: 0,
-              background: "radial-gradient(ellipse at 50% 55%, hsl(var(--primary)/0.2) 0%, hsl(var(--primary)/0.06) 50%, transparent 70%)",
-              filter: "blur(45px)", pointerEvents: "none",
+              position: "absolute", inset: "0%", zIndex: 0,
+              background: "radial-gradient(ellipse at 50% 55%, hsl(var(--primary)/0.18) 0%, transparent 65%)",
+              filter: "blur(50px)", pointerEvents: "none",
             }} />
-            <div className="relative rounded-2xl overflow-hidden"
-              style={{
-                zIndex: 1,
-                height: "clamp(240px, 40vw, 420px)",
-                background: "rgba(0,0,0,0.2)",
-                border: "1px solid hsl(var(--primary)/0.15)",
-                boxShadow: "0 0 40px rgba(0,0,0,0.4) inset",
-              }}
-            >
+            {/* Canvas do logo — sem border, sem background, sem overflow-hidden */}
+            <div className="relative w-full" style={{ zIndex: 1, height: "clamp(310px, 49vw, 520px)" }}>
               <NewLogo3D />
-              <p className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none"
-                style={{ fontSize: "8px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.2)", fontFamily: "monospace" }}>
+              <p className="absolute bottom-2 left-1/2 -translate-x-1/2 pointer-events-none"
+                style={{ fontSize: "8px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.18)", fontFamily: "monospace", whiteSpace: "nowrap" }}>
                 ↔ ARRASTE PARA GIRAR
               </p>
             </div>
           </motion.div>
 
+          {/* Copy */}
           <div className="flex flex-col gap-5 order-1 lg:order-2">
             <motion.h2
               initial={{ opacity: 0, x: 18 }}
@@ -251,7 +222,7 @@ export default function AboutSection() {
               initial={{ opacity: 0, x: 18 }}
               animate={headingInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.72, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              style={{ color: "rgba(255,255,255,0.62)", maxWidth: "460px", lineHeight: 1.7 }}
+              style={{ color: "rgba(255,255,255,0.65)", maxWidth: "460px", lineHeight: 1.7 }}
               className="text-[15px] sm:text-base"
             >
               Agência digital que une inovação, performance e design para criar o ativo digital perfeito para o seu negócio.
@@ -264,7 +235,7 @@ export default function AboutSection() {
               style={{ borderLeft: "2px solid hsl(var(--primary)/0.55)", paddingLeft: "1rem" }}
             >
               <p className="font-heading font-bold italic text-base sm:text-lg"
-                style={{ color: "hsl(var(--primary)/0.82)", textShadow: "0 0 16px hsl(var(--primary)/0.2)" }}>
+                style={{ color: "hsl(var(--primary)/0.85)", textShadow: "0 0 16px hsl(var(--primary)/0.2)" }}>
                 "Você não aluga uma ideia. Você é dono do seu futuro digital."
               </p>
             </motion.blockquote>
@@ -281,7 +252,7 @@ export default function AboutSection() {
                     style={{ color: "hsl(var(--primary))" }}>
                     {v}
                   </span>
-                  <span className="text-[9px] tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.32)" }}>
+                  <span className="text-[9px] tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.35)" }}>
                     {l}
                   </span>
                 </div>
@@ -290,11 +261,16 @@ export default function AboutSection() {
           </div>
         </div>
 
+        {/* Divider */}
         <div className="h-px w-full mb-9 sm:mb-11"
           style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.08) 75%, transparent)" }} />
+
+        {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-9 sm:mb-11">
           {CARDS.map((card, i) => <Card key={card.number} card={card} index={i} />)}
         </div>
+
+        {/* Stats */}
         <div className="grid grid-cols-4 gap-3 sm:gap-4">
           {STATS.map((s, i) => <Stat key={s.v} stat={s} index={i} />)}
         </div>
