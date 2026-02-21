@@ -1,11 +1,23 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+
+// ── Detecta mobile uma vez, sem re-render ───────────────────
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
+  useEffect(() => {
+    // This check is to prevent errors during server-side rendering
+    if (typeof window !== "undefined") {
+      setMobile(window.innerWidth < 768);
+    }
+  }, []);
+  return mobile;
+}
 
 const C: Record<string, string> = {
   kw: "hsl(var(--primary))", id: "rgba(255,255,255,0.75)",
@@ -77,16 +89,38 @@ function EmberCoreText({ className }: { className?: string }) {
   );
 }
 
-function ScrollRow({ tokens, fontSize, duration, direction = 1 }: {
-  tokens: Token[]; fontSize: number; duration: number; direction?: 1 | -1;
+// ── ScrollRow: no mobile renderiza estático pra não gastar GPU ──
+function ScrollRow({ tokens, fontSize, duration, direction = 1, isMobile }: {
+  tokens: Token[]; fontSize: number; duration: number; direction?: 1 | -1; isMobile: boolean;
 }) {
+  // Mobile: sem animação — apenas exibe os tokens estáticos
+  if (isMobile) {
+    return (
+      <div style={{ overflow: "hidden", width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", fontSize, lineHeight: 1, flexShrink: 0 }}>
+          {tokens.map((tk, i) => (
+            <span key={i} style={{
+              color: C[tk[1]] ?? C.id,
+              fontFamily: "'Fira Code', 'JetBrains Mono', monospace",
+              fontWeight: tk[1] === "kw" || tk[1] === "fn" ? 600 : 400,
+              whiteSpace: "pre",
+            }}>{tk[0]}</span>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   const tripled = [...tokens, ...tokens, ...tokens];
   return (
     <div style={{ overflow: "hidden", width: "100%", height: "100%", display: "flex", alignItems: "center" }}>
       <motion.div
         animate={{ x: direction === 1 ? ["0%", "-33.333%"] : ["-33.333%", "0%"] }}
         transition={{ duration, repeat: Infinity, ease: "linear" }}
-        style={{ display: "flex", alignItems: "center", fontSize, lineHeight: 1, flexShrink: 0 }}
+        style={{
+          display: "flex", alignItems: "center", fontSize, lineHeight: 1, flexShrink: 0,
+          willChange: "transform", // GPU hint
+        }}
       >
         {tripled.map((tk, i) => (
           <span key={i} style={{
@@ -102,7 +136,9 @@ function ScrollRow({ tokens, fontSize, duration, direction = 1 }: {
   );
 }
 
-function BatonCode({ width, height, rowSet }: { width: number; height: number; rowSet: Token[][][] }) {
+function BatonCode({ width, height, rowSet, isMobile }: {
+  width: number; height: number; rowSet: Token[][][]; isMobile: boolean;
+}) {
   const rowCount = rowSet.length;
   const vertPad = height * 0.12;
   const availH = height - vertPad * 2;
@@ -118,7 +154,13 @@ function BatonCode({ width, height, rowSet }: { width: number; height: number; r
     }}>
       {rowSet.map((tokens, i) => (
         <div key={i} style={{ height: rowH, flexShrink: 0, overflow: "hidden" }}>
-          <ScrollRow tokens={tokens} fontSize={fontSize} duration={speeds[i % speeds.length]} direction={dirs[i % dirs.length]} />
+          <ScrollRow
+            tokens={tokens}
+            fontSize={fontSize}
+            duration={speeds[i % speeds.length]}
+            direction={dirs[i % dirs.length]}
+            isMobile={isMobile}
+          />
         </div>
       ))}
     </div>
@@ -128,24 +170,33 @@ function BatonCode({ width, height, rowSet }: { width: number; height: number; r
 function ElegantShape({
   className, width = 400, height = 100, rotate = 0, rowSetIndex = 0,
   enterFromX = 0, enterFromY = 0, scrollProgress,
-  scrollStart = 0.02, scrollEnd = 0.22,
+  scrollStart = 0.02, scrollEnd = 0.22, isMobile,
 }: {
   className?: string; width?: number; height?: number; rotate?: number; rowSetIndex?: number;
   enterFromX?: number; enterFromY?: number; scrollProgress: any;
-  scrollStart?: number; scrollEnd?: number;
+  scrollStart?: number; scrollEnd?: number; isMobile: boolean;
 }) {
   const x = useTransform(scrollProgress, [scrollStart, scrollEnd], [enterFromX, 0]);
   const y = useTransform(scrollProgress, [scrollStart, scrollEnd], [enterFromY, 0]);
   const opacity = useTransform(scrollProgress, [scrollStart, scrollEnd], [0, 1]);
-  const sx = useSpring(x, { stiffness: 70, damping: 18 });
-  const sy = useSpring(y, { stiffness: 70, damping: 18 });
+
+  // Mobile: spring mais rígido = menos cálculo por frame
+  const springCfg = isMobile
+    ? { stiffness: 120, damping: 28 }
+    : { stiffness: 70, damping: 18 };
+  const sx = useSpring(x, springCfg);
+  const sy = useSpring(y, springCfg);
 
   return (
-    <motion.div style={{ x: sx, y: sy, opacity, rotate, position: "absolute" }} className={className}>
+    <motion.div
+      style={{ x: sx, y: sy, opacity, rotate, position: "absolute", willChange: "transform, opacity" }}
+      className={className}
+    >
+      {/* Float: mobile mais lento pra poupar CPU mas design intacto */}
       <motion.div
-        animate={{ y: [0, 15, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        style={{ width, height }}
+        animate={{ y: [0, isMobile ? 8 : 15, 0] }}
+        transition={{ duration: isMobile ? 18 : 12, repeat: Infinity, ease: "easeInOut" }}
+        style={{ width, height, willChange: "transform", contain: "layout style" }}
         className="relative"
       >
         <style>{`
@@ -153,11 +204,15 @@ function ElegantShape({
             position: absolute; inset: 0; border-radius: 9999px;
             background: linear-gradient(to right, hsl(var(--primary)/0.2), hsl(var(--primary)/0.1));
             backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
             border: 2px solid hsl(var(--primary)/0.4);
             box-shadow:
-              0 0 250px hsl(var(--primary)/0.40),
-              0 0 350px hsl(var(--primary)/0.20),
-              0 0 450px hsl(var(--primary)/0.10);
+              0 0 300px hsl(var(--primary)/0.40),
+              0 0 420px hsl(var(--primary)/0.20),
+              0 0 540px hsl(var(--primary)/0.10);
+            /* Força compositing layer própria — evita repaint no scroll */
+            will-change: transform;
+            transform: translateZ(0);
           }
           .baton-shell::after {
             content: '';
@@ -166,6 +221,7 @@ function ElegantShape({
           }
           @media (max-width: 767px) {
             .baton-shell {
+              /* Design intacto: blur mantido, glow reduzido pra não sobrecarregar */
               box-shadow:
                 0 0 80px hsl(var(--primary)/0.18),
                 0 0 140px hsl(var(--primary)/0.09),
@@ -177,7 +233,7 @@ function ElegantShape({
           }
         `}</style>
         <div className="baton-shell" />
-        <BatonCode width={width} height={height} rowSet={ROWS[rowSetIndex % ROWS.length]} />
+        <BatonCode width={width} height={height} rowSet={ROWS[rowSetIndex % ROWS.length]} isMobile={isMobile} />
         <div style={{
           position: "absolute", inset: 0, borderRadius: "9999px",
           background: "linear-gradient(to right, hsl(var(--background)) 0%, rgba(0,0,0,0) 16%, rgba(0,0,0,0) 84%, hsl(var(--background)) 100%)",
@@ -195,13 +251,19 @@ function ElegantShape({
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const isMobile = useIsMobile();
+  const prefersReduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  const p = useSpring(scrollYProgress, { stiffness: 55, damping: 22 });
+  // Mobile: spring mais leve = scroll mais suave
+  const springCfg = isMobile
+    ? { stiffness: 80, damping: 28 }
+    : { stiffness: 55, damping: 22 };
+  const p = useSpring(scrollYProgress, springCfg);
 
   const bgOpacity       = useTransform(p, [0, 0.15],   [0, 1]);
   const gridOpacity     = useTransform(p, [0.06, 0.25], [0, 1]);
@@ -214,48 +276,57 @@ export default function HeroSection() {
   const heroOpacity     = useTransform(p, [0.83, 0.97], [1, 0]);
   const hintOpacity     = useTransform(p, [0, 0.05],   [1, 0]);
 
+  // ── Bastões: PC +20% | Mobile 4 bastões menores com design intacto ──
+  const shapes = isMobile ? [
+    { w: 340, h: 85,  rot: 12,  cls: "left-[-8%] top-[18%]",          ri: 0, ex: -400, ey: -60,  ss: 0.02, se: 0.2  },
+    { w: 280, h: 70,  rot: -15, cls: "right-[-6%] top-[68%]",          ri: 1, ex: 350,  ey: 70,   ss: 0.04, se: 0.22 },
+    { w: 180, h: 52,  rot: -8,  cls: "left-[5%] bottom-[8%]",          ri: 2, ex: -160, ey: 200,  ss: 0.06, se: 0.26 },
+    { w: 140, h: 44,  rot: 20,  cls: "right-[12%] top-[12%]",          ri: 3, ex: 120,  ey: -200, ss: 0.03, se: 0.21 },
+  ] : [
+    { w: 720, h: 168, rot: 12,  cls: "left-[-5%] top-[20%]",          ri: 0, ex: -700, ey: -80,  ss: 0.02, se: 0.2  },
+    { w: 600, h: 144, rot: -15, cls: "right-[0%] top-[75%]",           ri: 1, ex: 600,  ey: 80,   ss: 0.04, se: 0.22 },
+    { w: 360, h: 96,  rot: -8,  cls: "left-[10%] bottom-[10%]",        ri: 2, ex: -200, ey: 300,  ss: 0.06, se: 0.26 },
+    { w: 240, h: 72,  rot: 20,  cls: "right-[20%] top-[15%]",          ri: 3, ex: 150,  ey: -300, ss: 0.03, se: 0.21 },
+  ];
+
   return (
-    // 380vh = 5% menos que 400vh
-    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: "380vh" }}>
+    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: "320vh" }}>
       <motion.div
-        style={{ opacity: heroOpacity }}
+        style={{ opacity: heroOpacity, willChange: "opacity" }}
         className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
       >
         <div className="absolute inset-0 bg-black" style={{ zIndex: 0 }} />
-        <motion.div className="absolute inset-0 bg-background" style={{ opacity: bgOpacity, zIndex: 1 }} />
+        <motion.div className="absolute inset-0 bg-background" style={{ opacity: bgOpacity, zIndex: 1, willChange: "opacity" }} />
 
-        <motion.div style={{ opacity: gridOpacity }} className="absolute inset-0 z-[2]">
+        {/* Grid: mobile usa menos quadrados */}
+        <motion.div style={{ opacity: gridOpacity, willChange: "opacity" }} className="absolute inset-0 z-[2]">
           <AnimatedGridPattern
-            numSquares={50} maxOpacity={0.1} duration={3} repeatDelay={1}
+            numSquares={isMobile ? 20 : 50}
+            maxOpacity={isMobile ? 0.07 : 0.1}
+            duration={isMobile ? 5 : 3}
+            repeatDelay={1}
             className={cn("fill-foreground/10 stroke-foreground/10", "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12")}
           />
         </motion.div>
 
+        {/* Bastões */}
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 3 }}>
-          <ElegantShape
-            width={600} height={140} rotate={12} className="left-[-5%] top-[20%]"
-            rowSetIndex={0} scrollProgress={p}
-            enterFromX={-700} enterFromY={-80} scrollStart={0.02} scrollEnd={0.2}
-          />
-          <ElegantShape
-            width={500} height={120} rotate={-15} className="right-[0%] top-[75%]"
-            rowSetIndex={1} scrollProgress={p}
-            enterFromX={600} enterFromY={80} scrollStart={0.04} scrollEnd={0.22}
-          />
-          <ElegantShape
-            width={300} height={80} rotate={-8} className="left-[10%] bottom-[10%]"
-            rowSetIndex={2} scrollProgress={p}
-            enterFromX={-200} enterFromY={300} scrollStart={0.06} scrollEnd={0.26}
-          />
-          <ElegantShape
-            width={200} height={60} rotate={20} className="right-[20%] top-[15%]"
-            rowSetIndex={3} scrollProgress={p}
-            enterFromX={150} enterFromY={-300} scrollStart={0.03} scrollEnd={0.21}
-          />
+          {shapes.map((s, i) => (
+            <ElegantShape
+              key={i}
+              width={s.w} height={s.h} rotate={s.rot}
+              className={s.cls}
+              rowSetIndex={s.ri}
+              scrollProgress={p}
+              enterFromX={s.ex} enterFromY={s.ey}
+              scrollStart={s.ss} scrollEnd={s.se}
+              isMobile={isMobile}
+            />
+          ))}
         </div>
 
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
-          <motion.div style={{ scale: titleScale, y: titleY }}>
+          <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
             <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
               <span className="block text-white/90">com a NEW</span>
               <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
@@ -263,14 +334,14 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.p
-            style={{ y: subtitleY, opacity: subtitleOpacity }}
+            style={{ y: subtitleY, opacity: subtitleOpacity, willChange: "transform, opacity" }}
             className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-white/45 max-w-xs sm:max-w-sm md:max-w-xl leading-relaxed"
           >
             Criamos o ativo digital perfeito para o seu negócio. Conheça nosso modelo SWAS.
           </motion.p>
 
           <motion.div
-            style={{ y: ctaY, opacity: ctaOpacity }}
+            style={{ y: ctaY, opacity: ctaOpacity, willChange: "transform, opacity" }}
             className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none sm:w-auto items-center"
           >
             <HoverBorderGradient
@@ -294,7 +365,7 @@ export default function HeroSection() {
         >
           <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em] font-heading">SCROLL</span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
+            animate={isMobile ? {} : { y: [0, 8, 0] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
             style={{ width: "1px", height: "24px", background: "linear-gradient(to bottom, hsl(var(--primary)/0.5), transparent)" }}
           />
