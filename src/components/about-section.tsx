@@ -147,26 +147,6 @@ export default function AboutSection() {
 
   return (
     <section id="about" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        {isClient && (
-          <AnimatedGridPattern
-            numSquares={50}
-            maxOpacity={0.1}
-            duration={3}
-            repeatDelay={1}
-            className={cn(
-              "fill-foreground/10 stroke-foreground/10",
-              "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
-            )}
-          />
-        )}
-         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]" style={{
-            background: "radial-gradient(circle, hsl(var(--primary)/0.1) 0%, transparent 60%)",
-            filter: "blur(100px)",
-        }}/>
-      </div>
-
       <div ref={headingRef} className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center mb-16 sm:mb-20">
