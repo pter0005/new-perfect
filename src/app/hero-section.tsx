@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -243,10 +243,6 @@ export default function HeroSection() {
   const isMobile = useIsMobile();
   const prefersReduced = useReducedMotion();
 
-  if (isMobile === undefined) {
-    return <section id="home" className="relative w-full h-screen bg-black" />;
-  }
-
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -268,6 +264,10 @@ export default function HeroSection() {
   const ctaY            = useTransform(p, [0.22, 0.38], [24, 0]);
   const heroOpacity     = useTransform(p, [0.83, 0.97], [1, 0]);
   const hintOpacity     = useTransform(p, [0, 0.05],   [1, 0]);
+
+  if (isMobile === undefined) {
+    return <section id="home" className="relative w-full h-screen bg-black" />;
+  }
 
   // ── Bastões: PC +20% | Mobile 4 bastões menores com design intacto ──
   const shapes = isMobile ? [
@@ -367,5 +367,3 @@ export default function HeroSection() {
     </section>
   );
 }
-
-    
