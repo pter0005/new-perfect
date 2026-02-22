@@ -96,10 +96,17 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
   );
 }
 
-// Garante renderização de acentos mesmo em fontes display sem o glifo
-// Usa system-ui como fallback apenas no caractere acentuado
+// Bebas Neue não tem acentos (É, Ô, etc.)
+// Impact é condensed+bold e suporta Latin Extended — visualmente compatível
 function Accent({ char }: { char: string }) {
-  return <span style={{ fontFamily: "inherit, system-ui, -apple-system, sans-serif" }}>{char}</span>;
+  return (
+    <span style={{
+      fontFamily: "var(--font-bebas-neue), Impact, 'Arial Narrow Bold', 'Arial Narrow', Arial, sans-serif",
+      fontWeight: "inherit",
+    }}>
+      {char}
+    </span>
+  );
 }
 
 // PATRIMÔNIO — laranja se revela da esquerda pra direita (clipPath)
