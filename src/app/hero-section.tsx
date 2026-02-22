@@ -217,19 +217,16 @@ function BatonScroll({ className, width, height, rotate, rowSetIndex,
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  const [isMobile, setIsMobile] = useState(false);
-
+  // Inicializa síncrono do window.innerWidth — evita o flash undefined→true
+  // que faz os bastões mobile montarem tarde e perderem a animação
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768;
+  });
   useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIsMobile();
-    window.addEventListener("resize", checkIsMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkIsMobile);
-    };
+    const update = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
   }, []);
 
   const { scrollYProgress } = useScroll({
@@ -247,7 +244,7 @@ export default function HeroSection() {
   const subtitleY       = useTransform(p, [0.12, 0.28], [30, 0]);
   const ctaOpacity      = useTransform(p, [0.22, 0.38], [0, 1]);
   const ctaY            = useTransform(p, [0.22, 0.38], [24, 0]);
-  const heroOpacity     = useTransform(p, [0.83, 0.97], [1, 0]);
+  const heroOpacity     = useTransform(p, [0.78, 0.95], [1, 0]);
   const hintOpacity     = useTransform(p, [0, 0.05],   [1, 0]);
 
   // Bastões unificados — mobile: distâncias e ranges menores, sem spring
@@ -265,7 +262,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: "320vh" }}>
+    <section ref={sectionRef} id="home" className="relative w-full" style={{ height: "200vh" }}>
       <motion.div
         style={{ opacity: heroOpacity, willChange: "opacity" }}
         className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
@@ -287,7 +284,7 @@ export default function HeroSection() {
         <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 3 }}>
           {batons.map((s, i) => (
             <BatonScroll key={i} className={s.cls} width={s.w} height={s.h} rotate={s.rot} rowSetIndex={s.ri}
-              enterFromX={s.ex} enterFromY={s.ey} scrollProgress={p} scrollStart={s.ss} scrollEnd={s.se} isMobile={isMobile} />
+              enterFromX={s.ex} enterFromY={s.ey} scrollProgress={p} scrollStart={s.ss} scrollEnd={s.se} isMobile={!!isMobile} />
           ))}
         </div>
 
@@ -334,12 +331,4 @@ export default function HeroSection() {
           <motion.div
             animate={isMobile ? {} : { y: [0, 8, 0] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-            style={{ width: "1px", height: "24px", background: "linear-gradient(to bottom, hsl(var(--primary)/0.5), transparent)" }}
-          />
-        </motion.div>
-      </motion.div>
-    </section>
-  );
-}
-
-    
+            style={{ width: "1px", height: "24px", background: "linear-gradient(to bottom, hsl(var(--primary)/0
