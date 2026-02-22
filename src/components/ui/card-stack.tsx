@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 export interface CardStackItem {
   id: string;
@@ -17,6 +17,7 @@ export interface CardStackItem {
 }
 
 export default function CardStack({ items }: { items: CardStackItem[] }) {
+  const router = useRouter();
   const [cards, setCards] = useState<CardStackItem[]>(items);
   const [dragDirection, setDragDirection] = useState<'up' | 'down' | null>(null);
   const [showInfo, setShowInfo] = useState(false);
@@ -69,6 +70,11 @@ export default function CardStack({ items }: { items: CardStackItem[] }) {
           setDragDirection(null);
         }, 150);
       }
+    } else {
+      // It's a tap, not a swipe. Navigate.
+      if (cards.length > 0 && cards[0].href) {
+        window.open(cards[0].href, '_blank');
+      }
     }
     dragY.set(0);
   };
@@ -117,7 +123,7 @@ export default function CardStack({ items }: { items: CardStackItem[] }) {
               const brightness = Math.max(0.4, 1 - i * 0.15);
               const baseZ = cards.length - i;
               
-              const cardContent = (
+              return (
                  <motion.li
                   key={id}
                   className={cn(
@@ -151,7 +157,7 @@ export default function CardStack({ items }: { items: CardStackItem[] }) {
                   onDrag={(_, info) => {
                     if (isFront) dragY.set(info.offset.y);
                   }}
-                  onDragEnd={handleDragEnd}
+                  onDragEnd={isFront ? handleDragEnd : undefined}
                   whileDrag={
                     isFront ? { zIndex: cards.length + 1, cursor: 'grabbing', scale: 1.02 } : {}
                   }
@@ -167,11 +173,6 @@ export default function CardStack({ items }: { items: CardStackItem[] }) {
                     draggable={false}
                     sizes="(max-width: 768px) 80vw, 580px"
                   />
-                  {isFront && (
-                    <Link href={href} className="absolute inset-0 z-10" passHref>
-                      <span className="sr-only">View project {title}</span>
-                    </Link>
-                  )}
                   <motion.div
                     className={`absolute bottom-0 left-0 right-0 p-4 ${cardStackTheme.cardInfoBg}`}
                     initial={{ opacity: 0, y: 10 }}
@@ -186,7 +187,6 @@ export default function CardStack({ items }: { items: CardStackItem[] }) {
                   </motion.div>
                 </motion.li>
               );
-              return cardContent;
             })}
           </AnimatePresence>
         </ul>

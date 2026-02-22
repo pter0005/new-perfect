@@ -12,7 +12,7 @@ export default function PortfolioSection() {
       alt: project.name,
       title: project.name,
       description: project.type,
-      href: `/portfolio/${project.slug}`,
+      href: project.link,
     }));
   }, []);
 
