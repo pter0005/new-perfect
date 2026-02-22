@@ -144,6 +144,42 @@ export const projects = [
         }
     ]
   },
+  {
+    slug: "mycupid",
+    name: "MyCupid",
+    type: "Plataforma Social de Relacionamentos",
+    image: "https://picsum.photos/seed/mycupid/1920/1200",
+    hint: "dating app",
+    link: "https://mycupid.com.br",
+    description: "Uma plataforma social para conectar pessoas com interesses em comum, utilizando IA para sugerir matches inteligentes e promover conversas autênticas.",
+    technologies: ["Next.js", "React", "Firebase", "Tailwind CSS", "Genkit"],
+    details: [
+        {
+            title: "Conexões Inteligentes com IA",
+            points: [
+                "Algoritmo de matching que aprende com as preferências do usuário para sugerir perfis com alta compatibilidade.",
+                "Icebreakers gerados por IA para iniciar conversas de forma criativa e quebrar o gelo.",
+                "Análise de perfil para destacar interesses em comum e facilitar a conexão."
+            ]
+        },
+        {
+            title: "Experiência Segura e Intuitiva",
+            points: [
+                "Verificação de perfis para garantir a autenticidade dos usuários e um ambiente mais seguro.",
+                "Interface limpa e fácil de usar, focada na experiência do usuário em dispositivos móveis.",
+                "Controles de privacidade que permitem ao usuário decidir quem pode ver suas informações e entrar em contato."
+            ]
+        },
+        {
+            title: "Tecnologia de Ponta",
+            points: [
+                "Construído com Next.js para uma performance rápida e fluida.",
+                "Banco de dados em tempo real com Firebase para chat e notificações instantâneas.",
+                "Uso de Genkit para integrar os modelos de IA da Google de forma escalável e eficiente."
+            ]
+        }
+    ]
+  }
 ];
 
 export function getProjectBySlug(slug: string) {
