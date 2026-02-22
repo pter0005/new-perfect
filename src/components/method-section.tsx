@@ -96,25 +96,48 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
   );
 }
 
-// PATRIMÔNIO — fade limpo: aparece do branco apagado pro laranja
+// Garante renderização de acentos mesmo em fontes display sem o glifo
+// Usa system-ui como fallback apenas no caractere acentuado
+function Accent({ char }: { char: string }) {
+  return <span style={{ fontFamily: "inherit, system-ui, -apple-system, sans-serif" }}>{char}</span>;
+}
+
+// PATRIMÔNIO — laranja se revela da esquerda pra direita (clipPath)
+// Acentos renderizados via <Accent> para garantir o glifo correto
 function PatrimonioAnimated({ inView }: { inView: boolean }) {
+  const text = (
+    <>PATRIM<Accent char="Ô" />NIO.</>
+  );
   return (
-    <motion.span
-      initial={{ opacity: 0, color: "rgba(255,255,255,0.0)" }}
-      animate={inView
-        ? { opacity: 1, color: "hsl(var(--primary))" }
-        : { opacity: 0, color: "rgba(255,255,255,0.0)" }
-      }
-      transition={{ duration: 2.0, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      style={{
-        display: "inline",
-        fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit",
-        letterSpacing: "inherit", lineHeight: "inherit",
-        willChange: "opacity, color",
-      }}
-    >
-      patrimônio.
-    </motion.span>
+    <span style={{ position: "relative", display: "inline-block", lineHeight: "inherit" }}>
+      {/* Base cinza — reserva espaço e mostra versão apagada */}
+      <span
+        aria-hidden
+        style={{
+          display: "block", whiteSpace: "nowrap", userSelect: "none",
+          color: "rgba(255,255,255,0.12)",
+          fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit",
+          letterSpacing: "inherit", lineHeight: "inherit",
+        }}
+      >
+        {text}
+      </span>
+      {/* Overlay laranja que preenche da esquerda pra direita */}
+      <motion.span
+        initial={{ clipPath: "inset(0 100% 0 0)" }}
+        animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
+        transition={{ duration: 2.2, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: "absolute", inset: 0, display: "block", whiteSpace: "nowrap",
+          color: "hsl(var(--primary))",
+          fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit",
+          letterSpacing: "inherit", lineHeight: "inherit",
+          willChange: "clip-path",
+        }}
+      >
+        {text}
+      </motion.span>
+    </span>
   );
 }
 
@@ -180,7 +203,7 @@ export default function MethodSection() {
           <div className="font-heading font-bold leading-[0.9] tracking-tight" style={{ fontSize: "clamp(4.5rem, 13vw, 11rem)" }}>
             <LineReveal inView={titleInView} delay={0.08}>
               <span style={{ color: "rgba(255,255,255,0.95)" }}>
-                SAAS É{" "}
+                SAAS <Accent char="É" />{" "}
                 <span style={{
                   color: "rgba(255,255,255,0.22)",
                   textDecoration: "line-through",
@@ -201,7 +224,7 @@ export default function MethodSection() {
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   style={{ color: "rgba(255,255,255,0.97)", willChange: "opacity" }}
                 >
-                  SWAS É{" "}
+                  SWAS <Accent char="É" />{" "}
                 </motion.span>
                 <PatrimonioAnimated inView={titleInView} />
               </span>
