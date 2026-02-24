@@ -148,7 +148,7 @@ export const projects = [
     slug: "mycupid",
     name: "MyCupid",
     type: "Plataforma Social de Relacionamentos",
-    image: "https://picsum.photos/seed/mycupid/1920/1200",
+    image: "https://i.imgur.com/rkd8DR6.png",
     hint: "dating app",
     link: "https://mycupid.com.br",
     description: "Uma plataforma social para conectar pessoas com interesses em comum, utilizando IA para sugerir matches inteligentes e promover conversas autênticas.",
