@@ -96,28 +96,9 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
   );
 }
 
-// Bebas Neue NÃO tem É, Ô — se vier primeiro na lista o browser encontra a
-// fonte, falha silenciosamente e NÃO cai pro fallback. Solução: remover
-// Bebas Neue do Accent e usar direto Impact (condensed, bold, tem Latin Extended)
-function Accent({ char }: { char: string }) {
-  return (
-    <span style={{
-      fontFamily: "Impact, 'Arial Narrow Bold', 'Arial Black', 'Arial Narrow', Arial, sans-serif",
-      fontWeight: 900,
-      fontStretch: "condensed",
-      letterSpacing: "inherit",
-    }}>
-      {char}
-    </span>
-  );
-}
-
 // PATRIMÔNIO — laranja se revela da esquerda pra direita (clipPath)
-// Acentos renderizados via <Accent> para garantir o glifo correto
 function PatrimonioAnimated({ inView }: { inView: boolean }) {
-  const text = (
-    <>PATRIM<Accent char="Ô" />NIO.</>
-  );
+  const text = "PATRIMÔNIO.";
   return (
     <span style={{ position: "relative", display: "inline-block", lineHeight: "inherit" }}>
       {/* Base cinza — reserva espaço e mostra versão apagada */}
@@ -154,9 +135,7 @@ function PatrimonioAnimated({ inView }: { inView: boolean }) {
 // Clip reveal linha a linha
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
-    // paddingTop reserva espaço para diacríticos (É, Ô) que ficam acima da cap-height
-    // marginTop negativo compensa pra não alterar o espaçamento visual
-    <div style={{ overflow: "hidden", display: "block", paddingTop: "0.18em", marginTop: "-0.18em" }}>
+    <div style={{ overflow: "hidden", display: "block" }}>
       <motion.div
         initial={{ y: "110%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
@@ -215,7 +194,7 @@ export default function MethodSection() {
           <div className="font-heading font-bold leading-[0.9] tracking-tight" style={{ fontSize: "clamp(4.5rem, 13vw, 11rem)" }}>
             <LineReveal inView={titleInView} delay={0.08}>
               <span style={{ color: "rgba(255,255,255,0.95)" }}>
-                SAAS <Accent char="É" />{" "}
+                SAAS É{" "}
                 <span style={{
                   color: "rgba(255,255,255,0.22)",
                   textDecoration: "line-through",
@@ -236,7 +215,7 @@ export default function MethodSection() {
                   transition={{ duration: 1.0, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   style={{ color: "rgba(255,255,255,0.97)", willChange: "opacity" }}
                 >
-                  SWAS <Accent char="É" />{" "}
+                  SWAS É{" "}
                 </motion.span>
                 <PatrimonioAnimated inView={titleInView} />
               </span>

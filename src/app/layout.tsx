@@ -7,7 +7,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 const lexend = Lexend({ subsets: ['latin'], variable: '--font-lexend' });
 const space_grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
 const bebas_neue = Bebas_Neue({ 
-  subsets: ['latin'], 
+  subsets: ['latin', 'latin-ext'], 
   weight: '400',
   variable: '--font-bebas-neue' 
 });
