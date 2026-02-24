@@ -1,15 +1,15 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import { Bebas_Neue, Lexend, Space_Grotesk } from 'next/font/google';
+import { Oswald, Lexend, Space_Grotesk } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 
 const lexend = Lexend({ subsets: ['latin'], variable: '--font-lexend' });
 const space_grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
-const bebas_neue = Bebas_Neue({ 
+const oswald = Oswald({ 
   subsets: ['latin', 'latin-ext'], 
-  weight: '400',
-  variable: '--font-bebas-neue' 
+  weight: ['400', '700'],
+  variable: '--font-oswald' 
 });
 
 
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${lexend.variable} ${space_grotesk.variable} ${bebas_neue.variable} font-sans antialiased`}>
+      <body className={`${lexend.variable} ${space_grotesk.variable} ${oswald.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
