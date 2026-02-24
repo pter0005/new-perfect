@@ -66,7 +66,7 @@ function EmberCoreText({ className, style }: { className?: string, style?: React
           }
         }
       `}</style>
-      <span className={cn("ember-text font-heading", className)} style={style}>TUDO É POSSIVEL</span>
+      <span className={cn("ember-text font-heading", className)} style={style}>TUDO É POSSÍVEL</span>
     </span>
   );
 }
@@ -289,7 +289,7 @@ export default function HeroSection() {
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
           <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
             <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
-              <span className="block text-white/90">com a NEW</span>
+              <span className="block text-white/90 uppercase">Com a NEW</span>
               <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
             </h1>
           </motion.div>
