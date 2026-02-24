@@ -13,7 +13,7 @@ export default {
       fontFamily: {
         sans: ['var(--font-lexend)', 'sans-serif'],
         grotesk: ['var(--font-space-grotesk)', 'sans-serif'],
-        heading: ['var(--font-oswald)', 'sans-serif'],
+        heading: ['var(--font-barlow-condensed)', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',

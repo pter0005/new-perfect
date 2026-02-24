@@ -4,9 +4,6 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
-
 const SAAS_ITEMS = [
   { label: "Cobrança Contínua",        desc: "Você paga todo mês. Se parar, perde o acesso. Nunca é seu." },
   { label: "Estrutura Padronizada",    desc: "Você entra no formato pronto. Nada realmente exclusivo." },
@@ -18,6 +15,28 @@ const SWAS_ITEMS = [
   { label: "Personalização Sem Limite", desc: "Criado para sua operação, não para o mercado inteiro." },
   { label: "Base Sólida para Crescer",  desc: "Infraestrutura preparada para escalar com você." },
 ];
+
+const FONT_URL =
+  "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+
+const HEADING_FONT = "'Barlow Condensed', var(--font-bebas-neue), sans-serif";
+
+function FontLoader() {
+  return (
+    <>
+      <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+        // @ts-ignore
+        crossOrigin="anonymous"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=block"
+      />
+    </>
+  );
+}
 
 function XIcon() {
   return (
@@ -102,7 +121,7 @@ function SaasRow({ item, index }: { item: typeof SAAS_ITEMS[0]; index: number })
         <XIcon />
       </div>
       <div>
-        <p className="font-bold text-lg sm:text-xl leading-tight" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.32)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)" }}>
+        <p className="font-heading font-bold text-lg sm:text-xl leading-tight" style={{ color: "rgba(255,255,255,0.32)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)" }}>
           {item.label}
         </p>
         <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.2)" }}>{item.desc}</p>
@@ -127,7 +146,7 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
         <CheckIcon />
       </div>
       <div>
-        <p className="font-bold text-lg sm:text-xl leading-tight" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.92)" }}>{item.label}</p>
+        <p className="font-heading font-bold text-lg sm:text-xl leading-tight" style={{ color: "rgba(255,255,255,0.92)" }}>{item.label}</p>
         <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{item.desc}</p>
       </div>
     </motion.div>
@@ -139,31 +158,35 @@ export default function MethodSection() {
   const titleRef = useRef(null);
   const titleInView = useInView(titleRef, { once: true, margin: isMobile ? "0px" : "-60px" });
   const cardsRef = useRef(null);
-  const cardsInView = useInView(cardsRef, { once: true, margin: isMobile ? "-20px" : "-80px" });
+  const cardsInView = useInView(cardsRef, { once: true, margin: isMobile ? "-20px" : "-60px" });
 
   const slideX  = isMobile ? 22 : 50;
   const tiltDeg = isMobile ? 0  : 1.5;
 
   return (
     <section id="method" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-      <style>{`@import url('${FONT_URL}');`}</style>
+
+      <FontLoader />
+
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{ position: "absolute", top: "5%", left: "55%", transform: "translateX(-20%)", width: "700px", height: "700px", background: "radial-gradient(ellipse, hsl(var(--primary)/0.07) 0%, transparent 65%)", filter: "blur(90px)" }} />
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.06) 70%, transparent)" }} />
       </div>
 
       <div className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12">
+
         <div ref={titleRef} className="mb-16 sm:mb-20">
+
           <LineReveal inView={titleInView} delay={0}>
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px w-8" style={{ background: "hsl(var(--primary)/0.7)" }} />
-              <span style={{ fontSize: "0.58rem", letterSpacing: "0.45em", textTransform: "uppercase", fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.65)" }}>
+              <span className="font-heading text-[0.6rem] uppercase tracking-[0.45em]" style={{ color: "hsl(var(--primary)/0.65)" }}>
                 O Modelo
               </span>
             </div>
           </LineReveal>
 
-          <div style={{ fontFamily: HEADING_FONT, fontWeight: 700, lineHeight: 0.9, letterSpacing: "0.01em", fontSize: "clamp(4.5rem, 13vw, 11rem)" }}>
+          <div className="font-heading font-bold leading-[0.9] tracking-tight" style={{ fontSize: "clamp(4.5rem, 13vw, 11rem)" }}>
             <LineReveal inView={titleInView} delay={0.08}>
               <span style={{ color: "rgba(255,255,255,0.95)" }}>
                 SAAS É{" "}
@@ -173,10 +196,11 @@ export default function MethodSection() {
                   textDecorationThickness: "4px",
                   textDecorationColor: "rgba(255,255,255,0.15)",
                 }}>
-                  aluguel
+                  ALUGUEL
                 </span>
               </span>
             </LineReveal>
+
             <LineReveal inView={titleInView} delay={0.18}>
               <span style={{ display: "block" }}>
                 <motion.span
@@ -191,6 +215,7 @@ export default function MethodSection() {
               </span>
             </LineReveal>
           </div>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
@@ -202,7 +227,9 @@ export default function MethodSection() {
             O modelo SWAS entrega código próprio — um ativo digital que cresce com o seu negócio.
           </motion.p>
         </div>
+
         <div ref={cardsRef} className="grid grid-cols-1 lg:grid-cols-[1fr_56px_1fr] gap-4 lg:gap-0 items-stretch">
+
           <motion.div
             initial={{ opacity: 0, x: -slideX, rotate: -tiltDeg, scale: 0.96 }}
             animate={cardsInView ? { opacity: 1, x: 0, rotate: 0, scale: 1 } : {}}
@@ -211,33 +238,33 @@ export default function MethodSection() {
           >
             <div style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "1rem", padding: "1.75rem 2.25rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               <div>
-                <h3 style={{ fontFamily: HEADING_FONT, fontWeight: 700, fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1, color: "rgba(255,255,255,0.22)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)", textDecorationThickness: "2px" }}>
+                <h3 className="font-heading font-bold leading-none" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", color: "rgba(255,255,255,0.22)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)", textDecorationThickness: "2px" }}>
                   SAAS
                 </h3>
-                <p className="text-sm mt-1 tracking-widest uppercase" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.14)" }}>
+                <p className="font-heading mt-1 text-sm uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.14)" }}>
                   Plataforma Compartilhada · Assinatura
                 </p>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1rem", borderRadius: "0.75rem", background: "rgba(255,50,50,0.05)", border: "1px solid rgba(255,50,50,0.12)" }}>
-                <div>
-                  <p className="text-[10px] tracking-wider uppercase" style={{ fontFamily: HEADING_FONT, color: "rgba(255,80,80,0.45)" }}>Custo real</p>
-                  <p style={{ fontFamily: HEADING_FONT, fontWeight: 700, fontSize: "1.875rem", color: "rgba(255,70,70,0.38)" }}>
-                    ∞ <span style={{ fontSize: "1rem", fontWeight: 400 }}>/mês para sempre</span>
-                  </p>
-                </div>
+              <div style={{ padding: "0.75rem 1rem", borderRadius: "0.75rem", background: "rgba(255,50,50,0.05)", border: "1px solid rgba(255,50,50,0.12)" }}>
+                <p className="font-heading text-[10px] uppercase tracking-wider" style={{ color: "rgba(255,80,80,0.45)" }}>Custo real</p>
+                <p className="font-heading text-3xl font-bold" style={{ color: "rgba(255,70,70,0.38)" }}>
+                  ∞ <span className="text-base font-normal">/mês para sempre</span>
+                </p>
               </div>
               <div className="flex flex-col">
                 {SAAS_ITEMS.map((item, i) => <SaasRow key={i} item={item} index={i} />)}
               </div>
             </div>
           </motion.div>
+
           <div className="hidden lg:flex flex-col items-center justify-center gap-3">
             <div className="w-px flex-1" style={{ background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.07) 40%, rgba(255,255,255,0.07) 60%, transparent)" }} />
             <motion.div
               initial={{ opacity: 0, scale: 0.2 }}
               animate={cardsInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.45, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              style={{ willChange: "transform, opacity", color: "rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "9999px", width: "2.25rem", height: "2.25rem", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: HEADING_FONT, fontWeight: 700, fontSize: "0.875rem" }}
+              style={{ willChange: "transform, opacity", color: "rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "9999px", width: "2.25rem", height: "2.25rem", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+              className="font-heading text-sm font-bold"
             >
               vs
             </motion.div>
@@ -256,21 +283,19 @@ export default function MethodSection() {
               <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", background: "radial-gradient(ellipse at 90% 0%, hsl(var(--primary)/0.16) 0%, hsl(var(--primary)/0.04) 45%, transparent 70%)" }} />
 
               <div style={{ position: "relative", zIndex: 1 }}>
-                <h3 style={{ fontFamily: HEADING_FONT, fontWeight: 700, fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1, color: "hsl(var(--primary))", textShadow: "0 0 28px hsl(var(--primary)/0.45)" }}>
+                <h3 className="font-heading font-bold leading-none" style={{ fontSize: "clamp(2rem, 4vw, 3rem)", color: "hsl(var(--primary))", textShadow: "0 0 28px hsl(var(--primary)/0.45)" }}>
                   SWAS
                 </h3>
-                <p className="text-sm mt-1 tracking-widest uppercase" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.5)" }}>
+                <p className="font-heading mt-1 text-sm uppercase tracking-widest" style={{ color: "hsl(var(--primary)/0.5)" }}>
                   Sistema Proprietário · Sob Medida
                 </p>
               </div>
 
-              <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem 1rem", borderRadius: "0.75rem", background: "hsl(var(--primary)/0.08)", border: "1px solid hsl(var(--primary)/0.22)" }}>
-                <div>
-                  <p className="text-[10px] tracking-wider uppercase" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.65)" }}>Modelo</p>
-                  <p style={{ fontFamily: HEADING_FONT, fontWeight: 700, fontSize: "1.875rem", color: "hsl(var(--primary))" }}>
-                    1× <span style={{ fontSize: "1rem", fontWeight: 400, color: "hsl(var(--primary)/0.65)" }}>investimento único</span>
-                  </p>
-                </div>
+              <div style={{ position: "relative", zIndex: 1, padding: "0.75rem 1rem", borderRadius: "0.75rem", background: "hsl(var(--primary)/0.08)", border: "1px solid hsl(var(--primary)/0.22)" }}>
+                <p className="font-heading text-[10px] uppercase tracking-wider" style={{ color: "hsl(var(--primary)/0.65)" }}>Modelo</p>
+                <p className="font-heading text-3xl font-bold" style={{ color: "hsl(var(--primary))" }}>
+                  1× <span className="text-base font-normal" style={{ color: "hsl(var(--primary)/0.65)" }}>investimento único</span>
+                </p>
               </div>
 
               <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column" }}>
@@ -278,7 +303,7 @@ export default function MethodSection() {
               </div>
 
               <div style={{ position: "relative", zIndex: 1, paddingTop: "1.25rem", marginTop: "auto", borderTop: "1px solid hsl(var(--primary)/0.14)" }}>
-                <p style={{ fontFamily: HEADING_FONT, fontWeight: 700, textAlign: "center", letterSpacing: "0.05em", fontSize: "clamp(1.1rem, 2.2vw, 1.4rem)", color: "hsl(var(--primary))", textShadow: "0 0 20px hsl(var(--primary)/0.4)" }}>
+                <p className="font-heading text-center font-bold tracking-wider" style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.4rem)", color: "hsl(var(--primary))", textShadow: "0 0 20px hsl(var(--primary)/0.4)" }}>
                   AUTONOMIA TOTAL. SEMPRE.
                 </p>
               </div>
