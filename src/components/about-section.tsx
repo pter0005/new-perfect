@@ -5,11 +5,14 @@ import { motion, useInView } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
 const NewLogo3D = dynamic(() => import("@/components/new-logo-3d"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center">
-      <span className="font-heading text-5xl tracking-widest animate-pulse" style={{ color: "hsl(var(--primary)/0.3)" }}>
+      <span className="text-5xl tracking-widest animate-pulse" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.3)" }}>
         NEW
       </span>
     </div>
@@ -103,12 +106,14 @@ function Card({ card, index, inView, isMobile }: {
         }} />
         <div className="flex flex-col gap-4 p-6 sm:p-7 flex-1 relative z-10">
           <div className="flex items-center justify-between">
-            <span className="font-heading text-[2.5rem] font-bold leading-none" style={{
+            <span className="text-[2.5rem] font-bold leading-none" style={{
+              fontFamily: HEADING_FONT,
               color: card.accent ? "hsl(var(--primary)/0.5)" : "rgba(255,255,255,0.09)",
             }}>
               {card.number}
             </span>
-            <span className="text-[10px] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full font-heading" style={{
+            <span className="text-[10px] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full" style={{
+              fontFamily: HEADING_FONT,
               color: card.accent ? "hsl(var(--primary)/0.9)" : "rgba(255,255,255,0.45)",
               background: card.accent ? "hsl(var(--primary)/0.1)" : "rgba(255,255,255,0.05)",
               border: card.accent ? "1px solid hsl(var(--primary)/0.28)" : "1px solid rgba(255,255,255,0.08)",
@@ -116,7 +121,8 @@ function Card({ card, index, inView, isMobile }: {
               {card.tag}
             </span>
           </div>
-          <h3 className="font-heading font-bold text-2xl sm:text-3xl leading-tight" style={{
+          <h3 className="font-bold text-2xl sm:text-3xl leading-tight" style={{
+            fontFamily: HEADING_FONT,
             color: card.accent ? "hsl(var(--primary))" : "rgba(255,255,255,0.92)",
           }}>
             {card.title}
@@ -157,7 +163,8 @@ function StatItem({ stat, index, inView }: { stat: typeof STATS[0]; index: numbe
         alignItems: "center",
         gap: "0.375rem",
       }}>
-        <span className="font-heading font-bold text-4xl sm:text-5xl leading-none" style={{
+        <span className="font-bold text-4xl sm:text-5xl leading-none" style={{
+          fontFamily: HEADING_FONT,
           color: "hsl(var(--primary))",
           textShadow: "0 0 18px hsl(var(--primary)/0.4)",
         }}>
@@ -191,7 +198,7 @@ export default function AboutSection() {
 
   return (
     <section id="about" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-
+      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
@@ -232,8 +239,8 @@ export default function AboutSection() {
               initial={{ opacity: 0 }}
               animate={logoInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.9, duration: 0.5 }}
-              className="mt-4 text-center font-heading tracking-[0.2em] uppercase text-[13px]"
-              style={{ color: "rgba(255,255,255,0.22)" }}
+              className="mt-4 text-center tracking-[0.2em] uppercase text-[13px]"
+              style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.22)" }}
             >
               ↔ ARRASTE PARA GIRAR
             </motion.p>
@@ -246,7 +253,7 @@ export default function AboutSection() {
             <LineReveal inView={headingInView} delay={0}>
               <div className="flex items-center gap-3">
                 <div className="h-px w-8" style={{ background: "hsl(var(--primary)/0.7)" }} />
-                <span className="text-[9px] tracking-[0.45em] uppercase font-heading" style={{ color: "hsl(var(--primary)/0.65)" }}>
+                <span className="text-[9px] tracking-[0.45em] uppercase" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.65)" }}>
                   Sobre a Agência
                 </span>
               </div>
@@ -254,7 +261,7 @@ export default function AboutSection() {
 
             {/* H2 — cada linha um clip separado */}
             <div>
-              <div className="font-heading font-bold tracking-tight leading-[0.93]" style={{ fontSize: "clamp(2.8rem, 7vw, 5.2rem)" }}>
+              <div className="font-bold tracking-tight leading-[0.93]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.8rem, 7vw, 5.2rem)" }}>
                 <LineReveal inView={headingInView} delay={0.06}>
                   <span style={{ color: "rgba(255,255,255,0.97)" }}>NASCEMOS PARA</span>
                 </LineReveal>
@@ -284,7 +291,8 @@ export default function AboutSection() {
               transition={{ duration: 0.65, delay: 0.36, ease: [0.22, 1, 0.36, 1] }}
               style={{ borderLeft: "2px solid hsl(var(--primary)/0.55)", paddingLeft: "1rem", willChange: "transform, opacity" }}
             >
-              <p className="font-heading font-bold italic text-lg sm:text-xl" style={{
+              <p className="font-bold italic text-lg sm:text-xl" style={{
+                fontFamily: HEADING_FONT,
                 color: "hsl(var(--primary)/0.85)",
                 textShadow: "0 0 16px hsl(var(--primary)/0.2)",
               }}>
@@ -303,7 +311,7 @@ export default function AboutSection() {
                   style={{ willChange: "transform, opacity" }}
                   className="flex flex-col gap-0.5"
                 >
-                  <span className="font-heading font-bold text-3xl sm:text-4xl leading-none" style={{ color: "hsl(var(--primary))" }}>
+                  <span className="font-bold text-3xl sm:text-4xl leading-none" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary))" }}>
                     {v}
                   </span>
                   <span className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.35)" }}>

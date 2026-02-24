@@ -5,6 +5,9 @@ import { motion, useInView } from "framer-motion";
 import { ClipboardList, LayoutTemplate, CheckCircle2, Code2, ShieldCheck, Rocket, LifeBuoy } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
 const STEPS = [
   { icon: ClipboardList, title: "Briefing",       desc: "Entendemos suas necessidades, objetivos e contexto de negócio.",          color: "hsl(var(--primary))" },
   { icon: LayoutTemplate, title: "Protótipo",     desc: "Criamos um design visual e funcional para validar o caminho.",             color: "hsl(var(--primary))" },
@@ -75,8 +78,8 @@ function StepCard({ step, index, inView, isMobile }: {
             <Icon className="w-5 h-5" style={{ color: "hsl(var(--primary))" }} strokeWidth={1.8} />
           </div>
           <span
-            className="font-heading font-bold text-[2rem] leading-none select-none"
-            style={{ color: "rgba(255,255,255,0.06)" }}
+            className="font-bold text-[2rem] leading-none select-none"
+            style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.06)" }}
           >
             {String(index + 1).padStart(2, "0")}
           </span>
@@ -85,8 +88,8 @@ function StepCard({ step, index, inView, isMobile }: {
         {/* Text */}
         <div className="flex flex-col gap-1.5 flex-1 relative z-10">
           <h3
-            className="font-heading font-bold text-lg sm:text-xl leading-tight group-hover:text-white transition-colors duration-300"
-            style={{ color: "rgba(255,255,255,0.88)" }}
+            className="font-bold text-lg sm:text-xl leading-tight group-hover:text-white transition-colors duration-300"
+            style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.88)" }}
           >
             {step.title}
           </h3>
@@ -119,7 +122,7 @@ export default function WorkProcessSection() {
 
   return (
     <section id="work-process" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-
+      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
@@ -141,14 +144,14 @@ export default function WorkProcessSection() {
           <LineReveal inView={titleInView} delay={0}>
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px w-8" style={{ background: "hsl(var(--primary)/0.7)" }} />
-              <span className="text-[9px] tracking-[0.45em] uppercase font-heading" style={{ color: "hsl(var(--primary)/0.65)" }}>
+              <span className="text-[9px] tracking-[0.45em] uppercase" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.65)" }}>
                 Como Trabalhamos
               </span>
             </div>
           </LineReveal>
 
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-            <div className="font-heading font-bold tracking-tight leading-[0.92]" style={{ fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
+            <div className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
               <LineReveal inView={titleInView} delay={0.08}>
                 <span style={{ color: "rgba(255,255,255,0.97)" }}>DO BRIEFING</span>
               </LineReveal>

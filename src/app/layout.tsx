@@ -1,17 +1,11 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import { Oswald, Lexend, Space_Grotesk } from 'next/font/google';
+import { Lexend, Space_Grotesk } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 
 const lexend = Lexend({ subsets: ['latin'], variable: '--font-lexend' });
 const space_grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' });
-const oswald = Oswald({ 
-  subsets: ['latin', 'latin-ext'], 
-  weight: ['400', '700'],
-  variable: '--font-oswald' 
-});
-
 
 export const metadata: Metadata = {
   title: 'NEW - Soluções Digitais',
@@ -25,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={`${lexend.variable} ${space_grotesk.variable} ${oswald.variable} font-sans antialiased`}>
+      <body className={`${lexend.variable} ${space_grotesk.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

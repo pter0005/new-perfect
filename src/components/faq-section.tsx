@@ -5,6 +5,9 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
 const FAQS = [
   {
     q: "O site será realmente meu?",
@@ -67,12 +70,12 @@ function FaqItem({ item, index, inView }: { item: typeof FAQS[0]; index: number;
           style={{ cursor: "pointer", background: "transparent", border: "none", outline: "none" }}
         >
           <div className="flex items-center gap-4">
-            <span className="font-heading font-bold text-[1.1rem] select-none flex-shrink-0"
-              style={{ color: open ? "hsl(var(--primary)/0.7)" : "rgba(255,255,255,0.1)" }}>
+            <span className="font-bold text-[1.1rem] select-none flex-shrink-0"
+              style={{ fontFamily: HEADING_FONT, color: open ? "hsl(var(--primary)/0.7)" : "rgba(255,255,255,0.1)" }}>
               {String(index + 1).padStart(2, "0")}
             </span>
-            <span className="font-heading font-bold text-base sm:text-lg leading-snug"
-              style={{ color: open ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.75)" }}>
+            <span className="font-bold text-base sm:text-lg leading-snug"
+              style={{ fontFamily: HEADING_FONT, color: open ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.75)" }}>
               {item.q}
             </span>
           </div>
@@ -121,7 +124,7 @@ export default function FaqSection() {
 
   return (
     <section id="faq" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-
+      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
@@ -143,13 +146,13 @@ export default function FaqSection() {
           <LineReveal inView={titleInView} delay={0}>
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px w-8" style={{ background: "hsl(var(--primary)/0.7)" }} />
-              <span className="text-[9px] tracking-[0.45em] uppercase font-heading" style={{ color: "hsl(var(--primary)/0.65)" }}>
+              <span className="text-[9px] tracking-[0.45em] uppercase" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.65)" }}>
                 Dúvidas Frequentes
               </span>
             </div>
           </LineReveal>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
-            <div className="font-heading font-bold tracking-tight leading-[0.92]" style={{ fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
+            <div className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
               <LineReveal inView={titleInView} delay={0.08}>
                 <span style={{ color: "rgba(255,255,255,0.97)" }}>SUAS DÚVIDAS,</span>
               </LineReveal>

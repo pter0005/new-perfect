@@ -5,6 +5,9 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import { Instagram, MessageCircle } from "lucide-react";
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
 const NAV_LINKS = [
   { label: "Home",       href: "#home" },
   { label: "Sobre",      href: "#about" },
@@ -22,7 +25,7 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden" style={{ background: "rgba(0,0,0,0.6)", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-
+      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient glow */}
       <div aria-hidden style={{
         position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
@@ -44,13 +47,13 @@ export default function Footer() {
             style={{ willChange: "transform, opacity" }}
           >
             <div className="flex items-center gap-2 mb-2">
-              <span className="font-heading font-bold text-3xl tracking-tight" style={{ color: "rgba(255,255,255,0.97)" }}>N</span>
+              <span className="font-bold text-3xl tracking-tight" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.97)" }}>N</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "3px", margin: "0 2px" }}>
                 {[0, 1, 2].map(i => (
                   <div key={i} style={{ width: "5px", height: "2px", background: "hsl(var(--primary))", borderRadius: "9999px", boxShadow: "0 0 6px hsl(var(--primary)/0.8)" }} />
                 ))}
               </div>
-              <span className="font-heading font-bold text-3xl tracking-tight" style={{ color: "rgba(255,255,255,0.97)" }}>W</span>
+              <span className="font-bold text-3xl tracking-tight" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.97)" }}>W</span>
             </div>
             <p className="text-sm" style={{ color: "rgba(255,255,255,0.28)", letterSpacing: "0.05em" }}>
               Construindo o futuro digital.
@@ -104,8 +107,8 @@ export default function Footer() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-heading transition-colors duration-200 hover:text-white"
-              style={{ color: "rgba(255,255,255,0.3)", textDecoration: "none" }}
+              className="text-sm transition-colors duration-200 hover:text-white"
+              style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.3)", textDecoration: "none" }}
             >
               {link.label}
             </Link>

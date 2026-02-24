@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
 // ── Cookie helpers ────────────────────────────────────────────
 const COOKIE_KEY = "new_loaded";
 const COOKIE_DAYS = 1; // mostra a cada 1 dia
@@ -78,6 +81,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
             overflow: "hidden",
           }}
         >
+          <style>{`@import url('${FONT_URL}');`}</style>
           {/* Glow de fundo */}
           <div style={{
             position: "absolute",
@@ -112,7 +116,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 style={{
-                  fontFamily: "var(--font-heading, 'Bebas Neue', sans-serif)",
+                  fontFamily: HEADING_FONT,
                   fontSize: "clamp(5rem, 18vw, 9rem)",
                   fontWeight: 700,
                   lineHeight: 1,
@@ -140,7 +144,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
             style={{
-              fontFamily: "var(--font-heading, 'Bebas Neue', sans-serif)",
+              fontFamily: HEADING_FONT,
               fontSize: "clamp(0.65rem, 1.8vw, 0.85rem)",
               letterSpacing: "0.45em",
               color: "rgba(255,255,255,0.25)",

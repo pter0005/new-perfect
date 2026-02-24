@@ -7,6 +7,9 @@ import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
     <div style={{ overflow: "hidden" }}>
@@ -42,7 +45,7 @@ const labelStyle: React.CSSProperties = {
   letterSpacing: "0.12em",
   textTransform: "uppercase",
   color: "rgba(255,255,255,0.38)",
-  fontFamily: "var(--font-heading, inherit)",
+  fontFamily: HEADING_FONT,
   fontWeight: 600,
 };
 
@@ -109,7 +112,7 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-
+      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
@@ -131,12 +134,12 @@ export default function ContactSection() {
           <LineReveal inView={titleInView} delay={0}>
             <div className="flex items-center gap-3 mb-5">
               <div className="h-px w-8" style={{ background: "hsl(var(--primary)/0.7)" }} />
-              <span className="text-[9px] tracking-[0.45em] uppercase font-heading" style={{ color: "hsl(var(--primary)/0.65)" }}>
+              <span className="text-[9px] tracking-[0.45em] uppercase" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.65)" }}>
                 Fale com a NEW
               </span>
             </div>
           </LineReveal>
-          <div className="font-heading font-bold tracking-tight leading-[0.92]" style={{ fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
+          <div className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
             <LineReveal inView={titleInView} delay={0.08}>
               <span style={{ color: "rgba(255,255,255,0.97)" }}>VAMOS CONSTRUIR</span>
             </LineReveal>
@@ -210,7 +213,7 @@ export default function ContactSection() {
                     border: "none",
                     background: "hsl(var(--primary))",
                     color: "#000",
-                    fontFamily: "var(--font-heading, inherit)",
+                    fontFamily: HEADING_FONT,
                     fontWeight: 700,
                     fontSize: "1rem",
                     letterSpacing: "0.05em",
@@ -256,7 +259,7 @@ export default function ContactSection() {
                 <MessageCircle className="w-6 h-6" style={{ color: "#25D366" }} strokeWidth={1.8} />
               </div>
               <div>
-                <p className="font-heading font-bold text-base" style={{ color: "rgba(255,255,255,0.9)" }}>WhatsApp</p>
+                <p className="font-bold text-base" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.9)" }}>WhatsApp</p>
                 <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>Resposta rápida garantida</p>
               </div>
               <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "#25D366" }}>
@@ -281,7 +284,7 @@ export default function ContactSection() {
                 <Instagram className="w-6 h-6" style={{ color: "hsl(var(--primary))" }} strokeWidth={1.8} />
               </div>
               <div>
-                <p className="font-heading font-bold text-base" style={{ color: "rgba(255,255,255,0.9)" }}>Instagram</p>
+                <p className="font-bold text-base" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.9)" }}>Instagram</p>
                 <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>@new.c0de</p>
               </div>
               <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "hsl(var(--primary))" }}>
@@ -291,7 +294,7 @@ export default function ContactSection() {
 
             {/* Promessa */}
             <div className="mt-2 p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-              <p className="font-heading font-bold text-sm mb-3" style={{ color: "rgba(255,255,255,0.5)", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+              <p className="font-bold text-sm mb-3" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.5)", letterSpacing: "0.15em", textTransform: "uppercase" }}>
                 Nossa Promessa
               </p>
               {[

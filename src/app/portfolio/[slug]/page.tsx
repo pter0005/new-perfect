@@ -8,6 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, ArrowUpRight, ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
+
 type Props = {
   params: { slug: string };
 };
@@ -42,6 +46,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background galaxy-background">
+       <style>{`@import url('${FONT_URL}');`}</style>
       <header className="sticky top-0 z-50 glassmorphism">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-16">
@@ -49,7 +54,7 @@ export default function ProjectDetailPage({ params }: Props) {
                       <ArrowLeft className="h-4 w-4 mr-2 transition-transform group-hover:-translate-x-1" />
                       Voltar ao Portfólio
                   </Link>
-                  <div className="flex items-center text-primary drop-shadow-[0_0_8px_hsl(var(--primary)_/_0.5)] font-bold text-xl">
+                  <div className="flex items-center text-primary drop-shadow-[0_0_8px_hsl(var(--primary)_/_0.5)] font-bold text-xl" style={{fontFamily: HEADING_FONT}}>
                       <span>N</span>
                       <div className="flex flex-col items-center justify-center mx-1 space-y-1.5 h-[1em]">
                           <div className="w-[0.4em] h-[0.25em] bg-primary rounded-full"></div>
@@ -65,7 +70,7 @@ export default function ProjectDetailPage({ params }: Props) {
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl sm:text-5xl font-bold text-primary drop-shadow-[0_0_8px_hsl(var(--primary)_/_0.5)]">{project.name}</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold text-primary drop-shadow-[0_0_8px_hsl(var(--primary)_/_0.5)]" style={{fontFamily: HEADING_FONT}}>{project.name}</h1>
             <p className="mt-2 text-lg sm:text-xl text-foreground/80">{project.type}</p>
           </div>
 
@@ -83,7 +88,7 @@ export default function ProjectDetailPage({ params }: Props) {
             <div className="md:col-span-2 space-y-8">
               {project.details.map((detail, index) => (
                 <div key={index}>
-                  <h2 className="text-2xl font-bold text-foreground mb-4 border-l-4 border-primary pl-4">{detail.title}</h2>
+                  <h2 className="text-2xl font-bold text-foreground mb-4 border-l-4 border-primary pl-4" style={{fontFamily: HEADING_FONT}}>{detail.title}</h2>
                   <ul className="list-disc list-inside space-y-2 text-base text-foreground/80">
                     {detail.points.map((point, pIndex) => (
                       <li key={pIndex}>{point}</li>
@@ -95,7 +100,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
             <aside className="space-y-8">
               <div>
-                <h3 className="text-xl font-bold text-foreground mb-4">Tecnologias</h3>
+                <h3 className="text-xl font-bold text-foreground mb-4" style={{fontFamily: HEADING_FONT}}>Tecnologias</h3>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech) => (
                     <Badge key={tech} variant="secondary" className="border-primary/50 text-sm">
@@ -126,7 +131,7 @@ export default function ProjectDetailPage({ params }: Props) {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-foreground/70">
             <div className="flex items-center justify-center text-sm">
               <span>© 2025</span>
-              <div className="flex items-center text-primary drop-shadow-[0_0_8px_hsl(var(--primary)_/_0.5)] font-bold text-base mx-2">
+              <div className="flex items-center text-primary drop-shadow-[0_0_8px_hsl(var(--primary)_/_0.5)] font-bold text-base mx-2" style={{fontFamily: HEADING_FONT}}>
                 <span>N</span>
                 <div className="flex flex-col items-center justify-center mx-1 space-y-1 h-[1em]">
                   <div className="w-[0.4em] h-[0.2em] bg-primary rounded-full"></div>

@@ -7,6 +7,9 @@ import Link from "next/link";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
+const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
+const HEADING_FONT = "'Barlow Condensed', sans-serif";
+
 const C: Record<string, string> = {
   kw: "hsl(var(--primary))", id: "rgba(255,255,255,0.75)",
   str: "#86efac", tag: "#7dd3fc", at: "#fbbf24",
@@ -259,6 +262,7 @@ export default function HeroSection() {
 
   return (
     <section ref={sectionRef} id="home" className="relative w-full" style={{ height: "200vh" }}>
+      <style>{`@import url('${FONT_URL}');`}</style>
       <motion.div
         style={{ opacity: heroOpacity, willChange: "opacity" }}
         className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center"
@@ -286,9 +290,9 @@ export default function HeroSection() {
 
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
           <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
-            <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
+            <h1 className="font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" style={{fontFamily: HEADING_FONT}}>
               <span className="block text-white/90">com a NEW</span>
-              <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
+              <EmberCoreText className="font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" style={{fontFamily: HEADING_FONT}} />
             </h1>
           </motion.div>
 
@@ -306,7 +310,6 @@ export default function HeroSection() {
             <HoverBorderGradient
               as={Link} href="#contact" containerClassName="rounded-md w-full sm:w-auto"
               className="bg-primary text-primary-foreground font-bold px-10 py-4 w-full sm:w-auto text-center text-base sm:text-lg tracking-wide"
-              style={{ boxShadow: "0 0 28px hsl(var(--primary)/0.55), 0 0 60px hsl(var(--primary)/0.25)" }}
             >
               <span>Fale com a NEW</span>
             </HoverBorderGradient>
@@ -323,7 +326,7 @@ export default function HeroSection() {
           style={{ opacity: hintOpacity }}
           className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         >
-          <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em] font-heading">SCROLL</span>
+          <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em]" style={{fontFamily: HEADING_FONT}}>SCROLL</span>
           <motion.div
             animate={isMobile ? {} : { y: [0, 8, 0] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
@@ -334,5 +337,3 @@ export default function HeroSection() {
     </section>
   );
 }
-
-    
