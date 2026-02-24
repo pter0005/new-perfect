@@ -5,9 +5,6 @@ import { motion, useInView, AnimatePresence, PanInfo } from "framer-motion";
 import Link from "next/link";
 import { projects } from "@/lib/projects";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
-
 type Project = typeof projects[number];
 
 // ── Dot indicator ──
@@ -137,7 +134,7 @@ function Card({
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>
                 <span style={{
-                  fontFamily: HEADING_FONT,
+                  fontFamily: "var(--font-heading), sans-serif",
                   fontSize: "4rem", letterSpacing: "0.1em",
                   color: "hsl(var(--primary)/0.25)",
                 }}>NEW</span>
@@ -154,7 +151,7 @@ function Card({
             {/* Número do card */}
             <span style={{
               position: "absolute", top: "14px", left: "16px",
-              fontFamily: HEADING_FONT,
+              fontFamily: "var(--font-heading), sans-serif",
               fontSize: "0.65rem", letterSpacing: "0.25em",
               color: "rgba(255,255,255,0.5)",
               background: "rgba(0,0,0,0.35)",
@@ -171,7 +168,7 @@ function Card({
             {project.type && (
               <span style={{
                 display: "inline-block",
-                fontFamily: HEADING_FONT,
+                fontFamily: "var(--font-heading), sans-serif",
                 fontSize: "0.6rem", letterSpacing: "0.2em",
                 color: "hsl(var(--primary)/0.75)",
                 marginBottom: "0.4rem",
@@ -182,8 +179,8 @@ function Card({
             )}
 
             <h3
+              className="font-heading"
               style={{
-                fontFamily: HEADING_FONT,
                 fontSize: "1.35rem",
                 fontWeight: 700,
                 color: "rgba(255,255,255,0.95)",
@@ -221,15 +218,13 @@ function Card({
                 borderTop: "1px solid rgba(255,255,255,0.07)",
               }}>
                 <span style={{
-                  fontFamily: HEADING_FONT,
+                  fontFamily: "var(--font-heading), sans-serif",
                   fontSize: "0.65rem", letterSpacing: "0.2em",
                   color: "rgba(255,255,255,0.3)",
                 }}>ARRASTE PARA NAVEGAR</span>
-                <Link
-                  href={`/portfolio/${project.slug}`}
-                  onClick={(e) => e.stopPropagation()}
+                <span
                   style={{
-                    fontFamily: HEADING_FONT,
+                    fontFamily: "var(--font-heading), sans-serif",
                     fontSize: "0.7rem", letterSpacing: "0.15em",
                     color: "hsl(var(--primary))",
                     textDecoration: "none",
@@ -239,7 +234,7 @@ function Card({
                   }}
                 >
                   VER →
-                </Link>
+                </span>
               </div>
             )}
           </div>
@@ -300,7 +295,7 @@ export default function PortfolioSection() {
 
   return (
     <section id="portfolio" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-      <style>{`@import url('${FONT_URL}');`}</style>
+
       {/* Ambient sutil */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
         <div style={{
@@ -326,8 +321,7 @@ export default function PortfolioSection() {
             className="flex items-center gap-3 mb-5"
           >
             <div style={{ height: "1px", width: "2rem", background: "hsl(var(--primary)/0.7)" }} />
-            <span style={{
-              fontFamily: HEADING_FONT,
+            <span className="font-heading" style={{
               fontSize: "0.6rem", letterSpacing: "0.45em",
               color: "hsl(var(--primary)/0.65)", textTransform: "uppercase",
             }}>Portfólio</span>
@@ -338,8 +332,8 @@ export default function PortfolioSection() {
               initial={{ y: "105%", opacity: 0 }}
               animate={titleInView ? { y: "0%", opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
-              className="font-bold leading-[0.88] tracking-tight"
-              style={{ fontFamily: HEADING_FONT, fontSize: "clamp(3rem, 8vw, 7rem)" }}
+              className="font-heading font-bold leading-[0.88] tracking-tight"
+              style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}
             >
               <span style={{ color: "rgba(255,255,255,0.95)" }}>PROJETOS QUE JÁ</span>
               <br />
@@ -389,3 +383,5 @@ export default function PortfolioSection() {
     </section>
   );
 }
+
+    
