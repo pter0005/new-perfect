@@ -96,13 +96,16 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
   );
 }
 
-// Bebas Neue não tem acentos (É, Ô, etc.)
-// Impact é condensed+bold e suporta Latin Extended — visualmente compatível
+// Bebas Neue NÃO tem É, Ô — se vier primeiro na lista o browser encontra a
+// fonte, falha silenciosamente e NÃO cai pro fallback. Solução: remover
+// Bebas Neue do Accent e usar direto Impact (condensed, bold, tem Latin Extended)
 function Accent({ char }: { char: string }) {
   return (
     <span style={{
-      fontFamily: "var(--font-bebas-neue), Impact, 'Arial Narrow Bold', 'Arial Narrow', Arial, sans-serif",
-      fontWeight: "inherit",
+      fontFamily: "Impact, 'Arial Narrow Bold', 'Arial Black', 'Arial Narrow', Arial, sans-serif",
+      fontWeight: 900,
+      fontStretch: "condensed",
+      letterSpacing: "inherit",
     }}>
       {char}
     </span>
@@ -151,7 +154,9 @@ function PatrimonioAnimated({ inView }: { inView: boolean }) {
 // Clip reveal linha a linha
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
-    <div style={{ overflow: "hidden", display: "block" }}>
+    // paddingTop reserva espaço para diacríticos (É, Ô) que ficam acima da cap-height
+    // marginTop negativo compensa pra não alterar o espaçamento visual
+    <div style={{ overflow: "hidden", display: "block", paddingTop: "0.18em", marginTop: "-0.18em" }}>
       <motion.div
         initial={{ y: "110%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
