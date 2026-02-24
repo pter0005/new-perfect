@@ -147,35 +147,42 @@ export const projects = [
   {
     slug: "mycupid",
     name: "MyCupid",
-    type: "Plataforma Social de Relacionamentos",
+    type: "Plataforma para Criação de Páginas de Amor",
     image: "https://i.imgur.com/rkd8DR6.png",
-    hint: "dating app",
+    hint: "love page creator",
     link: "https://mycupid.com.br",
-    description: "Uma plataforma social para conectar pessoas com interesses em comum, utilizando IA para sugerir matches inteligentes e promover conversas autênticas.",
-    technologies: ["Next.js", "React", "Firebase", "Tailwind CSS", "Genkit"],
+    description: "Uma plataforma para criar 'páginas de amor' digitais e personalizadas. Uma evolução moderna da carta de amor, em formato de página web interativa, onde usuários adicionam fotos, textos, músicas e jogos, compartilhando um presente emocionante por link ou QR Code.",
+    technologies: ["Next.js", "React", "TypeScript", "Firebase", "Firestore", "Genkit", "Tailwind CSS", "ShadCN/UI", "Framer Motion", "React Three Fiber", "Mercado Pago", "PayPal"],
     details: [
         {
-            title: "Conexões Inteligentes com IA",
+            title: "Frontend: A Experiência do Usuário",
             points: [
-                "Algoritmo de matching que aprende com as preferências do usuário para sugerir perfis com alta compatibilidade.",
-                "Icebreakers gerados por IA para iniciar conversas de forma criativa e quebrar o gelo.",
-                "Análise de perfil para destacar interesses em comum e facilitar a conexão."
+                "Fundação (Next.js & React): Estrutura de rotas eficiente e carregamento rápido com Next.js, combinado com a criação de componentes reutilizáveis em React.",
+                "A 'Gramática' (TypeScript): Código mais seguro e robusto, evitando bugs comuns do JavaScript e garantindo a integridade do sistema.",
+                "Pintura e Acabamento (Tailwind CSS & ShadCN/UI): Estilização prática com Tailwind e componentes de alta qualidade do ShadCN/UI para um visual profissional e consistente.",
+                "O 'Uau!' (Framer Motion & React Three Fiber): Animações fluidas na interface com Framer Motion e elementos 3D imersivos, como a linha do tempo, criados com React Three Fiber."
             ]
         },
         {
-            title: "Experiência Segura e Intuitiva",
+            title: "Backend: A Inteligência por Trás da Magia",
             points: [
-                "Verificação de perfis para garantir a autenticidade dos usuários e um ambiente mais seguro.",
-                "Interface limpa e fácil de usar, focada na experiência do usuário em dispositivos móveis.",
-                "Controles de privacidade que permitem ao usuário decidir quem pode ver suas informações e entrar em contato."
+                "Arquitetura Serverless com Firebase: Plataforma robusta e escalável que elimina a necessidade de um servidor tradicional.",
+                "Firebase Authentication: Sistema de login seguro com suporte a e-mail/senha e contas Google.",
+                "Firestore: Banco de dados em tempo real para armazenar de forma organizada as 'LovePages', dados de usuários e rascunhos de pagamento.",
+                "Firebase Storage: Armazenamento seguro na nuvem para todas as fotos e áudios enviados pelos usuários.",
+                "Inteligência Artificial (Genkit): Utiliza IA para a busca inteligente de músicas no YouTube, enriquecendo a experiência da página.",
+                "Pagamentos (Mercado Pago & PayPal): Integração segura com gateways de pagamento líderes, sem armazenar dados sensíveis de cartão de crédito."
             ]
         },
         {
-            title: "Tecnologia de Ponta",
+            title: "O Fluxo da Criação à Entrega",
             points: [
-                "Construído com Next.js para uma performance rápida e fluida.",
-                "Banco de dados em tempo real com Firebase para chat e notificações instantâneas.",
-                "Uso de Genkit para integrar os modelos de IA da Google de forma escalável e eficiente."
+                "Criação Intuitiva: Um 'wizard' passo a passo guia o usuário na personalização da sua página de amor.",
+                "Salvamento Automático: Todas as alterações são salvas em um rascunho no Firestore, com mídias guardadas temporariamente no Storage.",
+                "Pagamento Seguro: O usuário é redirecionado para o ambiente seguro do Mercado Pago ou PayPal para finalizar a compra.",
+                "Confirmação via Webhook: Um sinal automático do gateway de pagamento notifica o sistema sobre a aprovação da compra.",
+                "Finalização Automatizada: O sistema converte o rascunho na 'LovePage' final, movendo os arquivos para um local permanente.",
+                "Entrega Imediata: A página se torna acessível por um link único e QR Code, pronta para ser compartilhada como surpresa."
             ]
         }
     ]
