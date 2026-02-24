@@ -12,7 +12,6 @@ import ContactSection from "@/components/contact-section";
 import Footer from "@/components/footer";
 import DockNav from "@/components/dock-nav";
 import ScrollAnimator from "@/components/scroll-animator";
-import TechLogos from "@/components/tech-logos";
 import LoadingScreen from "@/components/loading-screen";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
@@ -87,7 +86,6 @@ export default function Home() {
           <GridContinuation />
           
           <div className="relative z-[1]">
-            <TechLogos />
             <DockNav />
             <ScrollAnimator>
               <AboutSection />

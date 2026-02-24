@@ -31,12 +31,16 @@ function CheckIcon() {
   );
 }
 
-// Clip reveal linha a linha
-function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
+// ─────────────────────────────────────────────────────────
+// LINE REVEAL — clip de baixo pra cima.
+// paddingTop + marginTop negativo evitam cortar diacríticos
+// (É, Ô ficam acima da cap-height e seriam cortados pelo overflow hidden).
+// ─────────────────────────────────────────────────────────
+function LineReveal({ children, delay = 0, inView }: {
+  children: React.ReactNode; delay?: number; inView: boolean;
+}) {
   return (
-    // paddingTop reserva espaço para diacríticos (É, Ô) que ficam acima da cap-height
-    // marginTop negativo compensa pra não alterar o espaçamento visual
-    <div style={{ overflow: "hidden", display: "block", paddingTop: "0.18em", marginTop: "-0.18em" }}>
+    <div style={{ overflow: "hidden", display: "block", paddingTop: "0.22em", marginTop: "-0.22em" }}>
       <motion.div
         initial={{ y: "110%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
@@ -49,33 +53,49 @@ function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode
   );
 }
 
-// PATRIMÔNIO — laranja se revela da esquerda pra direita (clipPath)
+// ─────────────────────────────────────────────────────────
+// PATRIMÔNIO — laranja se revela da esquerda pra direita
+// O Accent no Ô garante que o til aparece corretamente
+// ─────────────────────────────────────────────────────────
 function PatrimonioAnimated({ inView }: { inView: boolean }) {
   const text = "PATRIMÔNIO.";
+
   return (
     <span style={{ position: "relative", display: "inline-block", lineHeight: "inherit" }}>
-      {/* Base cinza — reserva espaço e mostra versão apagada */}
+      {/* Camada cinza base — reserva o espaço */}
       <span
         aria-hidden
         style={{
-          display: "block", whiteSpace: "nowrap", userSelect: "none",
+          display: "block",
+          whiteSpace: "nowrap",
+          userSelect: "none",
           color: "rgba(255,255,255,0.12)",
-          fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit",
-          letterSpacing: "inherit", lineHeight: "inherit",
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          fontSize: "inherit",
+          letterSpacing: "inherit",
+          lineHeight: "inherit",
         }}
       >
         {text}
       </span>
-      {/* Overlay laranja que preenche da esquerda pra direita */}
+
+      {/* Camada laranja com clip reveal */}
       <motion.span
         initial={{ clipPath: "inset(0 100% 0 0)" }}
         animate={inView ? { clipPath: "inset(0 0% 0 0)" } : {}}
         transition={{ duration: 2.2, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
         style={{
-          position: "absolute", inset: 0, display: "block", whiteSpace: "nowrap",
+          position: "absolute",
+          inset: 0,
+          display: "block",
+          whiteSpace: "nowrap",
           color: "hsl(var(--primary))",
-          fontFamily: "inherit", fontWeight: "inherit", fontSize: "inherit",
-          letterSpacing: "inherit", lineHeight: "inherit",
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          fontSize: "inherit",
+          letterSpacing: "inherit",
+          lineHeight: "inherit",
           willChange: "clip-path",
         }}
       >
@@ -84,7 +104,6 @@ function PatrimonioAnimated({ inView }: { inView: boolean }) {
     </span>
   );
 }
-
 
 function SaasRow({ item, index }: { item: typeof SAAS_ITEMS[0]; index: number }) {
   const ref = useRef(null);
@@ -95,23 +114,33 @@ function SaasRow({ item, index }: { item: typeof SAAS_ITEMS[0]; index: number })
       initial={{ opacity: 0, x: -20 }}
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
-      style={{ willChange: "transform, opacity", display: "flex", alignItems: "flex-start", gap: "1rem", padding: "1rem 0", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+      style={{
+        willChange: "transform, opacity",
+        display: "flex", alignItems: "flex-start",
+        gap: "1rem", padding: "1rem 0",
+        borderBottom: "1px solid rgba(255,255,255,0.05)",
+      }}
       className="last-of-type:border-0"
     >
       <div style={{
         marginTop: "2px", width: "28px", height: "28px", flexShrink: 0,
-        display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "0.5rem",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        borderRadius: "0.5rem",
         background: "rgba(255,60,60,0.08)", border: "1px solid rgba(255,60,60,0.2)",
       }}>
         <XIcon />
       </div>
       <div>
         <p className="font-heading font-bold text-lg sm:text-xl leading-tight" style={{
-          color: "rgba(255,255,255,0.32)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)",
+          color: "rgba(255,255,255,0.32)",
+          textDecoration: "line-through",
+          textDecorationColor: "rgba(255,255,255,0.1)",
         }}>
           {item.label}
         </p>
-        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.2)" }}>{item.desc}</p>
+        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.2)" }}>
+          {item.desc}
+        </p>
       </div>
     </motion.div>
   );
@@ -127,14 +156,17 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
       animate={inView ? { opacity: 1, x: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.09, ease: [0.22, 1, 0.36, 1] }}
       style={{
-        willChange: "transform, opacity", display: "flex", alignItems: "flex-start",
-        gap: "1rem", padding: "1rem 0", borderBottom: "1px solid hsl(var(--primary)/0.08)",
+        willChange: "transform, opacity",
+        display: "flex", alignItems: "flex-start",
+        gap: "1rem", padding: "1rem 0",
+        borderBottom: "1px solid hsl(var(--primary)/0.08)",
       }}
       className="last-of-type:border-0"
     >
       <div style={{
         marginTop: "2px", width: "28px", height: "28px", flexShrink: 0,
-        display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "0.5rem",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        borderRadius: "0.5rem",
         background: "hsl(var(--primary)/0.12)", border: "1px solid hsl(var(--primary)/0.4)",
         boxShadow: "0 0 10px hsl(var(--primary)/0.12)",
       }}>
@@ -144,7 +176,9 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
         <p className="font-heading font-bold text-lg sm:text-xl leading-tight" style={{ color: "rgba(255,255,255,0.92)" }}>
           {item.label}
         </p>
-        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{item.desc}</p>
+        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+          {item.desc}
+        </p>
       </div>
     </motion.div>
   );
@@ -157,8 +191,8 @@ export default function MethodSection() {
   const cardsRef = useRef(null);
   const cardsInView = useInView(cardsRef, { once: true, margin: isMobile ? "-20px" : "-80px" });
 
-  const slideX = isMobile ? 22 : 50;
-  const tiltDeg = isMobile ? 0 : 1.5;
+  const slideX  = isMobile ? 22 : 50;
+  const tiltDeg = isMobile ? 0  : 1.5;
 
   return (
     <section id="method" className="relative py-20 sm:py-28 overflow-hidden bg-background">
@@ -179,7 +213,7 @@ export default function MethodSection() {
 
       <div className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12">
 
-        {/* ── Heading — clip reveal linha a linha ── */}
+        {/* ── Heading ── */}
         <div ref={titleRef} className="mb-16 sm:mb-20">
 
           {/* Eyebrow */}
@@ -193,7 +227,10 @@ export default function MethodSection() {
           </LineReveal>
 
           {/* SAAS É ALUGUEL */}
-          <div className="font-heading font-bold leading-[0.9] tracking-tight" style={{ fontSize: "clamp(4.5rem, 13vw, 11rem)" }}>
+          <div
+            className="font-heading font-bold leading-[0.9] tracking-tight"
+            style={{ fontSize: "clamp(4.5rem, 13vw, 11rem)" }}
+          >
             <LineReveal inView={titleInView} delay={0.08}>
               <span style={{ color: "rgba(255,255,255,0.95)" }}>
                 SAAS É{" "}
@@ -208,7 +245,7 @@ export default function MethodSection() {
               </span>
             </LineReveal>
 
-            {/* SWAS É PATRIMÔNIO — clip reveal + fill animado */}
+            {/* SWAS É PATRIMÔNIO */}
             <LineReveal inView={titleInView} delay={0.18}>
               <span style={{ display: "block" }}>
                 <motion.span
@@ -237,10 +274,10 @@ export default function MethodSection() {
           </motion.p>
         </div>
 
-        {/* ── Cards VS — entram de lados opostos, levemente inclinados ── */}
+        {/* ── Cards VS ── */}
         <div ref={cardsRef} className="grid grid-cols-1 lg:grid-cols-[1fr_56px_1fr] gap-4 lg:gap-0 items-stretch">
 
-          {/* SaaS — entra da esquerda com leve tilt */}
+          {/* SaaS */}
           <motion.div
             initial={{ opacity: 0, x: -slideX, rotate: -tiltDeg, scale: 0.96 }}
             animate={cardsInView ? { opacity: 1, x: 0, rotate: 0, scale: 1 } : {}}
@@ -286,7 +323,7 @@ export default function MethodSection() {
             </div>
           </motion.div>
 
-          {/* VS — escala de 0 */}
+          {/* VS */}
           <div className="hidden lg:flex flex-col items-center justify-center gap-3">
             <div className="w-px flex-1" style={{
               background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.07) 40%, rgba(255,255,255,0.07) 60%, transparent)",
@@ -314,7 +351,7 @@ export default function MethodSection() {
             }} />
           </div>
 
-          {/* SWAS — entra da direita, tilt oposto */}
+          {/* SWAS */}
           <motion.div
             initial={{ opacity: 0, x: slideX, rotate: tiltDeg, scale: 0.96 }}
             animate={cardsInView ? { opacity: 1, x: 0, rotate: 0, scale: 1 } : {}}
@@ -329,19 +366,16 @@ export default function MethodSection() {
               display: "flex", flexDirection: "column", gap: "1.5rem",
               position: "relative", overflow: "hidden",
             }}>
-              {/* Linha laranja topo */}
               <div style={{
                 position: "absolute", top: 0, left: 0, right: 0, height: "2px",
                 background: "linear-gradient(90deg, transparent 0%, hsl(var(--primary)/0.7) 35%, hsl(var(--primary)) 50%, hsl(var(--primary)/0.7) 65%, transparent 100%)",
               }} />
-              {/* Glow canto */}
               <div style={{
                 position: "absolute", top: "-40px", right: "-40px",
                 width: "176px", height: "176px", borderRadius: "9999px", pointerEvents: "none",
                 background: "radial-gradient(circle, hsl(var(--primary)/0.13) 0%, transparent 70%)",
                 filter: "blur(24px)",
               }} />
-              {/* Ambient radial */}
               <div aria-hidden style={{
                 position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
                 background: "radial-gradient(ellipse at 90% 0%, hsl(var(--primary)/0.16) 0%, hsl(var(--primary)/0.04) 45%, transparent 70%)",
