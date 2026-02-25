@@ -1,5 +1,40 @@
 export const projects = [
   {
+    slug: "braum-barber",
+    name: "Braum Barber",
+    type: "Site Institucional",
+    image: "https://i.imgur.com/uvW0A4W.png",
+    hint: "barber shop",
+    link: "https://braumbarber.netlify.app/",
+    description: "Um site institucional moderno para uma barbearia, construído com as tecnologias mais atuais para garantir performance e uma ótima experiência visual.",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    details: [
+        {
+            title: "Estrutura e Tecnologias",
+            points: [
+                "Framework Principal: Next.js (versão 15) para sites rápidos e otimizados para SEO.",
+                "Linguagem: Código robusto e com menos erros graças ao TypeScript.",
+                "Estilização: Tema de cores centralizado e classes personalizadas em 'globals.css' para fácil customização."
+            ]
+        },
+        {
+            title: "Arquitetura de Componentes",
+            points: [
+                "Organização: O projeto é dividido em componentes reutilizáveis (layout, seções, UI) para fácil manutenção.",
+                "Página Única: 'page.tsx' organiza a ordem das seções, criando uma experiência de navegação fluida.",
+                "Molde Principal: 'layout.tsx' define a estrutura base do HTML, incluindo cabeçalho, rodapé e fontes."
+            ]
+        },
+        {
+            title: "Animações e Experiência",
+            points: [
+                "Animações de Scroll: Utiliza IntersectionObserver para detectar quando um elemento entra na tela e aplicar animações sutis.",
+                "Performance: Foco em uma experiência de usuário fluida, com carregamento rápido e interações suaves."
+            ]
+        }
+    ]
+  },
+  {
     slug: "pizza-nova",
     name: "Pizza Nova",
     type: "Cardápio Digital & Sistema de Pedidos",
