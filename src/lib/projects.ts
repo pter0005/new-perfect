@@ -35,6 +35,85 @@ export const projects = [
     ]
   },
   {
+    slug: "mycupid",
+    name: "MyCupid",
+    type: "Plataforma para Criação de Páginas de Amor",
+    image: "https://i.imgur.com/rkd8DR6.png",
+    hint: "love page creator",
+    link: "https://mycupid.com.br",
+    description: "Uma plataforma para criar 'páginas de amor' digitais e personalizadas. Uma evolução moderna da carta de amor, em formato de página web interativa, onde usuários adicionam fotos, textos, músicas e jogos, compartilhando um presente emocionante por link ou QR Code.",
+    technologies: ["Next.js", "React", "TypeScript", "Firebase", "Firestore", "Genkit", "Tailwind CSS", "ShadCN/UI", "Framer Motion", "React Three Fiber", "Mercado Pago", "PayPal"],
+    details: [
+      {
+        title: "Frontend: A Experiência do Usuário",
+        points: [
+          'Fundação (Next.js & React): Estrutura de rotas eficiente e carregamento rápido com Next.js, combinado com a criação de componentes reutilizáveis em React.',
+          'A "Gramática" (TypeScript): Código mais seguro e robusto, evitando bugs comuns do JavaScript e garantindo a integridade do sistema.',
+          'Pintura e Acabamento (Tailwind CSS & ShadCN/UI): Estilização prática com Tailwind e componentes de alta qualidade do ShadCN/UI para um visual profissional e consistente.',
+          'O "Uau!" (Framer Motion & React Three Fiber): Animações fluidas na interface com Framer Motion e elementos 3D imersivos, como a linha do tempo, criados com React Three Fiber.'
+        ]
+      },
+      {
+        title: "Backend: A Inteligência por Trás da Magia",
+        points: [
+          'Arquitetura Serverless com Firebase: Plataforma robusta e escalável que elimina a necessidade de um servidor tradicional.',
+          'Firebase Authentication: Sistema de login seguro com suporte a e-mail/senha e contas Google.',
+          'Firestore: Banco de dados em tempo real para armazenar de forma organizada as "LovePages", dados de usuários e rascunhos de pagamento.',
+          'Firebase Storage: Armazenamento seguro na nuvem para todas as fotos e áudios enviados pelos usuários.',
+          'Inteligência Artificial (Genkit): Utiliza IA para a busca inteligente de músicas no YouTube, enriquecendo a experiência da página.',
+          'Pagamentos (Mercado Pago & PayPal): Integração segura com gateways de pagamento líderes, sem armazenar dados sensíveis de cartão de crédito.'
+        ]
+      },
+      {
+        title: "O Fluxo da Criação à Entrega",
+        points: [
+          'Criação Intuitiva: Um "wizard" passo a passo guia o usuário na personalização da sua página de amor.',
+          'Salvamento Automático: Todas as alterações são salvas em um rascunho no Firestore, com mídias guardadas temporariamente no Storage.',
+          'Pagamento Seguro: O usuário é redirecionado para o ambiente seguro do Mercado Pago ou PayPal para finalizar a compra.',
+          'Confirmação via Webhook: Um sinal automático do gateway de pagamento notifica o sistema sobre a aprovação da compra.',
+          'Finalização Automatizada: O sistema converte o rascunho na "LovePage" final, movendo os arquivos para um local permanente.',
+          'Entrega Imediata: A página se torna acessível por um link único e QR Code, pronta para ser compartilhada como surpresa.'
+        ]
+      }
+    ]
+  },
+  {
+    slug: "personal-trainer-dashboard",
+    name: "Personal Trainer",
+    type: "Dashboard Analítico de Performance",
+    image: "https://i.imgur.com/eiVreq3.png",
+    hint: "data dashboard",
+    link: "https://personal-example.netlify.app/",
+    description: "Um painel de controle personalizado que transforma dados de alunos em insights visuais. Personal trainers podem acompanhar o progresso, ajustar treinos e visualizar o desempenho de seus clientes de forma clara e organizada.",
+    technologies: ["React", "D3.js", "Node.js", "PostgreSQL"],
+    details: [
+        {
+            title: "Acompanhamento Inteligente de Alunos",
+            points: [
+                "Visualize a evolução de cada aluno através de gráficos interativos de peso, medidas e performance nos treinos.",
+                "Filtre os dados por período para analisar o progresso semanal, mensal ou trimestral.",
+                "Receba alertas automáticos quando um aluno atinge uma meta importante ou fica um período sem treinar."
+            ]
+        },
+        {
+            title: "Gestão Centralizada do Negócio",
+            points: [
+                "Acesse rapidamente a ficha de treino de cada aluno, facilitando o planejamento e ajustes.",
+                "Controle pagamentos e mensalidades em um só lugar, com indicadores visuais de quem está em dia ou com pendências.",
+                "Exporte relatórios de progresso em PDF para compartilhar com os alunos, agregando valor ao seu serviço."
+            ]
+        },
+        {
+            title: "Tecnologia por trás dos dados",
+            points: [
+                "O frontend em React consome uma API RESTful customizada, construída com Node.js, para buscar e manipular os dados.",
+                "Utilizamos a biblioteca D3.js para criar visualizações de dados e gráficos customizados, oferecendo mais flexibilidade que bibliotecas prontas.",
+                "O banco de dados PostgreSQL foi escolhido por sua robustez e capacidade de lidar com consultas complexas para gerar os relatórios de performance."
+            ]
+        }
+    ]
+  },
+  {
     slug: "pizza-nova",
     name: "Pizza Nova",
     type: "Cardápio Digital & Sistema de Pedidos",
@@ -141,85 +220,6 @@ export const projects = [
                 "A integração com a Stripe foi feita via API, garantindo um processo de pagamento seguro e compatível com as normas PCI."
             ]
         }
-    ]
-  },
-  {
-    slug: "personal-trainer-dashboard",
-    name: "Personal Trainer",
-    type: "Dashboard Analítico de Performance",
-    image: "https://i.imgur.com/eiVreq3.png",
-    hint: "data dashboard",
-    link: "https://personal-example.netlify.app/",
-    description: "Um painel de controle personalizado que transforma dados de alunos em insights visuais. Personal trainers podem acompanhar o progresso, ajustar treinos e visualizar o desempenho de seus clientes de forma clara e organizada.",
-    technologies: ["React", "D3.js", "Node.js", "PostgreSQL"],
-    details: [
-        {
-            title: "Acompanhamento Inteligente de Alunos",
-            points: [
-                "Visualize a evolução de cada aluno através de gráficos interativos de peso, medidas e performance nos treinos.",
-                "Filtre os dados por período para analisar o progresso semanal, mensal ou trimestral.",
-                "Receba alertas automáticos quando um aluno atinge uma meta importante ou fica um período sem treinar."
-            ]
-        },
-        {
-            title: "Gestão Centralizada do Negócio",
-            points: [
-                "Acesse rapidamente a ficha de treino de cada aluno, facilitando o planejamento e ajustes.",
-                "Controle pagamentos e mensalidades em um só lugar, com indicadores visuais de quem está em dia ou com pendências.",
-                "Exporte relatórios de progresso em PDF para compartilhar com os alunos, agregando valor ao seu serviço."
-            ]
-        },
-        {
-            title: "Tecnologia por trás dos dados",
-            points: [
-                "O frontend em React consome uma API RESTful customizada, construída com Node.js, para buscar e manipular os dados.",
-                "Utilizamos a biblioteca D3.js para criar visualizações de dados e gráficos customizados, oferecendo mais flexibilidade que bibliotecas prontas.",
-                "O banco de dados PostgreSQL foi escolhido por sua robustez e capacidade de lidar com consultas complexas para gerar os relatórios de performance."
-            ]
-        }
-    ]
-  },
-  {
-    slug: "mycupid",
-    name: "MyCupid",
-    type: "Plataforma para Criação de Páginas de Amor",
-    image: "https://i.imgur.com/rkd8DR6.png",
-    hint: "love page creator",
-    link: "https://mycupid.com.br",
-    description: "Uma plataforma para criar 'páginas de amor' digitais e personalizadas. Uma evolução moderna da carta de amor, em formato de página web interativa, onde usuários adicionam fotos, textos, músicas e jogos, compartilhando um presente emocionante por link ou QR Code.",
-    technologies: ["Next.js", "React", "TypeScript", "Firebase", "Firestore", "Genkit", "Tailwind CSS", "ShadCN/UI", "Framer Motion", "React Three Fiber", "Mercado Pago", "PayPal"],
-    details: [
-      {
-        title: "Frontend: A Experiência do Usuário",
-        points: [
-          'Fundação (Next.js & React): Estrutura de rotas eficiente e carregamento rápido com Next.js, combinado com a criação de componentes reutilizáveis em React.',
-          'A "Gramática" (TypeScript): Código mais seguro e robusto, evitando bugs comuns do JavaScript e garantindo a integridade do sistema.',
-          'Pintura e Acabamento (Tailwind CSS & ShadCN/UI): Estilização prática com Tailwind e componentes de alta qualidade do ShadCN/UI para um visual profissional e consistente.',
-          'O "Uau!" (Framer Motion & React Three Fiber): Animações fluidas na interface com Framer Motion e elementos 3D imersivos, como a linha do tempo, criados com React Three Fiber.'
-        ]
-      },
-      {
-        title: "Backend: A Inteligência por Trás da Magia",
-        points: [
-          'Arquitetura Serverless com Firebase: Plataforma robusta e escalável que elimina a necessidade de um servidor tradicional.',
-          'Firebase Authentication: Sistema de login seguro com suporte a e-mail/senha e contas Google.',
-          'Firestore: Banco de dados em tempo real para armazenar de forma organizada as "LovePages", dados de usuários e rascunhos de pagamento.',
-          'Firebase Storage: Armazenamento seguro na nuvem para todas as fotos e áudios enviados pelos usuários.',
-          'Inteligência Artificial (Genkit): Utiliza IA para a busca inteligente de músicas no YouTube, enriquecendo a experiência da página.',
-          'Pagamentos (Mercado Pago & PayPal): Integração segura com gateways de pagamento líderes, sem armazenar dados sensíveis de cartão de crédito.'
-        ]
-      },
-      {
-        title: "O Fluxo da Criação à Entrega",
-        points: [
-          'Criação Intuitiva: Um "wizard" passo a passo guia o usuário na personalização da sua página de amor.',
-          'Salvamento Automático: Todas as alterações são salvas em um rascunho no Firestore, com mídias guardadas temporariamente no Storage.',
-          'Pagamento Seguro: O usuário é redirecionado para o ambiente seguro do Mercado Pago ou PayPal para finalizar a compra.',
-          'Confirmação via Webhook: Um sinal automático do gateway de pagamento notifica o sistema sobre a aprovação da compra.',
-          'Finalização Automatizada: O sistema converte o rascunho na "LovePage" final, movendo os arquivos para um local permanente.',
-          'Entrega Imediata: A página se torna acessível por um link único e QR Code, pronta para ser compartilhada como surpresa.'
-        ]
-      }
     ]
   }
 ];
