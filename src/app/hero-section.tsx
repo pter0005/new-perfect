@@ -7,8 +7,6 @@ import Link from "next/link";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
-
 const C: Record<string, string> = {
   kw: "hsl(var(--primary))", id: "rgba(255,255,255,0.75)",
   str: "#86efac", tag: "#7dd3fc", at: "#fbbf24",
@@ -48,7 +46,7 @@ const ROWS: Token[][][][] = [
   ],
 ];
 
-function EmberCoreText({ className, style }: { className?: string, style?: React.CSSProperties }) {
+function EmberCoreText({ className }: { className?: string }) {
   return (
     <span style={{ position: "relative", display: "inline-block" }}>
       <style>{`
@@ -66,7 +64,7 @@ function EmberCoreText({ className, style }: { className?: string, style?: React
           }
         }
       `}</style>
-      <span className={cn("ember-text font-heading", className)} style={style}>TUDO É POSSÍVEL</span>
+      <span className={cn("ember-text", className)}>TUDO É POSSÍVEL</span>
     </span>
   );
 }
@@ -141,11 +139,29 @@ function BatonCode({ width, height, rowSet, isMobile }: {
 function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
   width: number; height: number; rowSetIndex: number; isMobile: boolean; floatDuration: number;
 }) {
+  // PLANO E: pausa a animação de float quando o hero sai da viewport
+  // IntersectionObserver tem custo zero — não usa polling nem setInterval
+  const visRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  useEffect(() => {
+    const el = visRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0, rootMargin: "200px" } // 200px de margem para não pausar cedo
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const floatAmt = isMobile ? 8 : 15;
   return (
     <motion.div
-      animate={{ y: [0, isMobile ? 8 : 15, 0] }}
-      transition={{ duration: floatDuration, repeat: Infinity, ease: "easeInOut" }}
-      style={{ width, height, willChange: "transform", contain: "layout style" }}
+      ref={visRef}
+      // PLANO E: animate=false quando offscreen — GPU fica livre
+      animate={isVisible ? { y: [0, floatAmt, 0] } : { y: 0 }}
+      transition={{ duration: floatDuration, repeat: isVisible ? Infinity : 0, ease: "easeInOut" }}
+      style={{ width, height, willChange: "transform", contain: "layout style paint", isolation: "isolate" }}
       className="relative"
     >
       <style>{`
@@ -219,10 +235,14 @@ function BatonScroll({ className, width, height, rotate, rowSetIndex,
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  // Inicializa síncrono do window.innerWidth — evita o flash undefined→true
+  // que faz os bastões mobile montarem tarde e perderem a animação
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.innerWidth < 768;
+  });
   useEffect(() => {
     const update = () => setIsMobile(window.innerWidth < 768);
-    update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
@@ -247,11 +267,11 @@ export default function HeroSection() {
 
   // Bastões unificados — mobile: distâncias e ranges menores, sem spring
   // Desktop: distâncias maiores, spring com física
+  // PLANO A: mobile usa 3 bastões (vs 4 desktop) — tela menor, menos DOM nodes
   const batons = isMobile ? [
     { w: 340, h: 85,  rot: 12,  cls: "left-[-8%] top-[18%]",   ri: 0, ex: -220, ey: -40, ss: 0.01, se: 0.10 },
     { w: 280, h: 70,  rot: -15, cls: "right-[-6%] top-[68%]",  ri: 1, ex: 200,  ey: 40,  ss: 0.02, se: 0.11 },
     { w: 180, h: 52,  rot: -8,  cls: "left-[5%] bottom-[8%]",  ri: 2, ex: -140, ey: 80,  ss: 0.03, se: 0.13 },
-    { w: 140, h: 44,  rot: 20,  cls: "right-[12%] top-[12%]",  ri: 3, ex: 130,  ey: -80, ss: 0.01, se: 0.10 },
   ] : [
     { w: 720, h: 168, rot: 12,  cls: "left-[-5%] top-[20%]",    ri: 0, ex: -700, ey: -80,  ss: 0.02, se: 0.20 },
     { w: 600, h: 144, rot: -15, cls: "right-[0%] top-[75%]",    ri: 1, ex: 600,  ey: 80,   ss: 0.04, se: 0.22 },
@@ -279,7 +299,8 @@ export default function HeroSection() {
         </motion.div>
 
         {/* Bastões: scroll-driven em todos os dispositivos — mobile sem spring, desktop com spring */}
-        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 3 }}>
+        {/* PLANO D: isolation=isolate cria stacking context próprio — repaint fica contido aqui */}
+        <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 3, isolation: "isolate" }}>
           {batons.map((s, i) => (
             <BatonScroll key={i} className={s.cls} width={s.w} height={s.h} rotate={s.rot} rowSetIndex={s.ri}
               enterFromX={s.ex} enterFromY={s.ey} scrollProgress={p} scrollStart={s.ss} scrollEnd={s.se} isMobile={isMobile} />
@@ -289,7 +310,7 @@ export default function HeroSection() {
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
           <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
             <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
-              <span className="block text-white/90 uppercase">Com a NEW</span>
+              <span className="block text-white/90 uppercase">COM A NEW</span>
               <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
             </h1>
           </motion.div>
@@ -308,6 +329,7 @@ export default function HeroSection() {
             <HoverBorderGradient
               as={Link} href="#contact" containerClassName="rounded-md w-full sm:w-auto"
               className="bg-primary text-primary-foreground font-bold px-10 py-4 w-full sm:w-auto text-center text-base sm:text-lg tracking-wide"
+              style={{ boxShadow: "0 0 28px hsl(var(--primary)/0.55), 0 0 60px hsl(var(--primary)/0.25)" }}
             >
               <span>Fale com a NEW</span>
             </HoverBorderGradient>
