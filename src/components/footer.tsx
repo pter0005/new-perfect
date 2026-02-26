@@ -40,21 +40,25 @@ export default function Footer() {
         {/* Top: logo + tagline + social */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8 mb-12">
 
-          {/* Logo */}
+          {/* Logo and Tagline */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             style={{ willChange: "transform, opacity" }}
           >
-            <Image
-              src="https://i.imgur.com/SyXBFG5.png"
-              alt="NEW - Construindo o futuro digital"
-              width={201}
-              height={66}
-              className="h-auto"
-              style={{ width: 160 }}
-            />
+            <div>
+              <Image
+                src="https://i.imgur.com/SyXBFG5.png"
+                alt="NEW - Construindo o futuro digital"
+                width={120}
+                height={39}
+                className="h-auto"
+              />
+              <p className="mt-2 text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
+                Construindo o futuro digital.
+              </p>
+            </div>
           </motion.div>
 
           {/* Social */}
