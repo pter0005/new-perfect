@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Instagram, MessageCircle } from "lucide-react";
 
 const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
@@ -46,18 +47,14 @@ export default function Footer() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             style={{ willChange: "transform, opacity" }}
           >
-            <div className="flex items-center gap-2 mb-2">
-              <span className="font-bold text-3xl tracking-tight" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.97)" }}>N</span>
-              <div style={{ display: "flex", flexDirection: "column", gap: "3px", margin: "0 2px" }}>
-                {[0, 1, 2].map(i => (
-                  <div key={i} style={{ width: "5px", height: "2px", background: "hsl(var(--primary))", borderRadius: "9999px", boxShadow: "0 0 6px hsl(var(--primary)/0.8)" }} />
-                ))}
-              </div>
-              <span className="font-bold text-3xl tracking-tight" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.97)" }}>W</span>
-            </div>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.28)", letterSpacing: "0.05em" }}>
-              Construindo o futuro digital.
-            </p>
+            <Image
+              src="https://i.imgur.com/SyXBFG5.png"
+              alt="NEW - Construindo o futuro digital"
+              width={201}
+              height={66}
+              className="h-auto"
+              style={{ width: 160 }}
+            />
           </motion.div>
 
           {/* Social */}
