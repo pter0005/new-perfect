@@ -55,13 +55,12 @@ function ScrollBar() {
 ═══════════════════════════════════════════════════════════════ */
 function Logo() {
   return (
-    <div style={{ display:"flex", alignItems:"center", fontFamily:HF, fontWeight:700, fontSize:"1.05rem", color:OR, filter:`drop-shadow(0 0 6px ${OR4})` }}>
-      <span>N</span>
-      <div style={{ display:"flex", flexDirection:"column", margin:"0 3px", gap:"2.5px" }}>
-        {[0,1,2].map(i => <div key={i} style={{ width:"5px", height:"5px", background:OR, borderRadius:"99px" }} />)}
-      </div>
-      <span>W</span>
-    </div>
+    <Image
+      src="https://i.imgur.com/SyXBFG5.png"
+      alt="NEW Logo"
+      width={100}
+      height={32}
+    />
   );
 }
 
