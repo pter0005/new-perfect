@@ -14,7 +14,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 /* ═══════════════════════════════════════════════════════════════
    DESIGN TOKENS
 ═══════════════════════════════════════════════════════════════ */
-const HF  = "var(--font-barlow-condensed), sans-serif";
+const HF  = "'Barlow Condensed', 'Bebas Neue', sans-serif";
 const OR  = "hsl(var(--primary))";
 const OR4 = "hsl(var(--primary)/0.4)";
 const OR1 = "hsl(var(--primary)/0.12)";
@@ -58,8 +58,8 @@ function Logo() {
     <Image
       src="https://i.imgur.com/SyXBFG5.png"
       alt="NEW Logo"
-      width={100}
-      height={32}
+      width={70}
+      height={22}
     />
   );
 }
@@ -367,15 +367,100 @@ function SpecBox({ technologies }: { technologies: string[] }) {
 /* ═══════════════════════════════════════════════════════════════
    METRICS  "IMPACTO GERADO"
 ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   ANIMATED COUNTER  — conta do zero até o valor final
+═══════════════════════════════════════════════════════════════ */
+function useCountUp(target: number, duration = 1400, active = false) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let start: number | null = null;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setVal(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [active, target, duration]);
+  return val;
+}
+
+function MetricCard({
+  prefix, numericVal, suffix, tag, sub, delay, show,
+}: {
+  prefix: string; numericVal: number; suffix: string;
+  tag: string; sub: string; delay: number; show: boolean;
+}) {
+  const count = useCountUp(numericVal, 1400 + delay * 150, show);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      animate={show ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.65, delay: delay * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        padding: "2.25rem 2rem",
+        background: "#0c0c0e",
+        position: "relative", overflow: "hidden",
+        display: "flex", flexDirection: "column", gap: "0.5rem",
+      }}
+    >
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0, height: "1px",
+        background: "linear-gradient(90deg, transparent, hsl(var(--primary)/0.4) 40%, hsl(var(--primary)) 60%, transparent)",
+      }} />
+      <div style={{
+        position: "absolute", top: 0, left: 0, bottom: 0, width: "2px",
+        background: "linear-gradient(to bottom, hsl(var(--primary)), transparent 80%)",
+      }} />
+      <div style={{
+        position: "absolute", top: "-30px", left: "-20px",
+        width: "120px", height: "120px", borderRadius: "9999px",
+        background: "radial-gradient(circle, hsl(var(--primary)/0.1) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      <div style={{
+        fontFamily: "'Bebas Neue', 'Barlow Condensed', sans-serif",
+        fontWeight: 700,
+        fontSize: "clamp(2.5rem, 6vw, 4rem)",
+        lineHeight: 1, color: "hsl(var(--primary))",
+        textShadow: "0 0 30px hsl(var(--primary)/0.4), 0 0 60px hsl(var(--primary)/0.15)",
+        letterSpacing: "-0.02em",
+      }}>
+        {prefix}{show ? count : 0}{suffix}
+      </div>
+
+      <p style={{
+        fontFamily: "'Bebas Neue', 'Barlow Condensed', sans-serif",
+        fontSize: "0.62rem", letterSpacing: "0.28em",
+        color: "hsl(var(--primary))", opacity: 0.75,
+      }}>{tag}</p>
+
+      <p style={{
+        fontSize: "0.8rem", color: "rgba(255,255,255,0.45)",
+        lineHeight: 1.6, marginTop: "0.25rem",
+      }}>{sub}</p>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   METRICS SECTION
+═══════════════════════════════════════════════════════════════ */
 function MetricsSection({ n }: { n: number }) {
   const ref  = useRef(null);
-  const show = useInView(ref, { once: true, margin: "-60px" });
+  const show = useInView(ref, { once: true, margin: "-80px" });
 
-  const metrics = [
-    { val: "98/100", tag: "LIGHTHOUSE SCORE",    sub: "Performance excepcional em Core Web Vitals." },
-    { val: "+45%",   tag: "TAXA DE CONVERSÃO",   sub: "Melhoria direta após o redesign da UX." },
-    { val: "0.4s",   tag: "TEMPO DE RESPOSTA",   sub: "Média de carregamento entre páginas." },
-    { val: "60fps",  tag: "ANIMAÇÕES",            sub: "Framer Motion com aceleração por GPU." },
+  const metrics: {
+    prefix: string; numericVal: number; suffix: string;
+    tag: string; sub: string;
+  }[] = [
+    { prefix: "",   numericVal: 98, suffix: "/100", tag: "LIGHTHOUSE SCORE",  sub: "Performance excepcional em Core Web Vitals." },
+    { prefix: "+",  numericVal: 45, suffix: "%",    tag: "TAXA DE CONVERSÃO", sub: "Melhoria direta após o redesign da UX." },
+    { prefix: "0.", numericVal: 4,  suffix: "s",    tag: "TEMPO DE RESPOSTA", sub: "Média de carregamento entre páginas." },
+    { prefix: "",   numericVal: 60, suffix: "fps",  tag: "ANIMAÇÕES",         sub: "Aceleração por GPU via Framer Motion." },
   ];
 
   return (
@@ -386,75 +471,40 @@ function MetricsSection({ n }: { n: number }) {
     }}>
       <SectionLabel n={String(n).padStart(2,"0")} label="MÉTRICAS E RESULTADOS" />
 
-      <div style={{ overflow:"hidden", paddingTop:"0.1em", marginTop:"-0.1em", marginBottom:"3rem" }}>
+      <div style={{ overflow: "hidden", paddingTop: "0.12em", marginTop: "-0.12em", marginBottom: "3rem" }}>
         <motion.h2
           ref={ref}
-          initial={{ y:"110%" }}
-          animate={show ? { y:"0%" } : {}}
-          transition={{ duration:0.75, ease:[0.22,1,0.36,1] }}
+          initial={{ y: "110%" }}
+          animate={show ? { y: "0%" } : {}}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            fontFamily:HF, fontWeight:700,
-            fontSize:"clamp(2.5rem, 6vw, 5rem)",
-            lineHeight:1, color:"#fff", letterSpacing:"-0.01em",
+            fontFamily: "'Bebas Neue', 'Barlow Condensed', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(2.5rem, 6vw, 5rem)",
+            lineHeight: 1, color: "#fff", letterSpacing: "-0.01em",
           }}
         >
           IMPACTO GERADO
         </motion.h2>
       </div>
 
-      {/* metric cards */}
       <div style={{
-        display:"grid",
-        gridTemplateColumns:"repeat(auto-fit, minmax(220px, 1fr))",
-        gap:"1px",
-        background:"rgba(255,255,255,0.06)",
-        border:"1px solid rgba(255,255,255,0.06)",
-        borderRadius:"6px",
-        overflow:"hidden",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+        gap: "1px",
+        background: "rgba(255,255,255,0.07)",
+        border: "1px solid rgba(255,255,255,0.07)",
+        borderRadius: "8px",
+        overflow: "hidden",
       }}>
         {metrics.map((m, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity:0, y:24 }}
-            animate={show ? { opacity:1, y:0 } : {}}
-            transition={{ duration:0.55, delay:i*0.1 }}
-            style={{
-              padding:"2rem 1.75rem",
-              background:"#0c0c0e",
-              position:"relative", overflow:"hidden",
-            }}
-          >
-            {/* top glow line */}
-            <div style={{
-              position:"absolute", top:0, left:0, right:0, height:"1px",
-              background:`linear-gradient(90deg, transparent, ${OR4} 40%, ${OR} 60%, transparent)`,
-            }} />
-            {/* left accent */}
-            <div style={{
-              position:"absolute", top:0, left:0, bottom:0, width:"2px",
-              background:`linear-gradient(to bottom, ${OR}, transparent)`,
-            }} />
-
-            <div style={{
-              fontFamily:HF, fontWeight:700,
-              fontSize:"clamp(2rem, 5vw, 3.5rem)",
-              lineHeight:1, color:OR,
-              textShadow:`0 0 24px ${OR4}`,
-              marginBottom:"0.4rem",
-            }}>{m.val}</div>
-
-            <p style={{
-              fontFamily:HF, fontSize:"0.6rem", letterSpacing:"0.25em",
-              color:OR, marginBottom:"0.4rem",
-            }}>{m.tag}</p>
-
-            <p style={{ fontSize:"0.78rem", color:"rgba(255,255,255,0.32)", lineHeight:1.55 }}>{m.sub}</p>
-          </motion.div>
+          <MetricCard key={i} {...m} delay={i} show={show} />
         ))}
       </div>
     </section>
   );
 }
+
 
 /* ═══════════════════════════════════════════════════════════════
    FINAL CTA  "PRONTO PARA TIRAR SUA IDEIA DO PAPEL?"
@@ -559,6 +609,10 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
   return (
     <div style={{ background:"#090909", minHeight:"100vh", color:"#fff", overflowX:"hidden" }}>
+
+      {/* fonts */}
+      <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Bebas+Neue&display=swap" />
 
       {mounted && <ScrollBar />}
 
