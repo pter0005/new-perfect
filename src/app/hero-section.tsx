@@ -170,18 +170,18 @@ function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
           background: linear-gradient(to right, hsl(var(--primary)/0.2), hsl(var(--primary)/0.1));
           backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
           border: 2px solid hsl(var(--primary)/0.4);
-          box-shadow: 0 0 300px hsl(var(--primary)/0.40), 0 0 420px hsl(var(--primary)/0.20), 0 0 540px hsl(var(--primary)/0.10);
+          box-shadow: 0 0 18px hsl(var(--primary)/0.55), 0 0 36px hsl(var(--primary)/0.25), 0 0 60px hsl(var(--primary)/0.10);
           will-change: transform; transform: translateZ(0);
         }
         .baton-shell::after {
           content: ''; position: absolute; inset: 0; border-radius: 9999px;
-          background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.6), transparent 50%);
+          background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.5), transparent 55%);
         }
         @media (max-width: 767px) {
           .baton-shell {
-            box-shadow: 0 0 80px hsl(var(--primary)/0.18), 0 0 140px hsl(var(--primary)/0.09), 0 0 200px hsl(var(--primary)/0.05);
+            box-shadow: 0 0 10px hsl(var(--primary)/0.4), 0 0 22px hsl(var(--primary)/0.18), 0 0 38px hsl(var(--primary)/0.08);
           }
-          .baton-shell::after { background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.25), transparent 50%); }
+          .baton-shell::after { background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.22), transparent 55%); }
         }
       `}</style>
       <div className="baton-shell" />
