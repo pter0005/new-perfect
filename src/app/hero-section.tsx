@@ -169,23 +169,23 @@ function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
           position: absolute; inset: 0; border-radius: 9999px;
           background: linear-gradient(to right, hsl(var(--primary)/0.18), hsl(var(--primary)/0.08));
           backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
-          border: 1.5px solid hsl(var(--primary)/0.5);
+          border: 1.5px solid hsl(var(--primary)/0.35);
           /* APENAS inset — nunca vaza pra fora do pill */
-          box-shadow: inset 0 0 16px hsl(var(--primary)/0.35),
-                      inset 0 0 5px  hsl(var(--primary)/0.63);
+          box-shadow: inset 0 0 6px hsl(var(--primary)/0.06),
+                      inset 0 0 2px hsl(var(--primary)/0.10);
           will-change: transform; transform: translateZ(0);
           overflow: hidden;
         }
         .baton-shell::after {
           content: ''; position: absolute; inset: -15%; border-radius: 9999px;
-          background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.28), transparent 65%);
+          background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.05), transparent 65%);
         }
         @media (max-width: 767px) {
           .baton-shell {
-            box-shadow: inset 0 0 10px hsl(var(--primary)/0.24),
-                        inset 0 0 3px  hsl(var(--primary)/0.49);
+            box-shadow: inset 0 0 4px hsl(var(--primary)/0.05),
+                        inset 0 0 1px hsl(var(--primary)/0.08);
           }
-          .baton-shell::after { background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.14), transparent 65%); }
+          .baton-shell::after { background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.04), transparent 65%); }
         }
       `}</style>
       <div className="baton-shell" />
