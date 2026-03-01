@@ -167,21 +167,25 @@ function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
       <style>{`
         .baton-shell {
           position: absolute; inset: 0; border-radius: 9999px;
-          background: linear-gradient(to right, hsl(var(--primary)/0.2), hsl(var(--primary)/0.1));
+          background: linear-gradient(to right, hsl(var(--primary)/0.18), hsl(var(--primary)/0.08));
           backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
-          border: 2px solid hsl(var(--primary)/0.4);
-          box-shadow: 0 0 18px hsl(var(--primary)/0.55), 0 0 36px hsl(var(--primary)/0.25), 0 0 60px hsl(var(--primary)/0.10);
+          border: 1.5px solid hsl(var(--primary)/0.5);
+          /* APENAS inset — nunca vaza pra fora do pill */
+          box-shadow: inset 0 0 16px hsl(var(--primary)/0.5),
+                      inset 0 0 5px  hsl(var(--primary)/0.9);
           will-change: transform; transform: translateZ(0);
+          overflow: hidden;
         }
         .baton-shell::after {
-          content: ''; position: absolute; inset: 0; border-radius: 9999px;
-          background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.5), transparent 55%);
+          content: ''; position: absolute; inset: -15%; border-radius: 9999px;
+          background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.4), transparent 65%);
         }
         @media (max-width: 767px) {
           .baton-shell {
-            box-shadow: 0 0 10px hsl(var(--primary)/0.4), 0 0 22px hsl(var(--primary)/0.18), 0 0 38px hsl(var(--primary)/0.08);
+            box-shadow: inset 0 0 10px hsl(var(--primary)/0.35),
+                        inset 0 0 3px  hsl(var(--primary)/0.7);
           }
-          .baton-shell::after { background: radial-gradient(circle at 50% 50%, hsl(var(--primary)/0.22), transparent 55%); }
+          .baton-shell::after { background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.2), transparent 65%); }
         }
       `}</style>
       <div className="baton-shell" />
@@ -224,7 +228,11 @@ function BatonScroll({ className, width, height, rotate, rowSetIndex,
 
   return (
     <motion.div
-      style={{ x: sx, y: sy, opacity, rotate, position: "absolute", willChange: "transform, opacity" }}
+      style={{
+        x: sx, y: sy, opacity, rotate, position: "absolute",
+        willChange: "transform, opacity",
+        filter: "drop-shadow(0 0 6px hsl(var(--primary)/0.7)) drop-shadow(0 0 14px hsl(var(--primary)/0.35))",
+      }}
       className={className}
     >
       <BatonVisual width={width} height={height} rowSetIndex={rowSetIndex} isMobile={isMobile} floatDuration={isMobile ? 20 : 12} />
@@ -310,7 +318,7 @@ export default function HeroSection() {
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
           <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
             <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
-              <span className="block text-white/90 uppercase">COM A NEW</span>
+              <span className="block text-white/90 uppercase">com a NEW</span>
               <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
             </h1>
           </motion.div>
