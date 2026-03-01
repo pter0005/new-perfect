@@ -171,21 +171,21 @@ function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
           backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
           border: 1.5px solid hsl(var(--primary)/0.5);
           /* APENAS inset — nunca vaza pra fora do pill */
-          box-shadow: inset 0 0 16px hsl(var(--primary)/0.5),
-                      inset 0 0 5px  hsl(var(--primary)/0.9);
+          box-shadow: inset 0 0 16px hsl(var(--primary)/0.35),
+                      inset 0 0 5px  hsl(var(--primary)/0.63);
           will-change: transform; transform: translateZ(0);
           overflow: hidden;
         }
         .baton-shell::after {
           content: ''; position: absolute; inset: -15%; border-radius: 9999px;
-          background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.4), transparent 65%);
+          background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.28), transparent 65%);
         }
         @media (max-width: 767px) {
           .baton-shell {
-            box-shadow: inset 0 0 10px hsl(var(--primary)/0.35),
-                        inset 0 0 3px  hsl(var(--primary)/0.7);
+            box-shadow: inset 0 0 10px hsl(var(--primary)/0.24),
+                        inset 0 0 3px  hsl(var(--primary)/0.49);
           }
-          .baton-shell::after { background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.2), transparent 65%); }
+          .baton-shell::after { background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary)/0.14), transparent 65%); }
         }
       `}</style>
       <div className="baton-shell" />
@@ -318,7 +318,7 @@ export default function HeroSection() {
         <div className="relative z-10 w-full px-5 sm:px-8 flex flex-col items-center text-center">
           <motion.div style={{ scale: titleScale, y: titleY, willChange: "transform" }}>
             <h1 className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]">
-              <span className="block text-white/90 uppercase">com a NEW</span>
+              <span className="block text-white/90 uppercase">COM A NEW</span>
               <EmberCoreText className="font-heading font-bold tracking-tight leading-none text-[clamp(3rem,14vw,9rem)]" />
             </h1>
           </motion.div>
