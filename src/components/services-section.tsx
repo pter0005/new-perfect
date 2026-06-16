@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Smartphone, ShoppingCart, Settings, LayoutDashboard, Code, BrainCircuit, ArrowRight } from "lucide-react";
+import { Smartphone, ShoppingCart, Settings, LayoutDashboard, Code, BrainCircuit, Megaphone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
@@ -10,52 +10,53 @@ const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 const SERVICES = [
   {
-    icon: Smartphone,
-    title: "Sites & Delivery",
-    description: "Plataformas completas para restaurantes e lojas com cardápio digital, pedidos e pagamentos online.",
-    tag: "01",
-    // voa da esquerda-cima
-    initial: { opacity: 0, x: -80, y: -40, rotate: -6 },
-  },
-  {
-    icon: ShoppingCart,
-    title: "E-commerces",
-    description: "Soluções de vendas online completas, seguras e prontas para escalar com o seu negócio.",
-    tag: "02",
-    // voa de cima
-    initial: { opacity: 0, x: 0, y: -100, rotate: 3 },
-  },
-  {
     icon: Settings,
-    title: "Sistemas Sob Medida",
-    description: "Desenvolvimento de sistemas para otimizar processos internos e aumentar produtividade.",
-    tag: "03",
-    // voa da direita-cima
-    initial: { opacity: 0, x: 80, y: -40, rotate: 6 },
-  },
-  {
-    icon: LayoutDashboard,
-    title: "Dashboards & Admins",
-    description: "Painéis de controle intuitivos para visualizar dados e tomar decisões em tempo real.",
-    tag: "04",
-    // voa da esquerda-baixo
-    initial: { opacity: 0, x: -80, y: 40, rotate: 6 },
-  },
-  {
-    icon: Code,
-    title: "Integrações com APIs",
-    description: "Conectamos seus sistemas a qualquer serviço de terceiros com segurança e eficiência.",
-    tag: "05",
-    // voa de baixo
-    initial: { opacity: 0, x: 0, y: 100, rotate: -3 },
+    title: "Sistemas sob medida",
+    description: "Aquele controle que hoje vive numa planilha bagunçada virando um sistema feito do seu jeito.",
+    tag: "01",
+    initial: { opacity: 0, x: -80, y: -40, rotate: -6 },
   },
   {
     icon: BrainCircuit,
     title: "Soluções com IA",
-    description: "Integramos inteligência artificial para automatizar tarefas e acelerar sua operação.",
+    description: "Tarefa repetitiva que come o seu dia rodando no automático, pra você cuidar do resto.",
+    tag: "02",
+    initial: { opacity: 0, x: 0, y: -100, rotate: 3 },
+  },
+  {
+    icon: Megaphone,
+    title: "Tráfego pago",
+    description: "Anúncio no Google e no Instagram pra cair gente nova no seu negócio, sem queimar dinheiro à toa.",
+    tag: "03",
+    initial: { opacity: 0, x: 80, y: -40, rotate: 6 },
+  },
+  {
+    icon: Smartphone,
+    title: "Sites e delivery",
+    description: "Seu negócio aparecendo no Google e recebendo pedido direto, sem taxa de marketplace.",
+    tag: "04",
+    initial: { opacity: 0, x: -80, y: 40, rotate: 6 },
+  },
+  {
+    icon: ShoppingCart,
+    title: "Lojas online",
+    description: "Sua loja vendendo do seu jeito, sem comissão de plataforma mordendo o lucro.",
+    tag: "05",
+    initial: { opacity: 0, x: 0, y: 100, rotate: -3 },
+  },
+  {
+    icon: LayoutDashboard,
+    title: "Painéis e admin",
+    description: "Um lugar só pra ver pedidos, clientes e números, sem precisar de TI pra entender.",
     tag: "06",
-    // voa da direita-baixo
     initial: { opacity: 0, x: 80, y: 40, rotate: -6 },
+  },
+  {
+    icon: Code,
+    title: "Integrações",
+    description: "Seu site falando com o WhatsApp, a agenda e o pagamento, sem você copiar dado de um lado pro outro.",
+    tag: "07",
+    initial: { opacity: 0, x: -80, y: -40, rotate: 4 },
   },
 ];
 
@@ -221,7 +222,7 @@ export default function ServicesSection() {
               className="text-base sm:text-lg max-w-sm"
               style={{ color: "rgba(255,255,255,0.38)", lineHeight: 1.7 }}
             >
-              Soluções completas para transformar suas ideias em realidade digital.
+              A gente faz o que resolve o seu problema, não o que está na moda.
             </motion.p>
           </div>
         </div>

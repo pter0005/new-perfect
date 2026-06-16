@@ -5,15 +5,15 @@ import { motion, useInView } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const SAAS_ITEMS = [
-  { label: "Cobrança Contínua",        desc: "Você paga todo mês. Se parar, perde o acesso. Nunca é seu." },
-  { label: "Estrutura Padronizada",    desc: "Você entra no formato pronto. Nada realmente exclusivo." },
-  { label: "Dependência de Terceiros", desc: "Mudaram as regras? Você se adapta." },
+  { label: "Você paga todo mês",   desc: "E isso nunca para. Parou de pagar, perdeu o acesso." },
+  { label: "Modelo de prateleira", desc: "Seu site fica igual ao de mil outros. Nada só seu." },
+  { label: "Preso na plataforma",  desc: "Mudou a regra ou o preço? Você só aceita." },
 ];
 
 const SWAS_ITEMS = [
-  { label: "Propriedade Real",          desc: "É seu. Código, estrutura e controle — patrimônio digital que valoriza." },
-  { label: "Personalização Sem Limite", desc: "Criado para sua operação, não para o mercado inteiro." },
-  { label: "Base Sólida para Crescer",  desc: "Infraestrutura preparada para escalar com você." },
+  { label: "É seu de verdade",      desc: "Código, domínio e acessos ficam na sua mão." },
+  { label: "Feito pro seu negócio", desc: "Construído pra como você trabalha, não pro mercado inteiro." },
+  { label: "Pronto pra crescer",    desc: "Dá pra ampliar e mudar quando o negócio pedir." },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -272,8 +272,8 @@ export default function MethodSection() {
             style={{ color: "rgba(255,255,255,0.42)", lineHeight: 1.75, willChange: "transform, opacity" }}
             className="mt-6 text-lg sm:text-xl max-w-lg"
           >
-            Cansado de pagar por ferramentas que nunca são suas?<br />
-            O modelo SWAS entrega código próprio — um ativo digital que cresce com o seu negócio.
+            Cansado de pagar por uma ferramenta que nunca vai ser sua?<br />
+            Com a NEW é o contrário: você paga uma vez e leva o código com você.
           </motion.p>
         </div>
 
@@ -299,7 +299,7 @@ export default function MethodSection() {
               <div style={{ padding: "0.75rem 1rem", borderRadius: "0.75rem", background: "rgba(255,50,50,0.05)", border: "1px solid rgba(255,50,50,0.12)" }}>
                 <p style={{ fontFamily: HF, fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,80,80,0.45)" }}>Custo real</p>
                 <p style={{ fontFamily: HF, fontWeight: 700, fontSize: "1.875rem", color: "rgba(255,70,70,0.38)" }}>
-                  ∞ <span style={{ fontSize: "1rem", fontWeight: 400 }}>/mês para sempre</span>
+                  Todo mês <span style={{ fontSize: "1rem", fontWeight: 400 }}>pra sempre</span>
                 </p>
               </div>
               <div className="flex flex-col">

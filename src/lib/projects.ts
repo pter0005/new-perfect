@@ -1,5 +1,41 @@
 export const projects = [
   {
+    slug: "music-art",
+    name: "MusicArt",
+    type: "Site para Escola de Música",
+    image: "/projects/musicart.png",
+    hint: "music school",
+    link: "#",
+    description: "Site de uma página para a MusicArt, escola de música em Arujá. Bem leve, abre quase na hora e leva o visitante direto pra agendar a aula experimental gratuita. Tem hero em 3D, instrumentos, professores e as fotos do espaço, tudo num lugar só.",
+    technologies: ["HTML", "CSS", "JavaScript", "Three.js"],
+    details: [
+      {
+        title: "O que a página resolve",
+        points: [
+          "A primeira coisa que a pessoa vê é o botão de aula experimental gratuita, que é o que a escola mais quer.",
+          "Tudo em uma página só: instrumentos, professores, fotos do espaço e contato direto no WhatsApp.",
+          "Pensada primeiro pro celular, que é por onde a maioria chega."
+        ]
+      },
+      {
+        title: "Rápida e bem acabada",
+        points: [
+          "A página inteira pesa cerca de 800KB já com todas as fotos, então carrega rápido até no 4G.",
+          "Fotos em WebP com versão de reserva e carregamento sob demanda conforme a pessoa rola a tela.",
+          "Respeita quem prefere menos animação no aparelho, por acessibilidade."
+        ]
+      },
+      {
+        title: "Como foi feita",
+        points: [
+          "HTML, CSS e JavaScript puro, sem framework pesado, o que deixa fácil de manter e barato de hospedar.",
+          "Abertura com um hero em 3D feito em Three.js.",
+          "Dados de escola de música no código (schema.org) pra ajudar a aparecer na busca do Google da região."
+        ]
+      }
+    ]
+  },
+  {
     slug: "braum-barber",
     name: "Braum Barber",
     type: "Site Institucional",
@@ -182,42 +218,6 @@ export const projects = [
                 "Construído com Next.js, o site é gerado estaticamente (SSG), o que resulta em um carregamento ultra-rápido e excelente pontuação de SEO.",
                 "As animações são feitas com Framer Motion, que utiliza aceleração de hardware (GPU) para garantir transições suaves e fluidas a 60fps.",
                 "O uso de componentes ShadCN UI garante um design consistente, acessível e de fácil manutenção."
-            ]
-        }
-    ]
-  },
-  {
-    slug: "sufgang",
-    name: "Sufgang",
-    type: "E-commerce de Moda Conceitual",
-    image: "https://i.imgur.com/78iIp9n.png",
-    hint: "fashion store",
-    link: "https://www.sufgang.com.br/",
-    description: "Uma loja virtual para uma marca de moda com identidade forte e conceitual. A plataforma oferece uma experiência de compra imersiva, onde o design sombrio e minimalista destaca os produtos e reflete a exclusividade da marca.",
-    technologies: ["Next.js", "Shopify API", "Tailwind CSS", "Stripe"],
-    details: [
-        {
-            title: "Experiência de Compra Única",
-            points: [
-                "O cliente navega por coleções e produtos de forma fluida, com fotos de alta qualidade que valorizam cada detalhe das peças.",
-                "O processo de checkout é rápido e seguro, com poucas etapas para evitar que o cliente desista da compra.",
-                "Clientes podem criar uma conta para salvar seus dados e acompanhar o status de entrega dos seus pedidos."
-            ]
-        },
-        {
-            title: "Gestão Simplificada para a Marca",
-            points: [
-                "A loja é integrada com o sistema da Shopify, permitindo que a Sufgang gerencie produtos, estoque e pedidos de forma centralizada.",
-                "Os pagamentos são processados com segurança pela Stripe, uma das maiores e mais confiáveis plataformas do mundo.",
-                "Um sistema de busca inteligente ajuda os clientes a encontrarem exatamente o que procuram."
-            ]
-        },
-        {
-            title: "Tecnologia por trás da loja",
-            points: [
-                "Adotamos uma arquitetura de 'headless commerce', consumindo a API da Shopify. Isso nos deu total liberdade criativa no frontend com Next.js, mantendo o backend robusto da Shopify.",
-                "O frontend é desacoplado, o que permite atualizações de design e funcionalidades sem afetar a lógica de negócio do e-commerce.",
-                "A integração com a Stripe foi feita via API, garantindo um processo de pagamento seguro e compatível com as normas PCI."
             ]
         }
     ]

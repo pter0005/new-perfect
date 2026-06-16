@@ -21,30 +21,29 @@ const NewLogo3D = dynamic(() => import("@/components/new-logo-3d"), {
 
 const CARDS = [
   {
-    number: "01", title: "Sites que vendem",
-    body: "Next.js, TypeScript, Firebase. Tecnologia de ponta com propósito — performance real, não promessa.",
-    tag: "Tech", accent: false,
+    number: "01", title: "Sem mensalidade",
+    body: "Você paga uma vez. Depois, só domínio e hospedagem, que custam pouco.",
+    tag: "Preço", accent: false,
     fromX: -50, fromRotate: -4,
   },
   {
-    number: "02", title: "Você é dono",
-    body: "Zero mensalidades. Zero modelos engessados. Cada projeto único, construído sob medida, com liberdade total.",
-    tag: "Modelo", accent: true,
+    number: "02", title: "Você é o dono",
+    body: "No fim você recebe o código, o domínio e os acessos. Leva pra onde quiser.",
+    tag: "Seu", accent: true,
     fromX: 0, fromRotate: 0,
   },
   {
-    number: "03", title: "1:1 sem frescura",
-    body: "Sem intermediários. Fala direto com quem faz. Suporte real em cada etapa — do briefing ao lançamento.",
-    tag: "Pessoas", accent: false,
+    number: "03", title: "Fala com quem faz",
+    body: "Quem te responde no WhatsApp é quem programa o seu site. Sem intermediário.",
+    tag: "Direto", accent: false,
     fromX: 50, fromRotate: 4,
   },
 ];
 
 const STATS = [
-  { v: "100%", l: "No prazo" },
-  { v: "0",    l: "Mensalidades" },
-  { v: "1:1",  l: "Direto" },
-  { v: "∞",    l: "Suporte" },
+  { v: "1x",   l: "Pagamento único" },
+  { v: "0",    l: "Mensalidade" },
+  { v: "100%", l: "Código seu" },
 ];
 
 // Clip reveal — texto sobe de baixo pra cima saindo do container
@@ -254,7 +253,7 @@ export default function AboutSection() {
               <div className="flex items-center gap-3">
                 <div className="h-px w-8" style={{ background: "hsl(var(--primary)/0.7)" }} />
                 <span className="text-[9px] tracking-[0.45em] uppercase" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.65)" }}>
-                  Sobre a Agência
+                  Quem é a NEW
                 </span>
               </div>
             </LineReveal>
@@ -263,11 +262,11 @@ export default function AboutSection() {
             <div>
               <div className="font-bold tracking-tight leading-[0.93]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.8rem, 7vw, 5.2rem)" }}>
                 <LineReveal inView={headingInView} delay={0.06}>
-                  <span style={{ color: "rgba(255,255,255,0.97)" }}>NASCEMOS PARA</span>
+                  <span style={{ color: "rgba(255,255,255,0.97)" }}>VOCÊ FALA DIRETO</span>
                 </LineReveal>
                 <LineReveal inView={headingInView} delay={0.16}>
                   <span className="subtle-gradient-text" style={{ textShadow: "0 0 40px hsl(var(--primary)/0.6), 0 0 80px hsl(var(--primary)/0.3)" }}>
-                    TRANSFORMAR.
+                    COM QUEM PROGRAMA.
                   </span>
                 </LineReveal>
               </div>
@@ -281,7 +280,7 @@ export default function AboutSection() {
               style={{ color: "rgba(255,255,255,0.65)", maxWidth: "460px", lineHeight: 1.75, willChange: "transform, opacity" }}
               className="text-base sm:text-lg"
             >
-              Agência digital que une inovação, performance e design para criar o ativo digital perfeito para o seu negócio.
+              Agência pequena e direta. Você fala com quem programa o seu site, sem call center no meio. E no fim ele é seu de verdade: código, domínio e acessos na sua mão.
             </motion.p>
 
             {/* Quote — entra da esquerda */}
@@ -296,13 +295,13 @@ export default function AboutSection() {
                 color: "hsl(var(--primary)/0.85)",
                 textShadow: "0 0 16px hsl(var(--primary)/0.2)",
               }}>
-                "Você não aluga uma ideia. Você é dono do seu futuro digital."
+                "Você não aluga o seu site. Você é dono dele."
               </p>
             </motion.blockquote>
 
             {/* Mini stats — sobem juntos com stagger */}
             <div className="flex gap-7 mt-1 flex-wrap">
-              {[["100%", "no prazo"], ["0", "mensalidades"], ["1:1", "suporte"]].map(([v, l], i) => (
+              {[["1x", "pagamento único"], ["0", "mensalidade"], ["100%", "código seu"]].map(([v, l], i) => (
                 <motion.div
                   key={v}
                   initial={{ opacity: 0, y: 18 }}
@@ -341,7 +340,7 @@ export default function AboutSection() {
         </div>
 
         {/* Stats — escala e sobe com stagger */}
-        <div ref={statsRef} className="grid grid-cols-4 gap-3 sm:gap-4">
+        <div ref={statsRef} className="grid grid-cols-3 gap-3 sm:gap-4">
           {STATS.map((s, i) => (
             <StatItem key={s.v} stat={s} index={i} inView={statsInView} />
           ))}
