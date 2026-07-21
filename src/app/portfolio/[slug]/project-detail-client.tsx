@@ -804,7 +804,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       }}>
         <Logo />
         <span style={{ fontFamily:HF, fontSize:"0.58rem", letterSpacing:"0.18em", color:"rgba(255,255,255,0.12)" }}>
-          © 2025 NEW – Construindo o futuro digital.
+          © {new Date().getFullYear()} NEW. Site e sistema sob medida.
         </span>
         <Link href="/#portfolio" style={{
           fontFamily:HF, fontSize:"0.62rem", letterSpacing:"0.18em",

@@ -54,8 +54,15 @@ export default function Footer() {
                 className="h-auto"
               />
               <p className="mt-2 text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
-                Construindo o futuro digital.
+                Site e sistema sob medida. O código é seu.
               </p>
+              <a
+                href="mailto:contato@agencianew.site"
+                className="mt-3 inline-block text-xs transition-colors duration-200 hover:text-white"
+                style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
+              >
+                contato@agencianew.site
+              </a>
             </div>
           </motion.div>
 
@@ -122,7 +129,7 @@ export default function Footer() {
           className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
         >
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>
-            © 2025 NEW. Todos os direitos reservados.
+            © {new Date().getFullYear()} NEW. Todos os direitos reservados.
           </p>
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.15)" }}>
             Código que é seu. Sempre.

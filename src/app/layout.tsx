@@ -13,8 +13,17 @@ const barlow_condensed = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  title: 'NEW - Soluções Digitais',
-  description: 'Tecnologia que evolui junto com você.',
+  metadataBase: new URL('https://agencianew.site'),
+  title: 'NEW - Sites e Sistemas',
+  description: 'A gente faz site, loja e sistema sob medida pro seu negócio. Você paga uma vez e leva o código, o domínio e os acessos. Sem mensalidade.',
+  openGraph: {
+    title: 'NEW - Sites e Sistemas',
+    description: 'Você paga uma vez e o site é seu. Sem mensalidade, sem ficar preso a plataforma.',
+    url: 'https://agencianew.site',
+    siteName: 'NEW',
+    locale: 'pt_BR',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Send, Instagram, MessageCircle } from "lucide-react";
+import { Send, Instagram, MessageCircle, Mail } from "lucide-react";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -189,7 +189,8 @@ export default function ContactSection() {
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
                 <input type="text" name="_honey" style={{ display: "none" }} />
                 <input type="hidden" name="_captcha" value="false" />
-                <input type="hidden" name="_next" value="https://new-tec.netlify.app/" />
+                <input type="hidden" name="_next" value="https://agencianew.site/" />
+                <input type="hidden" name="_subject" value="Novo contato pelo site da NEW" />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Field label="Nome" id="name" name="name" placeholder="Seu nome" required disabled={isSubmitting} />
@@ -289,6 +290,29 @@ export default function ContactSection() {
                 <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>@new.c0de</p>
               </div>
               <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "hsl(var(--primary))" }}>
+                →
+              </div>
+            </Link>
+
+            {/* E-mail */}
+            <Link
+              href="mailto:contato@agencianew.site"
+              className="group flex items-center gap-4 p-5 rounded-2xl transition-all duration-300 hover:scale-[1.02]"
+              style={{
+                background: "rgba(255,255,255,0.025)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                textDecoration: "none",
+              }}
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
+                style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.15)" }}>
+                <Mail className="w-6 h-6" style={{ color: "rgba(255,255,255,0.75)" }} strokeWidth={1.8} />
+              </div>
+              <div className="min-w-0">
+                <p className="font-bold text-base" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.9)" }}>E-mail</p>
+                <p className="text-sm truncate" style={{ color: "rgba(255,255,255,0.38)" }}>contato@agencianew.site</p>
+              </div>
+              <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "rgba(255,255,255,0.6)" }}>
                 →
               </div>
             </Link>
