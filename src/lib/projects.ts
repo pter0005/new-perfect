@@ -3,7 +3,7 @@ export const projects = [
     slug: "music-art",
     name: "MusicArt",
     type: "Site para Escola de Música",
-    image: "/projects/musicart.png",
+    image: "/projects/musicart.webp",
     hint: "music school",
     link: "#",
     description: "Site de uma página para a MusicArt, escola de música em Arujá. Bem leve, abre quase na hora e leva o visitante direto pra agendar a aula experimental gratuita. Tem hero em 3D, instrumentos, professores e as fotos do espaço, tudo num lugar só.",
@@ -36,10 +36,38 @@ export const projects = [
     ]
   },
   {
+    slug: "nil-solucoes",
+    name: "NIL Soluções",
+    type: "Site para Construção e Reforma",
+    image: "/projects/nil-solucoes.webp",
+    hint: "construction renovation",
+    link: "https://nilsolucoes.netlify.app/",
+    description: "Site de uma página para a NIL Soluções, de construção, reforma e manutenção. Mostra os serviços, as obras já feitas e leva o visitante direto pro orçamento no WhatsApp.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    details: [
+      {
+        title: "O que a página resolve",
+        points: [
+          "Mostra na hora o que a NIL faz: piso, gesso, drywall, pintura e reforma em geral.",
+          "Tem foto de obra pronta, depoimento de cliente e um caminho curto até o orçamento.",
+          "Feita pensando no celular, que é por onde o cliente de obra costuma chegar."
+        ]
+      },
+      {
+        title: "Como foi feita",
+        points: [
+          "HTML, CSS e JavaScript puro, leve e fácil de manter.",
+          "Identidade em preto, laranja e prata, com a cara de quem trabalha com obra.",
+          "Botão de WhatsApp sempre à mão pra pedir orçamento sem complicação."
+        ]
+      }
+    ]
+  },
+  {
     slug: "braum-barber",
     name: "Braum Barber",
     type: "Site Institucional",
-    image: "https://i.imgur.com/uvW0A4W.png",
+    image: "/projects/braum-barber.webp",
     hint: "barber shop",
     link: "https://braumbarber.netlify.app/",
     description: "Um site institucional moderno para uma barbearia, construído com as tecnologias mais atuais para garantir performance e uma ótima experiência visual.",
@@ -74,7 +102,7 @@ export const projects = [
     slug: "mycupid",
     name: "MyCupid",
     type: "Plataforma para Criação de Páginas de Amor",
-    image: "https://i.imgur.com/rkd8DR6.png",
+    image: "/projects/mycupid.webp",
     hint: "love page creator",
     link: "https://mycupid.com.br",
     description: "Uma plataforma para criar 'páginas de amor' digitais e personalizadas. Uma evolução moderna da carta de amor, em formato de página web interativa, onde usuários adicionam fotos, textos, músicas e jogos, compartilhando um presente emocionante por link ou QR Code.",
@@ -117,7 +145,7 @@ export const projects = [
     slug: "personal-trainer-dashboard",
     name: "Personal Trainer",
     type: "Dashboard Analítico de Performance",
-    image: "https://i.imgur.com/eiVreq3.png",
+    image: "/projects/personal-trainer.webp",
     hint: "data dashboard",
     link: "https://personal-example.netlify.app/",
     description: "Um painel de controle personalizado que transforma dados de alunos em insights visuais. Personal trainers podem acompanhar o progresso, ajustar treinos e visualizar o desempenho de seus clientes de forma clara e organizada.",
@@ -153,7 +181,7 @@ export const projects = [
     slug: "pizza-nova",
     name: "Pizza Nova",
     type: "Cardápio Digital & Sistema de Pedidos",
-    image: "https://i.imgur.com/Ed9Oo8w.png",
+    image: "/projects/pizza-nova.webp",
     hint: "pizza website",
     link: "https://tangerine-lebkuchen-c4599f.netlify.app/",
     description: "Uma solução digital completa para pizzarias que agiliza o atendimento. Clientes pedem diretamente da mesa via QR Code, enviando os pedidos para a cozinha em tempo real, o que diminui a espera e otimiza o trabalho dos garçons.",
@@ -190,7 +218,7 @@ export const projects = [
     slug: "team-veo3",
     name: "Team VEO3",
     type: "Site Institucional com IA",
-    image: "https://i.imgur.com/Tu4WgVV.png",
+    image: "/projects/team-veo3.webp",
     hint: "ia videos",
     link: "https://www.teamveo3.com/",
     description: "Um site institucional de vanguarda para uma produtora de vídeos com Inteligência Artificial. O design futurista e as animações fluidas criam uma vitrine digital que reflete a inovação da marca e cativa clientes de alto nível.",

@@ -56,7 +56,7 @@ function ScrollBar() {
 function Logo() {
   return (
     <Image
-      src="https://i.imgur.com/SyXBFG5.png"
+      src="/new-logo.png"
       alt="NEW Logo"
       width={70}
       height={22}
@@ -611,8 +611,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
     <div style={{ background:"#090909", minHeight:"100vh", color:"#fff", overflowX:"hidden" }}>
 
       {/* fonts */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Bebas+Neue&display=swap" />
 
       {mounted && <ScrollBar />}
 

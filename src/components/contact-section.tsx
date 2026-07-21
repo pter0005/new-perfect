@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
 const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
@@ -28,7 +27,10 @@ function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode
 const fieldStyle: React.CSSProperties = {
   width: "100%",
   background: "rgba(255,255,255,0.04)",
-  border: "1px solid rgba(255,255,255,0.1)",
+  // Longhand separado: focusStyle troca só o borderColor (shorthand + longhand conflitam no React)
+  borderWidth: "1px",
+  borderStyle: "solid",
+  borderColor: "rgba(255,255,255,0.1)",
   borderRadius: "0.75rem",
   padding: "0.75rem 1rem",
   color: "rgba(255,255,255,0.88)",
@@ -112,14 +114,13 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
           position: "absolute", top: "-60px", left: "50%", transform: "translateX(-50%)",
           width: "900px", height: "600px",
           background: "radial-gradient(ellipse at 50% 0%, hsl(var(--primary)/0.09) 0%, transparent 55%)",
-          filter: "blur(90px)",
+          filter: "blur(45px)",
         }} />
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",

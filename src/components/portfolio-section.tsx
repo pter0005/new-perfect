@@ -302,7 +302,7 @@ export default function PortfolioSection() {
           position: "absolute", top: "-60px", left: "50%", transform: "translateX(-50%)",
           width: "800px", height: "500px",
           background: "radial-gradient(ellipse at 50% 0%, hsl(var(--primary)/0.05) 0%, transparent 65%)",
-          filter: "blur(80px)",
+          filter: "blur(40px)",
         }} />
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",

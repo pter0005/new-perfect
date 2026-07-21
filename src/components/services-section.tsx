@@ -5,7 +5,6 @@ import { motion, useInView } from "framer-motion";
 import { Smartphone, ShoppingCart, Settings, LayoutDashboard, Code, BrainCircuit, Megaphone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
 const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 const SERVICES = [
@@ -170,14 +169,13 @@ export default function ServicesSection() {
       ref={sectionRef}
       className="relative py-20 sm:py-28 overflow-hidden bg-background"
     >
-      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient glow */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
           position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)",
           width: "800px", height: "600px",
           background: "radial-gradient(ellipse, hsl(var(--primary)/0.06) 0%, transparent 65%)",
-          filter: "blur(100px)",
+          filter: "blur(50px)",
         }} />
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",

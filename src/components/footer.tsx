@@ -6,7 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Instagram, MessageCircle } from "lucide-react";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
 const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 const NAV_LINKS = [
@@ -26,13 +25,12 @@ export default function Footer() {
 
   return (
     <footer className="relative overflow-hidden" style={{ background: "rgba(0,0,0,0.6)", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient glow */}
       <div aria-hidden style={{
         position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
         width: "800px", height: "200px",
         background: "radial-gradient(ellipse at 50% 0%, hsl(var(--primary)/0.08) 0%, transparent 70%)",
-        filter: "blur(60px)", pointerEvents: "none",
+        filter: "blur(30px)", pointerEvents: "none",
       }} />
 
       <div ref={ref} className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12 py-14 sm:py-16">
@@ -49,8 +47,8 @@ export default function Footer() {
           >
             <div>
               <Image
-                src="https://i.imgur.com/SyXBFG5.png"
-                alt="NEW - Construindo o futuro digital"
+                src="/new-logo.png"
+                alt="NEW"
                 width={120}
                 height={39}
                 className="h-auto"

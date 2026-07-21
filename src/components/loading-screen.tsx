@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
 const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 // ── Cookie helpers ────────────────────────────────────────────
@@ -37,10 +36,10 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
     }
     setShow(true);
 
-    // Simula progresso de carregamento
+    // Simula progresso de carregamento — total ~1,5s até o conteúdo
     let p = 0;
     const interval = setInterval(() => {
-      p += Math.random() * 18 + 4;
+      p += Math.random() * 20 + 14;
       if (p >= 100) {
         p = 100;
         clearInterval(interval);
@@ -50,8 +49,8 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
           setTimeout(() => {
             setCookie(COOKIE_KEY, "1", COOKIE_DAYS);
             onDone();
-          }, 700);
-        }, 400);
+          }, 550);
+        }, 250);
       }
       setProgress(Math.min(p, 100));
     }, 80);
@@ -68,7 +67,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
           key="loader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           style={{
             position: "fixed",
             inset: 0,
@@ -81,7 +80,6 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
             overflow: "hidden",
           }}
         >
-          <style>{`@import url('${FONT_URL}');`}</style>
           {/* Glow de fundo */}
           <div style={{
             position: "absolute",
@@ -89,7 +87,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
             transform: "translate(-50%, -60%)",
             width: "600px", height: "400px",
             background: "radial-gradient(ellipse, hsl(var(--primary)/0.12) 0%, transparent 65%)",
-            filter: "blur(80px)",
+            filter: "blur(40px)",
             pointerEvents: "none",
           }} />
 
@@ -111,8 +109,8 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
                 initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{
-                  duration: 0.6,
-                  delay: 0.15 + i * 0.12,
+                  duration: 0.5,
+                  delay: 0.1 + i * 0.09,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 style={{
@@ -142,7 +140,7 @@ export default function LoadingScreen({ onDone }: { onDone: () => void }) {
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.45, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             style={{
               fontFamily: HEADING_FONT,
               fontSize: "clamp(0.65rem, 1.8vw, 0.85rem)",

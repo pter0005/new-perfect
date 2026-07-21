@@ -16,29 +16,7 @@ const SWAS_ITEMS = [
   { label: "Pronto pra crescer",    desc: "Dá pra ampliar e mudar quando o negócio pedir." },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
-// FONTE: Barlow Condensed via <link> (não @import — link tem prioridade maior
-// e não bloqueia o FOUC)
-// Adicionamos também ao layout.tsx para garantir preload correto (ver instruções).
-// ─────────────────────────────────────────────────────────────────────────────
 const HF = "'Barlow Condensed', sans-serif"; // heading font
-
-function FontLoader() {
-  return (
-    <>
-      <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-        // @ts-ignore
-        crossOrigin="anonymous"
-      />
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=block"
-      />
-    </>
-  );
-}
 
 function XIcon() {
   return (
@@ -201,7 +179,6 @@ export default function MethodSection() {
     <section id="method" className="relative py-20 sm:py-28 overflow-hidden bg-background">
 
       {/* Carrega Barlow Condensed com prioridade alta */}
-      <FontLoader />
 
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>

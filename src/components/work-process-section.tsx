@@ -5,7 +5,6 @@ import { motion, useInView } from "framer-motion";
 import { ClipboardList, LayoutTemplate, CheckCircle2, Code2, ShieldCheck, Rocket, LifeBuoy } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
 const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 const STEPS = [
@@ -122,14 +121,13 @@ export default function WorkProcessSection() {
 
   return (
     <section id="work-process" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
           position: "absolute", top: "-60px", left: "50%", transform: "translateX(-50%)",
           width: "1000px", height: "500px",
           background: "radial-gradient(ellipse at 50% 0%, hsl(var(--primary)/0.06) 0%, transparent 60%)",
-          filter: "blur(100px)",
+          filter: "blur(50px)",
         }} />
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",

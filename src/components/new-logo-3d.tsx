@@ -231,8 +231,12 @@ export default function NewLogo3D({ className = "" }: NewLogo3DProps) {
     // ── Loop + flip de perspectiva ─────────────────────────────────────────
     let raf: number;
     let autoTime = 0;
+    let onScreen = true;
+    let running = true;
 
     const animate = () => {
+      // Fora da tela: para o loop (retoma via IntersectionObserver)
+      if (!onScreen) { running = false; return; }
       raf = requestAnimationFrame(animate);
 
       if (!userInteracted) {
@@ -255,6 +259,12 @@ export default function NewLogo3D({ className = "" }: NewLogo3DProps) {
     };
     animate();
 
+    const io = new IntersectionObserver(([e]) => {
+      onScreen = e.isIntersecting;
+      if (onScreen && !running) { running = true; animate(); }
+    });
+    io.observe(mount);
+
     // ── Resize ────────────────────────────────────────────────────────────
     const onResize = () => {
       const w = mount.clientWidth, h = mount.clientHeight;
@@ -265,6 +275,7 @@ export default function NewLogo3D({ className = "" }: NewLogo3DProps) {
     window.addEventListener("resize", onResize);
 
     return () => {
+      io.disconnect();
       cancelAnimationFrame(raf);
       mount.removeEventListener("mousedown",  onDown as EventListener);
       window.removeEventListener("mousemove", onMove as EventListener);

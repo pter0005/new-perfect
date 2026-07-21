@@ -5,7 +5,6 @@ import { motion, useInView } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
 const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 const NewLogo3D = dynamic(() => import("@/components/new-logo-3d"), {
@@ -195,16 +194,32 @@ export default function AboutSection() {
   const dividerRef = useRef(null);
   const dividerInView = useInView(dividerRef, { once: true, margin: "-20px" });
 
+  // Three.js (~600KB) só baixa quando a seção se aproxima da viewport.
+  // Visual idêntico: o chunk chega antes da logo entrar na tela.
+  const logo3dMountRef = useRef<HTMLDivElement>(null);
+  const [logo3dOn, setLogo3dOn] = useState(false);
+  useEffect(() => {
+    const el = logo3dMountRef.current;
+    if (!el) return;
+    // Seguro: se o observer não disparar (browser raro), monta em 4s de qualquer jeito
+    const fallback = setTimeout(() => setLogo3dOn(true), 4000);
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setLogo3dOn(true); clearTimeout(fallback); obs.disconnect(); } },
+      { rootMargin: "600px" }
+    );
+    obs.observe(el);
+    return () => { obs.disconnect(); clearTimeout(fallback); };
+  }, []);
+
   return (
     <section id="about" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
           position: "absolute", top: "-40px", left: "50%", transform: "translateX(-50%)",
           width: "900px", height: "400px",
           background: "radial-gradient(ellipse at 50% 0%, hsl(var(--primary)/0.07) 0%, transparent 60%)",
-          filter: "blur(80px)",
+          filter: "blur(40px)",
         }} />
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",
@@ -229,10 +244,18 @@ export default function AboutSection() {
             <div aria-hidden style={{
               position: "absolute", inset: "0%", zIndex: 0,
               background: "radial-gradient(ellipse at 50% 55%, hsl(var(--primary)/0.18) 0%, transparent 65%)",
-              filter: "blur(50px)", pointerEvents: "none",
+              filter: "blur(25px)", pointerEvents: "none",
             }} />
-            <div className="relative w-full" style={{ zIndex: 1, height: "clamp(310px, 49vw, 520px)" }}>
-              <NewLogo3D />
+            <div ref={logo3dMountRef} className="relative w-full" style={{ zIndex: 1, height: "clamp(310px, 49vw, 520px)" }}>
+              {logo3dOn ? (
+                <NewLogo3D />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-5xl tracking-widest animate-pulse" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary)/0.3)" }}>
+                    NEW
+                  </span>
+                </div>
+              )}
             </div>
             <motion.p
               initial={{ opacity: 0 }}

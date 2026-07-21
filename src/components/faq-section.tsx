@@ -5,7 +5,6 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const FONT_URL = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&display=swap";
 const HEADING_FONT = "'Barlow Condensed', sans-serif";
 
 const FAQS = [
@@ -124,14 +123,13 @@ export default function FaqSection() {
 
   return (
     <section id="faq" className="relative py-20 sm:py-28 overflow-hidden bg-background">
-      <style>{`@import url('${FONT_URL}');`}</style>
       {/* Ambient */}
       <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ zIndex: 0 }}>
         <div style={{
           position: "absolute", bottom: "-60px", left: "50%", transform: "translateX(-50%)",
           width: "800px", height: "400px",
           background: "radial-gradient(ellipse at 50% 100%, hsl(var(--primary)/0.06) 0%, transparent 60%)",
-          filter: "blur(80px)",
+          filter: "blur(40px)",
         }} />
         <div style={{
           position: "absolute", top: 0, left: 0, right: 0, height: "1px",
