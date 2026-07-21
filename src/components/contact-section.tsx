@@ -246,7 +246,7 @@ export default function ContactSection() {
           >
             {/* WhatsApp */}
             <Link
-              href="https://wa.me/5511943157277?text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20NEW."
+              href="https://wa.me/5511916264441?text=Oi!%20Vi%20o%20site%20da%20NEW%20e%20queria%20saber%20mais."
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-4 p-5 rounded-2xl transition-all duration-300 hover:scale-[1.02]"
@@ -262,7 +262,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <p className="font-bold text-base" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.9)" }}>WhatsApp</p>
-                <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>Resposta rápida garantida</p>
+                <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>(11) 91626-4441</p>
               </div>
               <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "#25D366" }}>
                 →

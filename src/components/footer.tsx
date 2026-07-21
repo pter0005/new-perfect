@@ -75,7 +75,7 @@ export default function Footer() {
             className="flex items-center gap-3"
           >
             <Link
-              href="https://wa.me/5511943157277"
+              href="https://wa.me/5511916264441"
               target="_blank" rel="noopener noreferrer"
               className="group w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
               style={{ background: "rgba(37,211,102,0.08)", border: "1px solid rgba(37,211,102,0.2)" }}
