@@ -12,7 +12,6 @@ export default {
     extend: {
       fontFamily: {
         sans: ['var(--font-lexend)', 'sans-serif'],
-        grotesk: ['var(--font-space-grotesk)', 'sans-serif'],
         heading: ['var(--font-barlow-condensed)', 'sans-serif'],
       },
       colors: {

@@ -3,9 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence, PanInfo } from "framer-motion";
 import Link from "next/link";
-import { projects } from "@/lib/projects";
-
-type Project = typeof projects[number];
+import { projects, type Project } from "@/lib/projects";
 
 // ── Dot indicator ──
 function Dots({ total, active }: { total: number; active: number }) {
@@ -119,10 +117,13 @@ function Card({
                 src={project.image}
                 alt={project.name}
                 draggable={false}
+                loading={isActive ? "eager" : "lazy"}
+                decoding="async"
                 style={{
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
+                  objectPosition: project.imagePosition ?? "center",
                   display: "block",
                   pointerEvents: "none",
                 }}

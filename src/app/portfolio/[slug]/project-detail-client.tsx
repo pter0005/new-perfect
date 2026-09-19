@@ -9,12 +9,11 @@ import {
 } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { type Project } from '@/lib/projects';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 /* ═══════════════════════════════════════════════════════════════
    DESIGN TOKENS
 ═══════════════════════════════════════════════════════════════ */
-const HF  = "'Barlow Condensed', 'Bebas Neue', sans-serif";
+const HF  = "var(--font-barlow-condensed), var(--font-bebas-neue), sans-serif";
 const OR  = "hsl(var(--primary))";
 const OR4 = "hsl(var(--primary)/0.4)";
 const OR1 = "hsl(var(--primary)/0.12)";
@@ -208,7 +207,6 @@ function DetailRow({ detail, index, image }: {
   const ref  = useRef(null);
   const show = useInView(ref, { once: true, margin: "-80px" });
   const even = index % 2 === 0; // par = texto à esquerda
-  const isMobile = useIsMobile();
 
   const textBlock = (
     <motion.div
@@ -272,13 +270,17 @@ function DetailRow({ detail, index, image }: {
     </motion.div>
   );
 
+  // No mobile o texto vem sempre em cima e a imagem embaixo (ordem do DOM).
+  // No desktop, as linhas ímpares jogam a imagem para a primeira coluna via md:order-first.
   const imgBlock = (
-    <Frame
-      src={image}
-      alt={detail.title}
-      coords={COORDS[index % COORDS.length]}
-      stamp={`${STAMPS[index % STAMPS.length]}_${String(index + 1).padStart(2,"0")}`}
-    />
+    <div className={even ? "" : "md:order-first"}>
+      <Frame
+        src={image}
+        alt={detail.title}
+        coords={COORDS[index % COORDS.length]}
+        stamp={`${STAMPS[index % STAMPS.length]}_${String(index + 1).padStart(2,"0")}`}
+      />
+    </div>
   );
 
   return (
@@ -287,13 +289,10 @@ function DetailRow({ detail, index, image }: {
       borderBottom: "1px solid rgba(255,255,255,0.05)",
       position: "relative",
     }}>
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-        gap: "clamp(3rem, 6vw, 6rem)",
-        alignItems: "center",
-      }}>
-        {isMobile || even ? <>{textBlock}{imgBlock}</> : <>{imgBlock}{textBlock}</>}
+      {/* responsivo em CSS puro: 1 coluna no mobile, 2 a partir de md — sem depender de JS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 items-center" style={{ gap: "clamp(3rem, 6vw, 6rem)" }}>
+        {textBlock}
+        {imgBlock}
       </div>
 
       {/* giant ghost number bg */}
@@ -422,7 +421,7 @@ function MetricCard({
       }} />
 
       <div style={{
-        fontFamily: "'Bebas Neue', 'Barlow Condensed', sans-serif",
+        fontFamily: "var(--font-bebas-neue), var(--font-barlow-condensed), sans-serif",
         fontWeight: 700,
         fontSize: "clamp(2.5rem, 6vw, 4rem)",
         lineHeight: 1, color: "hsl(var(--primary))",
@@ -433,7 +432,7 @@ function MetricCard({
       </div>
 
       <p style={{
-        fontFamily: "'Bebas Neue', 'Barlow Condensed', sans-serif",
+        fontFamily: "var(--font-bebas-neue), var(--font-barlow-condensed), sans-serif",
         fontSize: "0.62rem", letterSpacing: "0.28em",
         color: "hsl(var(--primary))", opacity: 0.75,
       }}>{tag}</p>
@@ -478,7 +477,7 @@ function MetricsSection({ n }: { n: number }) {
           animate={show ? { y: "0%" } : {}}
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            fontFamily: "'Bebas Neue', 'Barlow Condensed', sans-serif",
+            fontFamily: "var(--font-bebas-neue), var(--font-barlow-condensed), sans-serif",
             fontWeight: 700,
             fontSize: "clamp(2.5rem, 6vw, 5rem)",
             lineHeight: 1, color: "#fff", letterSpacing: "-0.01em",

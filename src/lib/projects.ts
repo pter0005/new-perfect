@@ -1,4 +1,60 @@
-export const projects = [
+export interface ProjectDetail {
+  title: string;
+  points: string[];
+}
+
+export interface Project {
+  slug: string;
+  name: string;
+  type: string;
+  image: string;
+  /** Foco do recorte na capa do card (CSS object-position). Padrão: centro. */
+  imagePosition?: string;
+  hint: string;
+  link: string;
+  description: string;
+  technologies: string[];
+  details: ProjectDetail[];
+}
+
+export const projects: Project[] = [
+  {
+    slug: "clau-camargo",
+    name: "Clau Camargo",
+    type: "Site de Campanha Eleitoral",
+    image: "/projects/clau-camargo.webp",
+    imagePosition: "28% 50%",
+    hint: "political campaign",
+    link: "https://prospector-web-9ly.pages.dev/s/claucamargo/",
+    description: "Site de uma página para a campanha da Clau Camargo, candidata a deputada estadual (55655) por Arujá e Alto Tietê. Abre com a identidade oficial dela animada, ensina a votar com uma urna que digita o número sozinha e leva o eleitor pra compartilhar no WhatsApp.",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    details: [
+      {
+        title: "O que a página resolve",
+        points: [
+          "Fixa o número: o 55655 aparece no herói, na faixa que rola, na urna e no rodapé, sempre em amarelo sobre o azul da campanha.",
+          "Ensina a votar: uma urna eletrônica animada digita o número sozinha, confirma o voto e explica em 3 passos.",
+          "Concentra o que o eleitor precisa: quem é a Clau, a história dela em Arujá, as 6 propostas e um botão pra mandar pro WhatsApp de quem ele gosta."
+        ]
+      },
+      {
+        title: "Identidade e movimento",
+        points: [
+          "Feita a partir da arte oficial dela: o Clau em script, a figura com a chave e o CAMARGO recortados da identidade real, o azul medido dos posts e a Montserrat do site oficial.",
+          "Abertura em cortina, nome entrando em varredura, a chave chegando por cima e os dígitos do número virando um a um.",
+          "Bandeira de São Paulo ondulando atrás da foto, cidade ao fundo e parallax leve no mouse. No celular vira uma tela só, com a foto ancorada embaixo."
+        ]
+      },
+      {
+        title: "Como foi feita",
+        points: [
+          "HTML, CSS e JavaScript puro, um arquivo só: sem framework, fácil de hospedar e de trocar texto na hora que a campanha pedir.",
+          "Fotos em WebP, animações infinitas pausam quando saem da tela e seções fora da vista só renderizam quando chegam, o que poupa bateria no celular.",
+          "Respeita quem prefere menos animação no aparelho e tem contador regressivo pro 1º turno, 4 de outubro."
+        ]
+      }
+    ]
+  },
   {
     slug: "music-art",
     name: "MusicArt",
@@ -251,8 +307,6 @@ export const projects = [
     ]
   }
 ];
-
-export type Project = (typeof projects)[number];
 
 export function getProjectBySlug(slug: string) {
   return projects.find((project) => project.slug === slug);

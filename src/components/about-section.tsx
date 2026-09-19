@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
+const HEADING_FONT = "var(--font-barlow-condensed), sans-serif";
 
 const NewLogo3D = dynamic(() => import("@/components/new-logo-3d"), {
   ssr: false,

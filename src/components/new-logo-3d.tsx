@@ -199,7 +199,8 @@ export default function NewLogo3D({ className = "" }: NewLogo3DProps) {
         : [e.clientX, e.clientY];
 
     const onDown = (e: MouseEvent | TouchEvent) => {
-      e.preventDefault();
+      // só o mouse bloqueia o default; no touch deixar passar para a página rolar
+      if (!("touches" in e)) e.preventDefault();
       dragging = true;
       userInteracted = true;
       velY = 0;
@@ -293,7 +294,7 @@ export default function NewLogo3D({ className = "" }: NewLogo3DProps) {
     <div
       ref={mountRef}
       className={`w-full h-full cursor-grab active:cursor-grabbing select-none ${className}`}
-      style={{ minHeight: 300 }}
+      style={{ minHeight: 300, touchAction: "pan-y" }}
     />
   );
 }

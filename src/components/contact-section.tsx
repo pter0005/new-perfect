@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
+const HEADING_FONT = "var(--font-barlow-condensed), sans-serif";
 
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
@@ -51,9 +51,10 @@ const labelStyle: React.CSSProperties = {
   fontWeight: 600,
 };
 
-function Field({ label, id, name, type = "text", placeholder, required, disabled, rows }: {
+function Field({ label, id, name, type = "text", placeholder, required, disabled, rows, autoComplete, inputMode }: {
   label: string; id: string; name: string; type?: string; placeholder: string;
   required?: boolean; disabled?: boolean; rows?: number;
+  autoComplete?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
 }) {
   const [focused, setFocused] = useState(false);
   const focusStyle: React.CSSProperties = focused ? {
@@ -69,6 +70,7 @@ function Field({ label, id, name, type = "text", placeholder, required, disabled
         id={id} name={name} type={rows ? undefined : type}
         placeholder={placeholder} required={required} disabled={disabled}
         rows={rows}
+        autoComplete={autoComplete} inputMode={inputMode}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         style={{
@@ -193,12 +195,12 @@ export default function ContactSection() {
                 <input type="hidden" name="_subject" value="Novo contato pelo site da NEW" />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="Nome" id="name" name="name" placeholder="Seu nome" required disabled={isSubmitting} />
-                  <Field label="E-mail" id="email" name="email" type="email" placeholder="seu@email.com" required disabled={isSubmitting} />
+                  <Field label="Nome" id="name" name="name" placeholder="Seu nome" required disabled={isSubmitting} autoComplete="name" />
+                  <Field label="E-mail" id="email" name="email" type="email" placeholder="seu@email.com" required disabled={isSubmitting} autoComplete="email" inputMode="email" />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Field label="WhatsApp (opcional)" id="whatsapp" name="whatsapp" placeholder="(XX) XXXXX-XXXX" disabled={isSubmitting} />
-                  <Field label="Empresa (opcional)" id="company" name="company" placeholder="Nome da empresa" disabled={isSubmitting} />
+                  <Field label="WhatsApp (opcional)" id="whatsapp" name="whatsapp" placeholder="(XX) XXXXX-XXXX" disabled={isSubmitting} autoComplete="tel" inputMode="tel" />
+                  <Field label="Empresa (opcional)" id="company" name="company" placeholder="Nome da empresa" disabled={isSubmitting} autoComplete="organization" />
                 </div>
                 <Field label="Descreva seu projeto" id="message" name="message" placeholder="Conta sua ideia, objetivos e qualquer detalhe..." required disabled={isSubmitting} rows={5} />
 

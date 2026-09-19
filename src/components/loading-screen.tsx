@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
+const HEADING_FONT = "var(--font-barlow-condensed), sans-serif";
 
 // ── Cookie helpers ────────────────────────────────────────────
 const COOKIE_KEY = "new_loaded";

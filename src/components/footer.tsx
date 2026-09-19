@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Instagram, MessageCircle } from "lucide-react";
 
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
+const HEADING_FONT = "var(--font-barlow-condensed), sans-serif";
 
 const NAV_LINKS = [
   { label: "Home",       href: "#home" },
@@ -33,7 +33,7 @@ export default function Footer() {
         filter: "blur(30px)", pointerEvents: "none",
       }} />
 
-      <div ref={ref} className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12 py-14 sm:py-16">
+      <div ref={ref} className="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12 pt-14 sm:pt-16 pb-28 sm:pb-32">
 
         {/* Top: logo + tagline + social */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8 mb-12">
@@ -77,6 +77,7 @@ export default function Footer() {
             <Link
               href="https://wa.me/5511916264441"
               target="_blank" rel="noopener noreferrer"
+              aria-label="WhatsApp da NEW"
               className="group w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
               style={{ background: "rgba(37,211,102,0.08)", border: "1px solid rgba(37,211,102,0.2)" }}
             >
@@ -85,6 +86,7 @@ export default function Footer() {
             <Link
               href="https://www.instagram.com/new.c0de/"
               target="_blank" rel="noopener noreferrer"
+              aria-label="Instagram da NEW"
               className="group w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110"
               style={{ background: "hsl(var(--primary)/0.08)", border: "1px solid hsl(var(--primary)/0.2)" }}
             >

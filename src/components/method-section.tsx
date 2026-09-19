@@ -16,7 +16,7 @@ const SWAS_ITEMS = [
   { label: "Pronto pra crescer",    desc: "Dá pra ampliar e mudar quando o negócio pedir." },
 ];
 
-const HF = "'Barlow Condensed', sans-serif"; // heading font
+const HF = "var(--font-barlow-condensed), sans-serif"; // heading font
 
 function XIcon() {
   return (

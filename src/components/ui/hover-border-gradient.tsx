@@ -21,6 +21,8 @@ export function HoverBorderGradient({
     className?: string;
     duration?: number;
     clockwise?: boolean;
+    // quando `as` é um <Link>/<a>, o href é repassado via ...props
+    href?: string;
   } & React.HTMLAttributes<HTMLElement>
 >) {
   const [hovered, setHovered] = useState<boolean>(false);

@@ -11,7 +11,7 @@ import Link from "next/link";
 
 const FONT_URL =
   "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap";
-const DISPLAY = "'Barlow Condensed', sans-serif";
+const DISPLAY = "var(--font-barlow-condensed), sans-serif";
 const MONO = "'IBM Plex Mono', monospace";
 
 const HAIR = "1px solid rgba(255,255,255,0.14)";

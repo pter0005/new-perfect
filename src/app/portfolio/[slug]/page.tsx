@@ -3,12 +3,14 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import ProjectDetailClient from './project-detail-client';
 
+// Next 15: `params` chega como Promise e precisa de await
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const project = getProjectBySlug(params.slug);
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     return {
@@ -28,8 +30,9 @@ export function generateStaticParams() {
   }));
 }
 
-export default function ProjectDetailPage({ params }: Props) {
-  const project = getProjectBySlug(params.slug);
+export default async function ProjectDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
 
   if (!project) {
     notFound();

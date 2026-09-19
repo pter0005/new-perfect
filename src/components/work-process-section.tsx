@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { ClipboardList, LayoutTemplate, CheckCircle2, Code2, ShieldCheck, Rocket, LifeBuoy } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
+const HEADING_FONT = "var(--font-barlow-condensed), sans-serif";
 
 const STEPS = [
   { icon: ClipboardList, title: "Briefing",       desc: "Entendemos suas necessidades, objetivos e contexto de negócio.",          color: "hsl(var(--primary))" },

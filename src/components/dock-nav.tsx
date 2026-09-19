@@ -41,7 +41,7 @@ export default function DockNav() {
           {navItems.map((item) => (
             <Tooltip key={item.href}>
               <TooltipTrigger asChild>
-                <Link href={item.href} className="group">
+                <Link href={item.href} className="group" aria-label={item.label}>
                   <div className="p-2 md:p-3 text-white/70 rounded-lg transition-all duration-300 hover:text-primary hover:scale-125 hover:-translate-y-2 hover:bg-white/10">
                     {item.icon}
                   </div>

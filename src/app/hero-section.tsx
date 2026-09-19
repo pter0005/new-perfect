@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
@@ -13,9 +13,9 @@ const C: Record<string, string> = {
   op: "rgba(255,255,255,0.32)", fn: "#c4b5fd",
   cm: "rgba(255,255,255,0.2)", nu: "#fb923c",
 };
-type Token = [string, string];
+type Token = [string, string?];
 
-const ROWS: Token[][][][] = [
+const ROWS: Token[][][] = [
   [
     [["import ", "kw"], ["{ useState, useEffect } ", "id"], ["from ", "kw"], ['"react"  ', "str"], ["// Next.js 14  ", "cm"]],
     [["const ", "kw"], ["Hero ", "id"], ["= (", "op"], ["{ data }: ", "op"], ["Props", "id"], [") => {   ", "op"], ["// Server Component  ", "cm"]],
@@ -78,7 +78,7 @@ function ScrollRow({ tokens, fontSize, duration, direction = 1, isMobile }: {
         <div style={{ display: "flex", alignItems: "center", fontSize, lineHeight: 1, flexShrink: 0 }}>
           {tokens.map((tk, i) => (
             <span key={i} style={{
-              color: C[tk[1]] ?? C.id,
+              color: C[tk[1] ?? "id"] ?? C.id,
               fontFamily: "'Fira Code', 'JetBrains Mono', monospace",
               fontWeight: tk[1] === "kw" || tk[1] === "fn" ? 600 : 400,
               whiteSpace: "pre",
@@ -98,7 +98,7 @@ function ScrollRow({ tokens, fontSize, duration, direction = 1, isMobile }: {
       >
         {tripled.map((tk, i) => (
           <span key={i} style={{
-            color: C[tk[1]] ?? C.id,
+            color: C[tk[1] ?? "id"] ?? C.id,
             fontFamily: "'Fira Code', 'JetBrains Mono', monospace",
             fontWeight: tk[1] === "kw" || tk[1] === "fn" ? 600 : 400,
             textShadow: tk[1] === "kw" ? "0 0 8px hsl(var(--primary)/0.7)" : "none",
@@ -111,7 +111,7 @@ function ScrollRow({ tokens, fontSize, duration, direction = 1, isMobile }: {
 }
 
 function BatonCode({ width, height, rowSet, isMobile }: {
-  width: number; height: number; rowSet: Token[][][]; isMobile: boolean;
+  width: number; height: number; rowSet: Token[][]; isMobile: boolean;
 }) {
   const rowCount = rowSet.length;
   const vertPad = height * 0.12;
@@ -210,7 +210,7 @@ function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
 function BatonScroll({ className, width, height, rotate, rowSetIndex,
   enterFromX, enterFromY, scrollProgress, scrollStart, scrollEnd, isMobile }: {
   className?: string; width: number; height: number; rotate: number; rowSetIndex: number;
-  enterFromX: number; enterFromY: number; scrollProgress: any;
+  enterFromX: number; enterFromY: number; scrollProgress: MotionValue<number>;
   scrollStart: number; scrollEnd: number; isMobile: boolean;
 }) {
   const x = useTransform(scrollProgress, [scrollStart, scrollEnd], [enterFromX, 0]);
@@ -243,14 +243,13 @@ function BatonScroll({ className, width, height, rotate, rowSetIndex,
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Inicializa síncrono do window.innerWidth — evita o flash undefined→true
-  // que faz os bastões mobile montarem tarde e perderem a animação
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.innerWidth < 768;
-  });
+  // Valor inicial PRECISA ser igual no servidor e no cliente, senão o React
+  // acusa hydration mismatch (erro #418). Por isso começa sempre em false e
+  // só o efeito abaixo mede a largura real, já no cliente.
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const update = () => setIsMobile(window.innerWidth < 768);
+    update(); // mede uma vez logo após a hidratação
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);

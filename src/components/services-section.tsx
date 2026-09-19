@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Smartphone, ShoppingCart, Settings, LayoutDashboard, Code, BrainCircuit, Megaphone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-const HEADING_FONT = "'Barlow Condensed', sans-serif";
+const HEADING_FONT = "var(--font-barlow-condensed), sans-serif";
 
 const SERVICES = [
   {
