@@ -32,14 +32,21 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: false,
   },
   // Todas as imagens são locais (public/) desde 21/07 — sem hosts remotos.
+  // Headers de segurança aqui (e não só no netlify.toml): o runtime do Next no
+  // Netlify não aplica os [[headers]] do toml nas páginas renderizadas pelo Next,
+  // só nos arquivos estáticos. Conferido no ar em 18/09/2026.
   async headers() {
-    if (process.env.NODE_ENV !== 'production') return [];
-    return [
-      {
-        source: '/(.*)',
-        headers: [{ key: 'Content-Security-Policy', value: CSP }],
-      },
+    const security = [
+      { key: 'X-Frame-Options', value: 'DENY' },
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
     ];
+    // CSP só em produção: o HMR do Next em dev precisa de eval()
+    if (process.env.NODE_ENV === 'production') {
+      security.push({ key: 'Content-Security-Policy', value: CSP });
+    }
+    return [{ source: '/(.*)', headers: security }];
   },
 };
 
