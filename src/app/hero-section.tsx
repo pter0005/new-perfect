@@ -110,8 +110,8 @@ function ScrollRow({ tokens, fontSize, duration, direction = 1, isMobile }: {
   );
 }
 
-function BatonCode({ width, height, rowSet, isMobile }: {
-  width: number; height: number; rowSet: Token[][]; isMobile: boolean;
+function BatonCode({ height, rowSet, isMobile }: {
+  height: number; rowSet: Token[][]; isMobile: boolean;
 }) {
   const rowCount = rowSet.length;
   const vertPad = height * 0.12;
@@ -189,7 +189,7 @@ function BatonVisual({ width, height, rowSetIndex, isMobile, floatDuration }: {
         }
       `}</style>
       <div className="baton-shell" />
-      <BatonCode width={width} height={height} rowSet={ROWS[rowSetIndex % ROWS.length]} isMobile={isMobile} />
+      <BatonCode height={height} rowSet={ROWS[rowSetIndex % ROWS.length]} isMobile={isMobile} />
       <div style={{
         position: "absolute", inset: 0, borderRadius: "9999px",
         background: "linear-gradient(to right, hsl(var(--background)) 0%, rgba(0,0,0,0) 16%, rgba(0,0,0,0) 84%, hsl(var(--background)) 100%)",
@@ -263,12 +263,8 @@ export default function HeroSection() {
 
   const bgOpacity       = useTransform(p, [0, 0.15],   [0, 1]);
   const gridOpacity     = useTransform(p, [0.06, 0.25], [0, 1]);
-  const titleScale      = useTransform(p, [0, 0.14],   [1.1, 1]);
+  const titleScale      = useTransform(p, [0, 0.14],   [1.05, 1]); // 1.1 invadia o subtítulo, que agora nasce visível
   const titleY          = useTransform(p, [0, 0.14],   [20, 0]);
-  const subtitleOpacity = useTransform(p, [0.12, 0.28], [0, 1]);
-  const subtitleY       = useTransform(p, [0.12, 0.28], [30, 0]);
-  const ctaOpacity      = useTransform(p, [0.22, 0.38], [0, 1]);
-  const ctaY            = useTransform(p, [0.22, 0.38], [24, 0]);
   const heroOpacity     = useTransform(p, [0.78, 0.95], [1, 0]);
   const hintOpacity     = useTransform(p, [0, 0.05],   [1, 0]);
 
@@ -322,17 +318,11 @@ export default function HeroSection() {
             </h1>
           </motion.div>
 
-          <motion.p
-            style={{ y: subtitleY, opacity: subtitleOpacity, willChange: "transform, opacity" }}
-            className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-white/45 max-w-xs sm:max-w-sm md:max-w-xl leading-relaxed"
-          >
+          <p className="mt-7 sm:mt-8 text-sm sm:text-base lg:text-lg text-white/60 max-w-xs sm:max-w-sm md:max-w-xl leading-relaxed">
             Criamos o ativo digital perfeito para o seu negócio. Conheça nosso modelo SWAS.
-          </motion.p>
+          </p>
 
-          <motion.div
-            style={{ y: ctaY, opacity: ctaOpacity, willChange: "transform, opacity" }}
-            className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none sm:w-auto items-center"
-          >
+          <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none sm:w-auto items-center">
             <HoverBorderGradient
               as={Link} href="#contact" containerClassName="rounded-md w-full sm:w-auto"
               className="bg-primary text-primary-foreground font-bold px-10 py-4 w-full sm:w-auto text-center text-base sm:text-lg tracking-wide"
@@ -346,14 +336,14 @@ export default function HeroSection() {
             >
               <span style={{ color: "rgba(255,255,255,0.9)" }}>Ver projetos →</span>
             </HoverBorderGradient>
-          </motion.div>
+          </div>
         </div>
 
         <motion.div
           style={{ opacity: hintOpacity }}
           className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         >
-          <span className="text-[9px] sm:text-[10px] text-white/25 tracking-[0.3em] font-heading">SCROLL</span>
+          <span className="text-[9px] sm:text-[10px] text-white/50 tracking-[0.3em] font-heading">SCROLL</span>
           <motion.div
             animate={isMobile ? {} : { y: [0, 8, 0] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}

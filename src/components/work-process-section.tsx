@@ -19,16 +19,16 @@ const STEPS = [
 
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
-    <div style={{ overflow: "hidden" }}>
-      <motion.div
+    <span style={{ display: "block", overflow: "hidden" }}>
+      <motion.span
         initial={{ y: "110%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
         transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-        style={{ willChange: "transform, opacity" }}
+        style={{ display: "block", willChange: "transform, opacity" }}
       >
         {children}
-      </motion.div>
-    </div>
+      </motion.span>
+    </span>
   );
 }
 
@@ -92,7 +92,7 @@ function StepCard({ step, index, inView, isMobile }: {
           >
             {step.title}
           </h3>
-          <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>
+          <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
             {step.desc}
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function WorkProcessSection() {
           </LineReveal>
 
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-            <div className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
+            <h2 className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
               <LineReveal inView={titleInView} delay={0.08}>
                 <span style={{ color: "rgba(255,255,255,0.97)" }}>DO BRIEFING</span>
               </LineReveal>
@@ -158,13 +158,13 @@ export default function WorkProcessSection() {
                   AO LANÇAMENTO.
                 </span>
               </LineReveal>
-            </div>
+            </h2>
 
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={titleInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.65, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
-              style={{ color: "rgba(255,255,255,0.38)", lineHeight: 1.7, willChange: "transform, opacity" }}
+              style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.7, willChange: "transform, opacity" }}
               className="text-base sm:text-lg max-w-sm"
             >
               Processo transparente e colaborativo — você acompanha cada etapa.

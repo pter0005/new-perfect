@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence, PanInfo } from "framer-motion";
+import { motion, useInView, PanInfo } from "framer-motion";
 import Link from "next/link";
 import { projects, type Project } from "@/lib/projects";
 
@@ -113,6 +113,7 @@ function Card({
           {/* Imagem — limpa, sem filtros pesados */}
           <div style={{ position: "relative", height: "380px", overflow: "hidden" }}>
             {project.image ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={project.image}
                 alt={project.name}
@@ -154,7 +155,7 @@ function Card({
               position: "absolute", top: "14px", left: "16px",
               fontFamily: "var(--font-heading), sans-serif",
               fontSize: "0.65rem", letterSpacing: "0.25em",
-              color: "rgba(255,255,255,0.5)",
+              color: "rgba(255,255,255,0.62)",
               background: "rgba(0,0,0,0.35)",
               backdropFilter: "blur(8px)",
               padding: "3px 8px", borderRadius: "9999px",
@@ -196,7 +197,7 @@ function Card({
             {project.description && (
               <p style={{
                 fontSize: "0.78rem",
-                color: "rgba(255,255,255,0.4)",
+                color: "rgba(255,255,255,0.6)",
                 lineHeight: 1.55,
                 display: "-webkit-box",
                 WebkitLineClamp: 2,
@@ -221,7 +222,7 @@ function Card({
                 <span style={{
                   fontFamily: "var(--font-heading), sans-serif",
                   fontSize: "0.65rem", letterSpacing: "0.2em",
-                  color: "rgba(255,255,255,0.3)",
+                  color: "rgba(255,255,255,0.5)",
                 }}>ARRASTE PARA NAVEGAR</span>
                 <span
                   style={{
@@ -251,6 +252,7 @@ function NavButton({ dir, onClick, disabled }: { dir: "prev" | "next"; onClick: 
     <button
       onClick={onClick}
       disabled={disabled}
+      aria-label={dir === "prev" ? "Projeto anterior" : "Próximo projeto"}
       style={{
         width: "44px", height: "44px",
         borderRadius: "9999px",

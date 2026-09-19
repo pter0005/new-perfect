@@ -53,13 +53,13 @@ export default function Footer() {
                 height={39}
                 className="h-auto"
               />
-              <p className="mt-2 text-xs" style={{ color: "rgba(255,255,255,0.25)" }}>
+              <p className="mt-2 text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
                 Site e sistema sob medida. O código é seu.
               </p>
               <a
                 href="mailto:contato@agencianew.site"
                 className="mt-3 inline-block text-xs transition-colors duration-200 hover:text-white"
-                style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
+                style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}
               >
                 contato@agencianew.site
               </a>
@@ -116,7 +116,7 @@ export default function Footer() {
               key={link.href}
               href={link.href}
               className="text-sm transition-colors duration-200 hover:text-white"
-              style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.3)", textDecoration: "none" }}
+              style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.5)", textDecoration: "none" }}
             >
               {link.label}
             </Link>
@@ -130,10 +130,10 @@ export default function Footer() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
         >
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
             © {new Date().getFullYear()} NEW. Todos os direitos reservados.
           </p>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.15)" }}>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
             Código que é seu. Sempre.
           </p>
         </motion.div>

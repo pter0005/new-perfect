@@ -8,11 +8,17 @@
 
 import { motion, MotionConfig } from "framer-motion";
 import Link from "next/link";
+import { IBM_Plex_Mono } from "next/font/google";
 
-const FONT_URL =
-  "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap";
+// Mono self-hosted pelo next/font (antes era @import do Google em runtime)
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
+});
+
 const DISPLAY = "var(--font-barlow-condensed), sans-serif";
-const MONO = "'IBM Plex Mono', monospace";
+const MONO = "var(--font-plex-mono), monospace";
 
 const HAIR = "1px solid rgba(255,255,255,0.14)";
 const HAIR_SOFT = "1px solid rgba(255,255,255,0.08)";
@@ -64,8 +70,7 @@ function CropMark({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
 export default function ApresentacaoClient() {
   return (
     <MotionConfig reducedMotion="user">
-    <main className="min-h-screen bg-background text-foreground">
-      <style>{`@import url('${FONT_URL}');`}</style>
+    <main className={`${plexMono.variable} min-h-screen bg-background text-foreground`}>
 
       <div className="container mx-auto px-5 sm:px-8 lg:px-12 pt-5 pb-8 lg:min-h-screen lg:flex lg:flex-col">
 
@@ -74,11 +79,11 @@ export default function ApresentacaoClient() {
           className="flex items-center justify-between pb-3"
           style={{ borderBottom: HAIR }}>
           <Link href="/" className="text-[11px] uppercase tracking-wider"
-            style={{ fontFamily: MONO, color: "rgba(255,255,255,0.45)", textDecoration: "none" }}>
+            style={{ fontFamily: MONO, color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
             ← Voltar
           </Link>
           <span className="text-[11px] uppercase tracking-wider hidden sm:block"
-            style={{ fontFamily: MONO, color: "rgba(255,255,255,0.35)" }}>
+            style={{ fontFamily: MONO, color: "rgba(255,255,255,0.55)" }}>
             FICHA DE PROJETO — {PROJECT.ficha}
           </span>
           <span className="text-[11px] uppercase tracking-wider"
@@ -105,7 +110,7 @@ export default function ApresentacaoClient() {
               <div key={k} className="flex items-baseline justify-between gap-6 py-[7px]"
                 style={{ borderTop: i === 0 ? HAIR : HAIR_SOFT }}>
                 <dt className="text-[10px] uppercase tracking-[0.14em] flex-shrink-0"
-                  style={{ fontFamily: MONO, color: "rgba(255,255,255,0.38)" }}>{k}</dt>
+                  style={{ fontFamily: MONO, color: "rgba(255,255,255,0.6)" }}>{k}</dt>
                 <dd className="text-[13px] text-right" style={{ color: "rgba(255,255,255,0.75)" }}>{v}</dd>
               </div>
             ))}
@@ -120,19 +125,20 @@ export default function ApresentacaoClient() {
           <motion.figure {...rise(0.24)} className="relative mt-6 mb-2 lg:mb-0">
             <div className="relative" style={{ border: HAIR }}>
               <CropMark pos="tl" /><CropMark pos="tr" /><CropMark pos="bl" /><CropMark pos="br" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={PROJECT.image} alt="Tela do projeto Pizza Nova"
                 className="block w-full" style={{ aspectRatio: "16/10", objectFit: "cover" }} />
             </div>
             <figcaption className="flex items-center justify-between gap-4 pt-2.5">
               <span className="text-[10px] tracking-[0.12em]"
-                style={{ fontFamily: MONO, color: "rgba(255,255,255,0.4)" }}>
+                style={{ fontFamily: MONO, color: "rgba(255,255,255,0.6)" }}>
                 {PROJECT.caption}
               </span>
               <span className="text-[10px] flex-shrink-0" style={{ fontFamily: MONO, color: "hsl(var(--primary)/0.8)" }}>
                 1:1
               </span>
             </figcaption>
-            <p className="mt-5 text-[15px] sm:text-base max-w-md" style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>
+            <p className="mt-5 text-[15px] sm:text-base max-w-md" style={{ color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>
               {PROJECT.pitch}
             </p>
           </motion.figure>
@@ -141,7 +147,7 @@ export default function ApresentacaoClient() {
           <div className="lg:mt-6">
             <motion.p {...rise(0.28)}
               className="text-[10px] uppercase tracking-[0.2em] pb-3"
-              style={{ fontFamily: MONO, color: "rgba(255,255,255,0.38)" }}>
+              style={{ fontFamily: MONO, color: "rgba(255,255,255,0.6)" }}>
               O QUE ESTE PROJETO FAZ
             </motion.p>
             {PROJECT.features.map((f, i) => (
@@ -157,7 +163,7 @@ export default function ApresentacaoClient() {
                     style={{ fontFamily: DISPLAY, color: "rgba(255,255,255,0.93)" }}>
                     {f.title}
                   </p>
-                  <p className="text-[13px] mt-1.5" style={{ color: "rgba(255,255,255,0.45)", lineHeight: 1.55 }}>
+                  <p className="text-[13px] mt-1.5" style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.55 }}>
                     {f.desc}
                   </p>
                 </div>
@@ -171,7 +177,7 @@ export default function ApresentacaoClient() {
           className="mt-10 lg:mt-8 pt-5 flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-8"
           style={{ borderTop: HAIR }}>
           <p className="flex-1 text-[11px] tracking-[0.08em] leading-relaxed"
-            style={{ fontFamily: MONO, color: "rgba(255,255,255,0.5)" }}>
+            style={{ fontFamily: MONO, color: "rgba(255,255,255,0.62)" }}>
             {PROJECT.wins.map((w, i) => (
               <span key={w}>
                 {w}

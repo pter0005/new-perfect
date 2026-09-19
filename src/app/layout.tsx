@@ -2,7 +2,7 @@ import type {Metadata, Viewport} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { Lexend, Barlow_Condensed, Bebas_Neue } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
+import { MotionProvider } from '@/components/motion-provider';
 
 const lexend = Lexend({ subsets: ['latin'], variable: '--font-lexend' });
 const barlow_condensed = Barlow_Condensed({
@@ -52,6 +52,22 @@ export const metadata: Metadata = {
   },
 };
 
+// Dados estruturados pro Google entender que a NEW é um serviço profissional
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "NEW",
+  alternateName: "Agência NEW",
+  url: "https://agencianew.site",
+  logo: "https://agencianew.site/new-logo.png",
+  image: "https://agencianew.site/og.png",
+  description: "Sites, lojas e sistemas sob medida. Você paga uma vez e leva o código, o domínio e os acessos.",
+  email: "contato@agencianew.site",
+  telephone: "+5511916264441",
+  sameAs: ["https://www.instagram.com/new.c0de/"],
+  areaServed: "BR",
+};
+
 export const viewport: Viewport = {
   themeColor: '#000000',
 };
@@ -62,17 +78,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html lang="pt-BR" className="dark">
       <body className={`${lexend.variable} ${barlow_condensed.variable} ${bebas_neue.variable} font-sans antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <MotionProvider>{children}</MotionProvider>
+        <Toaster />
       </body>
     </html>
   );

@@ -11,7 +11,6 @@ import FaqSection from "@/components/faq-section";
 import ContactSection from "@/components/contact-section";
 import Footer from "@/components/footer";
 import DockNav from "@/components/dock-nav";
-import ScrollAnimator from "@/components/scroll-animator";
 import LoadingScreen from "@/components/loading-screen";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
@@ -64,15 +63,13 @@ export default function Home() {
       <LoadingScreen onDone={() => setReady(true)} />
 
       {/*
-        Conteúdo fica invisível (opacity 0, pointer-events none) até o loading terminar.
-        Isso garante que tudo já está montado no DOM quando a animação sai,
-        evitando o "tranco" de renderizar tudo de uma vez.
+        O conteúdo já é pintado desde o início — quem esconde tudo é o overlay
+        preto do loading (z-index 9999). Só os cliques ficam bloqueados até o
+        loading terminar, pra ninguém clicar "através" da tela de carregamento.
       */}
       <main
         className="flex flex-col"
         style={{
-          opacity: ready ? 1 : 0,
-          transition: "opacity 0.5s ease",
           pointerEvents: ready ? "auto" : "none",
         }}
       >
@@ -83,27 +80,13 @@ export default function Home() {
           
           <div className="relative z-[1]">
             <DockNav />
-            <ScrollAnimator>
-              <AboutSection />
-            </ScrollAnimator>
-            <ScrollAnimator>
-              <MethodSection />
-            </ScrollAnimator>
-            <ScrollAnimator>
-              <ServicesSection />
-            </ScrollAnimator>
-            <ScrollAnimator>
-              <WorkProcessSection />
-            </ScrollAnimator>
-            <ScrollAnimator>
-              <PortfolioSection />
-            </ScrollAnimator>
-            <ScrollAnimator>
-              <FaqSection />
-            </ScrollAnimator>
-            <ScrollAnimator>
-              <ContactSection />
-            </ScrollAnimator>
+            <AboutSection />
+            <MethodSection />
+            <ServicesSection />
+            <WorkProcessSection />
+            <PortfolioSection />
+            <FaqSection />
+            <ContactSection />
             <Footer />
           </div>
         </div>

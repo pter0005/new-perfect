@@ -16,7 +16,7 @@ Medições feitas no site NO AR (antes das correções): Lighthouse 13.5 em emul
 
 O que mais derruba o LCP não é bundle: é **decisão de produto** (loading fake de 1,5 s e herói que só mostra CTA depois de rolar). Isso fica com você (seção 3).
 
-## 2. O que foi aplicado hoje (commit local, SEM push)
+## 2. Primeira leva aplicada (commit a048380)
 
 | # | Mudança | Arquivos |
 |---|---|---|
@@ -38,7 +38,7 @@ Nada de visual mudou de propósito. Se algo mudou sem querer, é bug meu: me avi
 
 **Conferido no build local depois das mudanças** (Lighthouse mobile em localhost, então LCP não é comparável com o site no ar): sem erro no console (hydration resolvido), única requisição render-blocking é o CSS do próprio Next, 16 requisições / 390 KB (eram 28 / 664 KB), 2 fontes na home (eram 4). Página da Clau em 360 px: título em 2 linhas, nada vazando, grids em 1 coluna.
 
-## 3. Decisões que são suas (não mexi)
+## 3. Decisões do Pedro — APLICADAS na segunda leva (ver seção 6)
 
 **A1. Loading screen fake (1,5 s + 0,55 s de saída, 1× por dia).** É a maior fatia do LCP de 4,8 s: o conteúdo já está no DOM mas fica `opacity: 0` até a barra "encher". Você escolheu isso em julho ("loading 1,5s"). Minha posição sincera: para um site que vende site rápido, 2 s de tela preta na primeira visita joga contra. Alternativas: 0,6 s só com a marca; ou só no desktop; ou tirar.
 
@@ -48,7 +48,7 @@ Nada de visual mudou de propósito. Se algo mudou sem querer, é bug meu: me avi
 
 **A4. Toggle claro/escuro não faz nada.** `:root` e `.dark` têm as mesmas variáveis e 90% das cores são `rgba(255,255,255,…)` fixas. É um botão que não funciona ocupando espaço no dock (que em 360 px já usa 100% da largura). Sugestão: remover o toggle e o `next-themes`.
 
-## 4. Achados restantes, por prioridade
+## 4. Achados da auditoria (status na seção 6)
 
 ### Performance
 - **P1. Página de projeto abre em branco até o JS hidratar.** Título, descrição e botão nascem com `opacity 0`/`y 105%` no HTML do servidor; em 4G lento é 1–3 s de vazio. Correção: conteúdo visível no SSR e animação só depois de montar, ou `MotionConfig reducedMotion="user"` + `initial={false}` nos elementos do herói. Médio.
@@ -79,8 +79,39 @@ Nada de visual mudou de propósito. Se algo mudou sem querer, é bug meu: me avi
 - **H4. ESLint ignorado no build e sem config.** `next lint` nem roda. Criar `.eslintrc` com `next/core-web-vitals` e tirar o `ignoreDuringBuilds`.
 - **H5. Estilo 90% inline (`style={{}}`)** em vez de classes. Funciona, mas por isso o tema claro é impossível e o contraste não dá pra ajustar num lugar só.
 
-## 5. Ordem que eu seguiria
+## 5. Ordem que eu seguiria (histórico)
 1. Decidir A1–A4 (é onde está o LCP e a credibilidade).
 2. P1 + P2 + AC2 (animação: visível por padrão, sem fade duplo, respeita reduced motion).
 3. AC1 (contraste) e S1–S3.
 4. H1–H3 (limpeza) e SG1 (CSP).
+
+## 6. Segunda leva (18/09, noite) — Pedro mandou aplicar tudo
+
+| Item | Como foi aplicado |
+|---|---|
+| A1 loading | Virou flash de marca de ~1,3 s (letras N-E-W + tagline), sem barra fake, renderizado já no HTML do servidor e animado por CSS: sem "conteúdo → preto → conteúdo", e o fade de saída roda mesmo com JS lento ou "reduzir movimento" ligado (com o framer o overlay ficava preto pra sempre nesse caso; testado nos dois modos). O conteúdo é pintado por baixo, então o LCP não espera o loading. Cookie 1×/dia mantido. |
+| A2 CTA no herói | Subtítulo e os dois botões nascem visíveis; parallax do título e bastões mantidos. |
+| A3 métricas fictícias | Seção "Impacto gerado" removida da página de projeto. |
+| A4 toggle de tema | Removido do dock; `next-themes` desinstalado; `<html class="dark">` fixo pra manter o visual dos utilitários `dark:`. |
+| P1 página em branco | Herói da página de projeto animado por CSS (`.pd-rise`/`.pd-up`): aparece no HTML do servidor, sem esperar o JS. |
+| P2 animação dupla | `ScrollAnimator` removido da home (as seções já têm seus reveals). |
+| P5 intervalos | O `setInterval` do progresso fake sumiu com o A1. O do `HoverBorderGradient` fica: é a própria animação da borda dos botões. |
+| AC1 contraste | 59 cores de texto subidas (piso 0,45 em rótulos, 0,6 em texto corrido). Ficaram de fora, de propósito: o código decorativo dos bastões, a camada cinza atrás de "PATRIMÔNIO" e a seta desabilitada do carrossel. |
+| AC2 reduced motion | `MotionConfig reducedMotion="user"` global + media query desligando as animações CSS do herói. |
+| AC3 estrutura | FAQ com `aria-expanded`/`aria-controls`; setas do carrossel com `aria-label`; títulos de seção viraram `h2` (ordem h1 → h2 → h3 correta). |
+| S1 JSON-LD | `ProfessionalService` com nome, site, e-mail, WhatsApp e Instagram no `layout.tsx`. |
+| S2 OG por projeto | Cada `/portfolio/[slug]` usa a capa como `og:image`. |
+| S3 MusicArt sem site | Botão "ACESSAR PROJETO" só aparece quando o projeto tem link de verdade. |
+| SG1 CSP | `Content-Security-Policy` em produção (`next.config.ts`), liberando só formsubmit.co e o Web Analytics do Cloudflare. |
+| H1 deps | 32 pacotes desinstalados (firebase, recharts, three-fiber/drei, zod, react-hook-form, next-themes, 19 radix sem uso…). |
+| H2 componentes | 37 componentes `ui/` mortos apagados (ficaram tooltip, toast, toaster, animated-grid-pattern, hover-border-gradient). |
+| H3 sobras | `.idx/`, `apphosting.yaml`, `docs/`, `public/images`, `public/videos`, `src/tailwind.config.ts`, `tech-logos.tsx`, `icons.tsx` apagados; README reescrito. |
+| H4 ESLint | `eslint@9` + `eslint-config-next` configurados, 9 erros corrigidos, `ignoreDuringBuilds` desligado (build agora roda lint). |
+| /apresentacao | IBM Plex Mono passou pro `next/font` (última fonte que vinha do Google). |
+
+**Não apliquei, de propósito:**
+- **P3 `LazyMotion`**: o carrossel usa `drag`, que exige o pacote `domMax`; o ganho real cai pra ~10 KB gz. Não paga uma refatoração do site inteiro.
+- **P4 scripts do Cloudflare**: é configuração no painel (Scrape Shield → Email Address Obfuscation; Analytics → Web Analytics), não código.
+- **S4 subdomínio da Clau**: é DNS + custom domain no Cloudflare Pages, fora deste repositório.
+- **SG2 captcha**: sem spam relatado; honeypot fica. Se começar, Turnstile.
+- **H5 estilos inline → Tailwind**: reescrita do site inteiro sem ganho funcional.

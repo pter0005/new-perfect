@@ -11,16 +11,16 @@ const HEADING_FONT = "var(--font-barlow-condensed), sans-serif";
 
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
-    <div style={{ overflow: "hidden" }}>
-      <motion.div
+    <span style={{ display: "block", overflow: "hidden" }}>
+      <motion.span
         initial={{ y: "110%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
         transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-        style={{ willChange: "transform, opacity" }}
+        style={{ display: "block", willChange: "transform, opacity" }}
       >
         {children}
-      </motion.div>
-    </div>
+      </motion.span>
+    </span>
   );
 }
 
@@ -46,7 +46,7 @@ const labelStyle: React.CSSProperties = {
   fontSize: "0.78rem",
   letterSpacing: "0.12em",
   textTransform: "uppercase",
-  color: "rgba(255,255,255,0.38)",
+  color: "rgba(255,255,255,0.6)",
   fontFamily: HEADING_FONT,
   fontWeight: 600,
 };
@@ -142,7 +142,7 @@ export default function ContactSection() {
               </span>
             </div>
           </LineReveal>
-          <div className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
+          <h2 className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
             <LineReveal inView={titleInView} delay={0.08}>
               <span style={{ color: "rgba(255,255,255,0.97)" }}>VAMOS CONSTRUIR</span>
             </LineReveal>
@@ -151,12 +151,12 @@ export default function ContactSection() {
                 SEU FUTURO.
               </span>
             </LineReveal>
-          </div>
+          </h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.26, ease: [0.22, 1, 0.36, 1] }}
-            style={{ color: "rgba(255,255,255,0.38)", lineHeight: 1.7, maxWidth: "460px", willChange: "transform, opacity" }}
+            style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.7, maxWidth: "460px", willChange: "transform, opacity" }}
             className="mt-5 text-base sm:text-lg"
           >
             Conta sua ideia. A gente pega e faz virar realidade — com código que é seu.
@@ -264,7 +264,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <p className="font-bold text-base" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.9)" }}>WhatsApp</p>
-                <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>(11) 91626-4441</p>
+                <p className="text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>(11) 91626-4441</p>
               </div>
               <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "#25D366" }}>
                 →
@@ -289,7 +289,7 @@ export default function ContactSection() {
               </div>
               <div>
                 <p className="font-bold text-base" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.9)" }}>Instagram</p>
-                <p className="text-sm" style={{ color: "rgba(255,255,255,0.38)" }}>@new.c0de</p>
+                <p className="text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>@new.c0de</p>
               </div>
               <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "hsl(var(--primary))" }}>
                 →
@@ -312,7 +312,7 @@ export default function ContactSection() {
               </div>
               <div className="min-w-0">
                 <p className="font-bold text-base" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.9)" }}>E-mail</p>
-                <p className="text-sm truncate" style={{ color: "rgba(255,255,255,0.38)" }}>contato@agencianew.site</p>
+                <p className="text-sm truncate" style={{ color: "rgba(255,255,255,0.6)" }}>contato@agencianew.site</p>
               </div>
               <div className="ml-auto text-lg transition-transform duration-300 group-hover:translate-x-1" style={{ color: "rgba(255,255,255,0.6)" }}>
                 →
@@ -321,7 +321,7 @@ export default function ContactSection() {
 
             {/* Promessa */}
             <div className="mt-2 p-5 rounded-2xl" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-              <p className="font-bold text-sm mb-3" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.5)", letterSpacing: "0.15em", textTransform: "uppercase" }}>
+              <p className="font-bold text-sm mb-3" style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.62)", letterSpacing: "0.15em", textTransform: "uppercase" }}>
                 Nossa Promessa
               </p>
               {[
@@ -331,7 +331,7 @@ export default function ContactSection() {
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3 py-2" style={{ borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
                   <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "hsl(var(--primary))", boxShadow: "0 0 6px hsl(var(--primary)/0.6)" }} />
-                  <p className="text-sm" style={{ color: "rgba(255,255,255,0.55)" }}>{item}</p>
+                  <p className="text-sm" style={{ color: "rgba(255,255,255,0.65)" }}>{item}</p>
                 </div>
               ))}
             </div>

@@ -128,7 +128,7 @@ function ServiceCard({ service, index, inView }: {
             >
               {service.title}
             </h3>
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+            <p className="text-sm sm:text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
               {service.description}
             </p>
           </div>
@@ -218,7 +218,7 @@ export default function ServicesSection() {
               animate={titleInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.65, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
               className="text-base sm:text-lg max-w-sm"
-              style={{ color: "rgba(255,255,255,0.38)", lineHeight: 1.7 }}
+              style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.7 }}
             >
               A gente faz o que resolve o seu problema, não o que está na moda.
             </motion.p>

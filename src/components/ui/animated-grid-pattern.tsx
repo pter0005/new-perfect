@@ -10,7 +10,7 @@ interface AnimatedGridPatternProps {
   height?: number;
   x?: number;
   y?: number;
-  strokeDasharray?: any;
+  strokeDasharray?: string | number;
   numSquares?: number;
   className?: string;
   maxOpacity?: number;
@@ -28,6 +28,8 @@ export function AnimatedGridPattern({
   className,
   maxOpacity = 0.5,
   duration = 4,
+  // recebido só pra não vazar no <svg> via ...props — a animação não usa
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   repeatDelay = 0.5,
   ...props
 }: AnimatedGridPatternProps) {

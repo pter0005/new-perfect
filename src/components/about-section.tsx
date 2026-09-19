@@ -48,16 +48,16 @@ const STATS = [
 // Clip reveal — texto sobe de baixo pra cima saindo do container
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
-    <div style={{ overflow: "hidden", display: "block" }}>
-      <motion.div
+    <span style={{ overflow: "hidden", display: "block" }}>
+      <motion.span
         initial={{ y: "108%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
         transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-        style={{ willChange: "transform, opacity" }}
+        style={{ display: "block", willChange: "transform, opacity" }}
       >
         {children}
-      </motion.div>
-    </div>
+      </motion.span>
+    </span>
   );
 }
 
@@ -112,7 +112,7 @@ function Card({ card, index, inView, isMobile }: {
             </span>
             <span className="text-[10px] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full" style={{
               fontFamily: HEADING_FONT,
-              color: card.accent ? "hsl(var(--primary)/0.9)" : "rgba(255,255,255,0.45)",
+              color: card.accent ? "hsl(var(--primary)/0.9)" : "rgba(255,255,255,0.6)",
               background: card.accent ? "hsl(var(--primary)/0.1)" : "rgba(255,255,255,0.05)",
               border: card.accent ? "1px solid hsl(var(--primary)/0.28)" : "1px solid rgba(255,255,255,0.08)",
             }}>
@@ -125,7 +125,7 @@ function Card({ card, index, inView, isMobile }: {
           }}>
             {card.title}
           </h3>
-          <p className="text-base leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.55)" }}>
+          <p className="text-base leading-relaxed flex-1" style={{ color: "rgba(255,255,255,0.65)" }}>
             {card.body}
           </p>
         </div>
@@ -168,7 +168,7 @@ function StatItem({ stat, index, inView }: { stat: typeof STATS[0]; index: numbe
         }}>
           {stat.v}
         </span>
-        <span className="text-[10px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.4)" }}>
+        <span className="text-[10px] tracking-[0.2em] uppercase" style={{ color: "rgba(255,255,255,0.6)" }}>
           {stat.l}
         </span>
       </div>
@@ -262,7 +262,7 @@ export default function AboutSection() {
               animate={logoInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.9, duration: 0.5 }}
               className="mt-4 text-center tracking-[0.2em] uppercase text-[13px]"
-              style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.22)" }}
+              style={{ fontFamily: HEADING_FONT, color: "rgba(255,255,255,0.45)" }}
             >
               ↔ ARRASTE PARA GIRAR
             </motion.p>
@@ -283,7 +283,7 @@ export default function AboutSection() {
 
             {/* H2 — cada linha um clip separado */}
             <div>
-              <div className="font-bold tracking-tight leading-[0.93]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.8rem, 7vw, 5.2rem)" }}>
+              <h2 className="font-bold tracking-tight leading-[0.93]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.8rem, 7vw, 5.2rem)" }}>
                 <LineReveal inView={headingInView} delay={0.06}>
                   <span style={{ color: "rgba(255,255,255,0.97)" }}>VOCÊ FALA DIRETO</span>
                 </LineReveal>
@@ -292,7 +292,7 @@ export default function AboutSection() {
                     COM QUEM PROGRAMA.
                   </span>
                 </LineReveal>
-              </div>
+              </h2>
             </div>
 
             {/* Body */}
@@ -318,7 +318,7 @@ export default function AboutSection() {
                 color: "hsl(var(--primary)/0.85)",
                 textShadow: "0 0 16px hsl(var(--primary)/0.2)",
               }}>
-                "Você não aluga o seu site. Você é dono dele."
+                {'"Você não aluga o seu site. Você é dono dele."'}
               </p>
             </motion.blockquote>
 
@@ -336,7 +336,7 @@ export default function AboutSection() {
                   <span className="font-bold text-3xl sm:text-4xl leading-none" style={{ fontFamily: HEADING_FONT, color: "hsl(var(--primary))" }}>
                     {v}
                   </span>
-                  <span className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.35)" }}>
+                  <span className="text-[10px] tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.55)" }}>
                     {l}
                   </span>
                 </motion.div>

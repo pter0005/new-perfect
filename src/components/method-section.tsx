@@ -41,16 +41,16 @@ function LineReveal({ children, delay = 0, inView }: {
   children: React.ReactNode; delay?: number; inView: boolean;
 }) {
   return (
-    <div style={{ overflow: "hidden", display: "block", paddingTop: "0.5em", marginTop: "-0.5em" }}>
-      <motion.div
+    <span style={{ overflow: "hidden", display: "block", paddingTop: "0.5em", marginTop: "-0.5em" }}>
+      <motion.span
         initial={{ y: "110%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
         transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-        style={{ willChange: "transform, opacity" }}
+        style={{ display: "block", willChange: "transform, opacity" }}
       >
         {children}
-      </motion.div>
-    </div>
+      </motion.span>
+    </span>
   );
 }
 
@@ -128,10 +128,10 @@ function SaasRow({ item, index }: { item: typeof SAAS_ITEMS[0]; index: number })
         <XIcon />
       </div>
       <div>
-        <p className="font-heading font-bold text-lg sm:text-xl leading-tight" style={{ color: "rgba(255,255,255,0.32)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)" }}>
+        <p className="font-heading font-bold text-lg sm:text-xl leading-tight" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)" }}>
           {item.label}
         </p>
-        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.2)" }}>{item.desc}</p>
+        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>{item.desc}</p>
       </div>
     </motion.div>
   );
@@ -154,7 +154,7 @@ function SwasRow({ item, index }: { item: typeof SWAS_ITEMS[0]; index: number })
       </div>
       <div>
         <p className="font-heading font-bold text-lg sm:text-xl leading-tight" style={{ color: "rgba(255,255,255,0.92)" }}>{item.label}</p>
-        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>{item.desc}</p>
+        <p className="text-base mt-1 leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>{item.desc}</p>
       </div>
     </motion.div>
   );
@@ -201,7 +201,7 @@ export default function MethodSection() {
           </LineReveal>
 
           {/* Bloco de títulos — tudo em Barlow Condensed, UPPERCASE */}
-          <div style={{
+          <h2 style={{
             fontFamily: HF,
             fontWeight: 700,
             lineHeight: 0.9,
@@ -214,7 +214,7 @@ export default function MethodSection() {
               <span style={{ color: "rgba(255,255,255,0.95)" }}>
                 SAAS É{" "}
                 <span style={{
-                  color: "rgba(255,255,255,0.22)",
+                  color: "rgba(255,255,255,0.45)",
                   textDecoration: "line-through",
                   textDecorationThickness: "4px",
                   textDecorationColor: "rgba(255,255,255,0.15)",
@@ -240,13 +240,13 @@ export default function MethodSection() {
                 </span>
               </span>
             </LineReveal>
-          </div>
+          </h2>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={titleInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.65, delay: 0.38, ease: [0.22, 1, 0.36, 1] }}
-            style={{ color: "rgba(255,255,255,0.42)", lineHeight: 1.75, willChange: "transform, opacity" }}
+            style={{ color: "rgba(255,255,255,0.6)", lineHeight: 1.75, willChange: "transform, opacity" }}
             className="mt-6 text-lg sm:text-xl max-w-lg"
           >
             Cansado de pagar por uma ferramenta que nunca vai ser sua?<br />
@@ -266,10 +266,10 @@ export default function MethodSection() {
           >
             <div style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "1rem", padding: "1.75rem 2.25rem", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
               <div>
-                <h3 style={{ fontFamily: HF, fontWeight: 700, fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1, color: "rgba(255,255,255,0.22)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)", textDecorationThickness: "2px" }}>
+                <h3 style={{ fontFamily: HF, fontWeight: 700, fontSize: "clamp(2rem, 4vw, 3rem)", lineHeight: 1, color: "rgba(255,255,255,0.45)", textDecoration: "line-through", textDecorationColor: "rgba(255,255,255,0.1)", textDecorationThickness: "2px" }}>
                   SAAS
                 </h3>
-                <p style={{ fontFamily: HF, fontSize: "0.8rem", marginTop: "0.25rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.14)" }}>
+                <p style={{ fontFamily: HF, fontSize: "0.8rem", marginTop: "0.25rem", letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)" }}>
                   Plataforma Compartilhada · Assinatura
                 </p>
               </div>
@@ -292,7 +292,7 @@ export default function MethodSection() {
               initial={{ opacity: 0, scale: 0.2 }}
               animate={cardsInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.45, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              style={{ willChange: "transform, opacity", fontFamily: HF, fontWeight: 700, fontSize: "0.875rem", color: "rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "9999px", width: "2.25rem", height: "2.25rem", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+              style={{ willChange: "transform, opacity", fontFamily: HF, fontWeight: 700, fontSize: "0.875rem", color: "rgba(255,255,255,0.45)", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "9999px", width: "2.25rem", height: "2.25rem", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
             >
               vs
             </motion.div>

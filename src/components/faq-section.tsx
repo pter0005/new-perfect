@@ -32,16 +32,16 @@ const FAQS = [
 
 function LineReveal({ children, delay = 0, inView }: { children: React.ReactNode; delay?: number; inView: boolean }) {
   return (
-    <div style={{ overflow: "hidden" }}>
-      <motion.div
+    <span style={{ display: "block", overflow: "hidden" }}>
+      <motion.span
         initial={{ y: "110%", opacity: 0 }}
         animate={inView ? { y: "0%", opacity: 1 } : {}}
         transition={{ duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-        style={{ willChange: "transform, opacity" }}
+        style={{ display: "block", willChange: "transform, opacity" }}
       >
         {children}
-      </motion.div>
-    </div>
+      </motion.span>
+    </span>
   );
 }
 
@@ -65,6 +65,8 @@ function FaqItem({ item, index, inView }: { item: typeof FAQS[0]; index: number;
         {/* Trigger */}
         <button
           onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-controls={`faq-${index}`}
           className="w-full flex items-center justify-between gap-4 text-left p-5 sm:p-6"
           style={{ cursor: "pointer", background: "transparent", border: "none", outline: "none" }}
         >
@@ -95,6 +97,7 @@ function FaqItem({ item, index, inView }: { item: typeof FAQS[0]; index: number;
         <AnimatePresence>
           {open && (
             <motion.div
+              id={`faq-${index}`}
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -102,7 +105,7 @@ function FaqItem({ item, index, inView }: { item: typeof FAQS[0]; index: number;
               style={{ overflow: "hidden" }}
             >
               <div className="px-5 sm:px-6 pb-5 sm:pb-6 pl-[4.25rem]">
-                <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.62)" }}>
                   {item.a}
                 </p>
               </div>
@@ -150,7 +153,7 @@ export default function FaqSection() {
             </div>
           </LineReveal>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
-            <div className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
+            <h2 className="font-bold tracking-tight leading-[0.92]" style={{ fontFamily: HEADING_FONT, fontSize: "clamp(2.6rem, 6vw, 5rem)" }}>
               <LineReveal inView={titleInView} delay={0.08}>
                 <span style={{ color: "rgba(255,255,255,0.97)" }}>SUAS DÚVIDAS,</span>
               </LineReveal>
@@ -159,12 +162,12 @@ export default function FaqSection() {
                   RESPONDIDAS.
                 </span>
               </LineReveal>
-            </div>
+            </h2>
             <motion.p
               initial={{ opacity: 0, y: 14 }}
               animate={titleInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.26 }}
-              style={{ color: "rgba(255,255,255,0.35)", lineHeight: 1.7, maxWidth: "340px", willChange: "transform, opacity" }}
+              style={{ color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: "340px", willChange: "transform, opacity" }}
               className="text-base sm:text-lg"
             >
               Clareza antes de começar. Transparência durante o processo.

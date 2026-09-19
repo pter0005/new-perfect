@@ -262,3 +262,35 @@
     @apply bg-clip-text text-transparent bg-gradient-to-b from-[hsl(21_95%_56%)] to-[hsl(21_95%_48%)];
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   PÁGINA DE PROJETO — entrada do herói em CSS puro
+   (antes era framer-motion: o HTML do servidor nascia invisível
+   e a página ficava em branco até hidratar)
+═══════════════════════════════════════════════════════════════ */
+@keyframes pd-rise { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: none } }
+@keyframes pd-up   { from { transform: translateY(105%) } to { transform: none } }
+.pd-rise { animation: pd-rise .65s cubic-bezier(.22,1,.36,1) both }
+.pd-up   { animation: pd-up .95s cubic-bezier(.16,1,.3,1) both }
+@media (prefers-reduced-motion: reduce) { .pd-rise, .pd-up { animation: none } }
+
+/* Respeita "reduzir movimento" nas animações decorativas em loop */
+@media (prefers-reduced-motion: reduce) {
+  .galaxy-background,
+  .hero-beam,
+  .hero-ring-glow,
+  .hero-ring-inner,
+  .hero-logo-pulse,
+  .orb,
+  .animate-pulse-slow { animation: none !important; }
+}
+
+/* ── Loading screen (flash de marca): animado por CSS pra rodar desde o HTML do servidor ── */
+@keyframes ld-in  { from { opacity: 0; transform: translateY(30px) } to { opacity: 1; transform: none } }
+@keyframes ld-out { to { opacity: 0; visibility: hidden } }
+.ld-in      { animation: ld-in .45s cubic-bezier(.22, 1, .36, 1) both; }
+.ld-overlay { animation: ld-out .4s cubic-bezier(.22, 1, .36, 1) .9s forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .ld-in { animation: none; }
+  /* o fade de saída do overlay fica: sem ele a tela ficaria preta */
+}

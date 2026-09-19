@@ -74,8 +74,8 @@ function SectionLabel({ n, label }: { n: string; label: string }) {
       fontFamily: HF, fontSize: "0.65rem", letterSpacing: "0.3em",
     }}>
       <span style={{ color: OR }}>{n}</span>
-      <span style={{ color: "rgba(255,255,255,0.18)" }}>//</span>
-      <span style={{ color: "rgba(255,255,255,0.28)", textTransform: "uppercase" }}>{label}</span>
+      <span style={{ color: "rgba(255,255,255,0.4)" }}>{"//"}</span>
+      <span style={{ color: "rgba(255,255,255,0.5)", textTransform: "uppercase" }}>{label}</span>
     </p>
   );
 }
@@ -85,11 +85,10 @@ function SectionLabel({ n, label }: { n: string; label: string }) {
 ═══════════════════════════════════════════════════════════════ */
 function DocketTag({ code }: { code: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.15, duration: 0.5 }}
+    <div
+      className="pd-rise"
       style={{
+        animationDelay: ".15s",
         display: "inline-flex", alignItems: "center",
         border: `1px solid ${OR4}`,
         padding: "0.35rem 0.9rem",
@@ -99,7 +98,7 @@ function DocketTag({ code }: { code: string }) {
       <span style={{ fontFamily: HF, fontSize: "0.58rem", letterSpacing: "0.35em", color: OR4 }}>
         DOCKET NO: {code}
       </span>
-    </motion.div>
+    </div>
   );
 }
 
@@ -179,7 +178,7 @@ function Frame({ src, alt, coords, stamp }: {
       <p style={{
         position: "absolute", bottom: -20, right: 0,
         fontFamily: HF, fontSize: "0.52rem", letterSpacing: "0.2em",
-        color: "rgba(255,255,255,0.13)",
+        color: "rgba(255,255,255,0.4)",
       }}>STAMP: {stamp}</p>
     </motion.div>
   );
@@ -254,7 +253,7 @@ function DetailRow({ detail, index, image }: {
             style={{ display: "flex", gap: "0.65rem", alignItems: "flex-start" }}
           >
             <span style={{ color: OR, fontSize: "0.8rem", marginTop: "0.3rem", flexShrink: 0 }}>›</span>
-            <p style={{ fontSize: "0.875rem", lineHeight: 1.7, color: "rgba(255,255,255,0.52)" }}>
+            <p style={{ fontSize: "0.875rem", lineHeight: 1.7, color: "rgba(255,255,255,0.62)" }}>
               {pt.includes(":") ? (
                 <>
                   <span style={{ color: "rgba(255,255,255,0.88)", fontWeight: 600 }}>
@@ -364,148 +363,6 @@ function SpecBox({ technologies }: { technologies: string[] }) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   METRICS  "IMPACTO GERADO"
-═══════════════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════════════════
-   ANIMATED COUNTER  — conta do zero até o valor final
-═══════════════════════════════════════════════════════════════ */
-function useCountUp(target: number, duration = 1400, active = false) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    let start: number | null = null;
-    const step = (ts: number) => {
-      if (!start) start = ts;
-      const progress = Math.min((ts - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setVal(Math.floor(eased * target));
-      if (progress < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [active, target, duration]);
-  return val;
-}
-
-function MetricCard({
-  prefix, numericVal, suffix, tag, sub, delay, show,
-}: {
-  prefix: string; numericVal: number; suffix: string;
-  tag: string; sub: string; delay: number; show: boolean;
-}) {
-  const count = useCountUp(numericVal, 1400 + delay * 150, show);
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      animate={show ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.65, delay: delay * 0.12, ease: [0.22, 1, 0.36, 1] }}
-      style={{
-        padding: "2.25rem 2rem",
-        background: "#0c0c0e",
-        position: "relative", overflow: "hidden",
-        display: "flex", flexDirection: "column", gap: "0.5rem",
-      }}
-    >
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: "1px",
-        background: "linear-gradient(90deg, transparent, hsl(var(--primary)/0.4) 40%, hsl(var(--primary)) 60%, transparent)",
-      }} />
-      <div style={{
-        position: "absolute", top: 0, left: 0, bottom: 0, width: "2px",
-        background: "linear-gradient(to bottom, hsl(var(--primary)), transparent 80%)",
-      }} />
-      <div style={{
-        position: "absolute", top: "-30px", left: "-20px",
-        width: "120px", height: "120px", borderRadius: "9999px",
-        background: "radial-gradient(circle, hsl(var(--primary)/0.1) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
-
-      <div style={{
-        fontFamily: "var(--font-bebas-neue), var(--font-barlow-condensed), sans-serif",
-        fontWeight: 700,
-        fontSize: "clamp(2.5rem, 6vw, 4rem)",
-        lineHeight: 1, color: "hsl(var(--primary))",
-        textShadow: "0 0 30px hsl(var(--primary)/0.4), 0 0 60px hsl(var(--primary)/0.15)",
-        letterSpacing: "-0.02em",
-      }}>
-        {prefix}{show ? count : 0}{suffix}
-      </div>
-
-      <p style={{
-        fontFamily: "var(--font-bebas-neue), var(--font-barlow-condensed), sans-serif",
-        fontSize: "0.62rem", letterSpacing: "0.28em",
-        color: "hsl(var(--primary))", opacity: 0.75,
-      }}>{tag}</p>
-
-      <p style={{
-        fontSize: "0.8rem", color: "rgba(255,255,255,0.45)",
-        lineHeight: 1.6, marginTop: "0.25rem",
-      }}>{sub}</p>
-    </motion.div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   METRICS SECTION
-═══════════════════════════════════════════════════════════════ */
-function MetricsSection({ n }: { n: number }) {
-  const ref  = useRef(null);
-  const show = useInView(ref, { once: true, margin: "-80px" });
-
-  const metrics: {
-    prefix: string; numericVal: number; suffix: string;
-    tag: string; sub: string;
-  }[] = [
-    { prefix: "",   numericVal: 98, suffix: "/100", tag: "LIGHTHOUSE SCORE",  sub: "Performance excepcional em Core Web Vitals." },
-    { prefix: "+",  numericVal: 45, suffix: "%",    tag: "TAXA DE CONVERSÃO", sub: "Melhoria direta após o redesign da UX." },
-    { prefix: "0.", numericVal: 4,  suffix: "s",    tag: "TEMPO DE RESPOSTA", sub: "Média de carregamento entre páginas." },
-    { prefix: "",   numericVal: 60, suffix: "fps",  tag: "ANIMAÇÕES",         sub: "Aceleração por GPU via Framer Motion." },
-  ];
-
-  return (
-    <section style={{
-      padding: "clamp(4rem, 7vw, 6rem) 0",
-      borderBottom: "1px solid rgba(255,255,255,0.05)",
-      position: "relative",
-    }}>
-      <SectionLabel n={String(n).padStart(2,"0")} label="MÉTRICAS E RESULTADOS" />
-
-      <div style={{ overflow: "hidden", paddingTop: "0.12em", marginTop: "-0.12em", marginBottom: "3rem" }}>
-        <motion.h2
-          ref={ref}
-          initial={{ y: "110%" }}
-          animate={show ? { y: "0%" } : {}}
-          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          style={{
-            fontFamily: "var(--font-bebas-neue), var(--font-barlow-condensed), sans-serif",
-            fontWeight: 700,
-            fontSize: "clamp(2.5rem, 6vw, 5rem)",
-            lineHeight: 1, color: "#fff", letterSpacing: "-0.01em",
-          }}
-        >
-          IMPACTO GERADO
-        </motion.h2>
-      </div>
-
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-        gap: "1px",
-        background: "rgba(255,255,255,0.07)",
-        border: "1px solid rgba(255,255,255,0.07)",
-        borderRadius: "8px",
-        overflow: "hidden",
-      }}>
-        {metrics.map((m, i) => (
-          <MetricCard key={i} {...m} delay={i} show={show} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
    FINAL CTA  "PRONTO PARA TIRAR SUA IDEIA DO PAPEL?"
 ═══════════════════════════════════════════════════════════════ */
 function CtaSection() {
@@ -560,7 +417,7 @@ function CtaSection() {
 
         <p style={{
           fontFamily:HF, fontSize:"0.65rem", letterSpacing:"0.35em",
-          color:"rgba(255,255,255,0.22)", margin:"1.75rem 0 2.75rem",
+          color:"rgba(255,255,255,0.45)", margin:"1.75rem 0 2.75rem",
         }}>
           DISPONÍVEL PARA NOVOS PROJETOS
         </p>
@@ -627,10 +484,10 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             display:"flex", alignItems:"center", gap:"0.45rem",
             textDecoration:"none", fontFamily:HF,
             fontSize:"0.65rem", letterSpacing:"0.2em",
-            color:"rgba(255,255,255,0.35)", transition:"color 0.2s",
+            color:"rgba(255,255,255,0.55)", transition:"color 0.2s",
           }}
           onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color="#fff"}
-          onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color="rgba(255,255,255,0.35)"}
+          onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color="rgba(255,255,255,0.55)"}
         >
           <ArrowLeft size={13} strokeWidth={2} />
           PORTFÓLIO
@@ -675,11 +532,10 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
           {/* big title */}
           <div style={{ overflow:"hidden", paddingTop:"0.1em", marginTop:"-0.1em" }}>
-            <motion.h1
-              initial={{ y:"105%" }}
-              animate={{ y:"0%" }}
-              transition={{ duration:0.95, delay:0.05, ease:[0.16,1,0.3,1] }}
+            <h1
+              className="pd-up"
               style={{
+                animationDelay:".05s",
                 fontFamily:HF, fontWeight:700,
                 fontSize:"clamp(4.5rem, 14vw, 14rem)",
                 lineHeight:0.88, letterSpacing:"-0.02em",
@@ -687,60 +543,60 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               }}
             >
               {project.name.toUpperCase()}
-            </motion.h1>
+            </h1>
           </div>
 
           {/* description */}
-          <motion.p
-            initial={{ opacity:0, y:24 }}
-            animate={{ opacity:1, y:0 }}
-            transition={{ delay:0.45, duration:0.65 }}
+          <p
+            className="pd-rise"
             style={{
+              animationDelay:".45s",
               fontSize:"clamp(0.9rem, 1.5vw, 1.05rem)", lineHeight:1.75,
-              color:"rgba(255,255,255,0.48)", maxWidth:"52ch",
+              color:"rgba(255,255,255,0.6)", maxWidth:"52ch",
               marginTop:"1.75rem",
             }}
           >
             {project.description}
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity:0, y:16 }}
-            animate={{ opacity:1, y:0 }}
-            transition={{ delay:0.6, duration:0.55 }}
-            style={{ display:"flex", alignItems:"center", gap:"1.5rem", marginTop:"2.5rem", flexWrap:"wrap" }}
+          <div
+            className="pd-rise"
+            style={{ animationDelay:".6s", display:"flex", alignItems:"center", gap:"1.5rem", marginTop:"2.5rem", flexWrap:"wrap" }}
           >
-            <Link
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display:"inline-flex", alignItems:"center", gap:"0.5rem",
-                padding:"0.85rem 1.75rem", borderRadius:"4px",
-                background:OR, color:"#000", textDecoration:"none",
-                fontFamily:HF, fontWeight:700, fontSize:"0.82rem", letterSpacing:"0.1em",
-                boxShadow:`0 0 32px ${OR4}`,
-                transition:"filter 0.2s",
-              }}
-              onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.filter="brightness(1.12)"}
-              onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.filter="brightness(1)"}
-            >
-              ACESSAR PROJETO <ExternalLink size={13} />
-            </Link>
+            {/* só mostra o botão quando o projeto tem site no ar (MusicArt tem link "#") */}
+            {project.link && project.link !== "#" && (
+              <Link
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display:"inline-flex", alignItems:"center", gap:"0.5rem",
+                  padding:"0.85rem 1.75rem", borderRadius:"4px",
+                  background:OR, color:"#000", textDecoration:"none",
+                  fontFamily:HF, fontWeight:700, fontSize:"0.82rem", letterSpacing:"0.1em",
+                  boxShadow:`0 0 32px ${OR4}`,
+                  transition:"filter 0.2s",
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.filter="brightness(1.12)"}
+                onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.filter="brightness(1)"}
+              >
+                ACESSAR PROJETO <ExternalLink size={13} />
+              </Link>
+            )}
 
             <Link
               href="/#portfolio"
               style={{
                 fontFamily:HF, fontSize:"0.78rem", letterSpacing:"0.18em",
-                color:"rgba(255,255,255,0.4)", textDecoration:"none", transition:"color 0.2s",
+                color:"rgba(255,255,255,0.6)", textDecoration:"none", transition:"color 0.2s",
               }}
               onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color="#fff"}
-              onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color="rgba(255,255,255,0.4)"}
+              onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color="rgba(255,255,255,0.6)"}
             >
               Voltar ao Portfólio
             </Link>
-          </motion.div>
+          </div>
         </div>
 
         {/* bottom fade */}
@@ -768,7 +624,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               transition={{ duration:0.5 }}
               style={{
                 fontFamily:HF, fontSize:"0.6rem", letterSpacing:"0.38em",
-                color:"rgba(255,255,255,0.18)", paddingBottom:"1.5rem",
+                color:"rgba(255,255,255,0.4)", paddingBottom:"1.5rem",
               }}
             >
               02 // MAPEAMENTO DE INTERFACE
@@ -779,9 +635,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           {project.details.map((d, i) => (
             <DetailRow key={i} detail={d} index={i} image={project.image} />
           ))}
-
-          {/* metrics */}
-          <MetricsSection n={project.details.length + 1} />
 
           {/* spec box */}
           <section style={{ padding:"3.5rem 0", borderBottom:"1px solid rgba(255,255,255,0.05)" }}>
@@ -802,15 +655,15 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         background:"rgba(0,0,0,0.35)",
       }}>
         <Logo />
-        <span style={{ fontFamily:HF, fontSize:"0.58rem", letterSpacing:"0.18em", color:"rgba(255,255,255,0.12)" }}>
+        <span style={{ fontFamily:HF, fontSize:"0.58rem", letterSpacing:"0.18em", color:"rgba(255,255,255,0.4)" }}>
           © {new Date().getFullYear()} NEW. Site e sistema sob medida.
         </span>
         <Link href="/#portfolio" style={{
           fontFamily:HF, fontSize:"0.62rem", letterSpacing:"0.18em",
-          color:"rgba(255,255,255,0.2)", textDecoration:"none", transition:"color 0.2s",
+          color:"rgba(255,255,255,0.45)", textDecoration:"none", transition:"color 0.2s",
         }}
         onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.color="#fff"}
-        onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color="rgba(255,255,255,0.2)"}
+        onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.color="rgba(255,255,255,0.45)"}
         >
           VER TODOS OS PROJETOS →
         </Link>
